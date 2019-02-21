@@ -1,0 +1,6 @@
+*CACHE*
+MANIFEST
+*.pyc
+*.egg-info
+*.egg
+*.swp
