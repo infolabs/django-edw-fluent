@@ -20,7 +20,7 @@ from edw_fluent.plugins.datamart.models import DataMartItem
 class DataMartPluginForm(ContentItemForm):
 
     datamarts = forms.ModelMultipleChoiceField(
-        label=_('Data Marts'),
+        label=_('Data marts'),
         queryset=DataMartModel.objects.all(),
         widget = SalmonellaMultiIdWidget(
             DataMartItem._meta.get_field("datamarts").rel,

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-21 18:47+0300\n"
-"PO-Revision-Date: 2019-02-21 18:49+0300\n"
+"POT-Creation-Date: 2019-02-22 15:40+0300\n"
+"PO-Revision-Date: 2019-02-22 15:41+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -28,10 +28,74 @@ msgstr "Не задан шаблон"
 msgid "EDW fluent"
 msgstr "Управление страницами"
 
-#: models/page_layout.py:46
+#: models/page.py:22
+msgid "Layout"
+msgstr "Макет"
+
+#: models/page.py:26
+msgid "Simple page"
+msgstr "Страница"
+
+#: models/page.py:27
+msgid "Simple pages"
+msgstr "Страницы"
+
+#: models/page.py:29
+msgid "Can change Page layout"
+msgstr "Может изменить макет страницы"
+
+#: models/page_layout.py:48
 msgid "View"
 msgstr "Представление"
 
-#: models/page_layout.py:94
+#: models/page_layout.py:96
 msgid "Page layout"
 msgstr "Страница"
+
+#: plugins/datamart/content_plugins.py:23
+msgid "Data mart"
+msgstr "Витрина данных"
+
+#: plugins/datamart/content_plugins.py:24 plugins/datamart/forms.py:23
+msgid "Data marts"
+msgstr "Витрины данных"
+
+#: plugins/datamart/forms.py:32
+msgid "Subjects"
+msgstr "Субъекты"
+
+#: plugins/datamart/forms.py:42
+msgid "Terms"
+msgstr "Термины"
+
+#: plugins/datamart/models.py:191
+msgid "Template"
+msgstr "Шаблон"
+
+#: plugins/datamart/models.py:197
+msgid "In template calculate flag"
+msgstr "Не использывать для шаблонов"
+
+#: plugins/datamart/models.py:197
+msgid "Do not use when calculating a template"
+msgstr "Не учитывать эту витрину данных при поиске шаблона для страницы"
+
+#: plugins/datamart/models.py:198
+msgid "Сache datamart plugin"
+msgstr "Кешировать плагин"
+
+#: plugins/datamart/models.py:198
+msgid "Cache datamart plugin on render output"
+msgstr ""
+"Кешировать плагин витрины данных для рендера страницы. Увеличивает скорость "
+"отдачи страницы с плагином, но может приводить к неактуальным данным. "
+"Снимите этот флаг для витрин данных актуальное обновление данных которых на "
+"сайте критично."
+
+#: plugins/datamart/models.py:202
+msgid "Data mart item"
+msgstr "Витрина данных"
+
+#: plugins/datamart/models.py:203
+msgid "Data mart items"
+msgstr "Витрины данных"
