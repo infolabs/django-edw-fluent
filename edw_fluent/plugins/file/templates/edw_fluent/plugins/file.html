@@ -1,0 +1,18 @@
+{% load i18n alder_tags %}{% spaceless %}
+{% if is_first %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="well characteristics">
+{% endif %}
+                    <div class="file-plugin">
+                        <i class="fa fa-file-text"></i>
+                        <a class="file-{{ext}}" target="{{ target }}" href="{{ file.url }}">{{ instance }}</a><span class="file-size">{% if file %}{% if file|filename %}{{ file.size|filesizeformat }}{% else %}{% trans "File does not exist" %}{% endif %}{% endif %}</span>
+                    </div>
+{% if is_last %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endspaceless %}

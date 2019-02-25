@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Default datamart with tree</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Loading Elements Styles -->
+    <link type="text/css" href="/static/css/styles.min.css" rel="stylesheet">
+    <!-- Loading Font Styles -->
+    <link type="text/css" href="/static/page_builder/css/iconfont-style.css" rel="stylesheet">
+    <link type="text/css" href="/static/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Loading Datamart Plugin Styles -->
+    <link type="text/css" href="/static/page_builder/css/datamarts.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="bodyPaddingLess">
+
+    <div id="page" class="page">
+
+    <!-- {% if 0 %} -->
+    <div class="bg-color3 padding-top-40 padding-bottom-40">
+        <div class="container text-center">
+            <img class="img-responsive" src="/static/page_builder/elements/datamarts/images/default_related.jpg">
+        </div>
+    </div>
+    <!-- {% endif %} -->
+
+        <div class="container ex-data-mart-container">
+
+                <!-- {% if 0 %} --><div class="hidden"><!-- {% endif %} -->
+                <div class="col-md-12">
+                    {% load alder_tags edw_tags %}
+                    <!--{% compactjson as data_entry_points %}
+                    {
+                        {% for data_mart in data_marts %}
+                        {% get_data_mart_url data_mart.id as href %}
+                        "{{ data_mart.id }}": {
+                            "name": "{{ data_mart.name }}",
+                            "url": "{% if href %}{{ href }}{% endif %}",
+                            "template_name": "related",
+                            "request_params": [{% if terms_ids %}"terms={{ terms_ids|join:"," }}",{% endif %}{% if subj_ids %}"subj={{ subj_ids|join:"," }}",{% endif %}"limit=4"]
+                        }{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    }
+                    {% endcompactjson %}-->
+
+                    <div class="ex-data-mart border-color3 color2 ex-catalog-grid-4-col"
+                        data-selected-entry-point-id="{{ data_marts.0.id }}"
+                        data-data-mart-pk="{{ data_marts.0.id }}"
+                        data-entry-points='{{ data_entry_points }}'
+                    >
+                    </div>
+                </div>
+                <!-- {% if 0 %} --></div><!-- /.hidden --><!-- {% endif %} -->
+
+            </div>
+
+        </div>
+
+    </div><!-- /#page -->
+
+</body>
+</html>

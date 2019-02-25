@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Video Popup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-Equiv="Cache-Control" Content="cache">
+	<meta http-Equiv="Pragma" Content="cache">
+	<meta http-Equiv="Expires" Content="1000">
+
+    <!-- Loading Elements Styles -->
+    <link type="text/css" href="/static/css/styles.min.css" rel="stylesheet">
+    <!-- Loading Font Styles -->
+    <link type="text/css" href="/static/page_builder/css/iconfont-style.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    <div id="page" class="page">
+
+        <!-- VIDEO POPUP BLOCK -->
+        <section id="video-popup" class="text-center bg-color1 dark-bg cover-bg" style="background-image:url(/static/page_builder/elements/video/images/bg31.jpg);">
+            <div class="container">
+                <h2 class="title editContent">Посмотрите этот видеоролик:</h2>
+                <a href="#" data-toggle="modal" data-target="#myModal" class="giant-title"><i class="icon center-icon icon-control-play"></i></a>
+            </div>
+        </section>
+
+        <div class="modal fade modalVideo" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                   <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/54510052?color=0c88dd&title=0&byline=0&portrait=0" allowfullscreen></iframe>
+                            <div class="frameCover" data-type="video"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /#page -->
+
+</body>
+
+</html>
