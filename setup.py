@@ -12,7 +12,7 @@ setup(
     package_data={
         'edw_fluent': [
             'locale/*/LC_MESSAGES/*',
-            'static/edw_fluent/*',
+            'static/*',
         ],
     },
     classifiers=[
@@ -23,5 +23,12 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Framework :: Django',
-    ]
+    ],
+    install_requires = [
+        "Django==1.9.8",
+        "django-edw",
+        "django-page-builder",
+        "django-fluent-pages==1.1.1",
+        "django-fluent-contents==1.2"
+    ],
 )
