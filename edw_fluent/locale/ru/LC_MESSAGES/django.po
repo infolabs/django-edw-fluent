@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-22 15:40+0300\n"
-"PO-Revision-Date: 2019-02-22 15:41+0300\n"
+"POT-Creation-Date: 2019-02-25 17:58+0300\n"
+"PO-Revision-Date: 2019-02-25 18:01+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -52,6 +52,52 @@ msgstr "Представление"
 msgid "Page layout"
 msgstr "Страница"
 
+#: models/template/base.py:18
+msgid "Alphabetical"
+msgstr "По алфавиту"
+
+#: models/template/base.py:23
+msgid "Name"
+msgstr "Название"
+
+#: models/template/base.py:30
+msgid "On indexation"
+msgstr "На индексации"
+
+#: models/template/base.py:37 models/template/footer.py:18
+#: models/template/header.py:18 plugins/datamart/models.py:41
+#: plugins/template/models.py:21 plugins/template/models.py:30
+msgid "Template"
+msgstr "Шаблон"
+
+#: models/template/base.py:38 plugins/template/models.py:31
+msgid "Templates"
+msgstr "Шаблоны"
+
+#: models/template/footer.py:22
+msgid "Some help text about footer template... `index`, `top`, `bottom`"
+msgstr ""
+
+#: models/template/footer.py:26
+msgid "Footer Template"
+msgstr "Шаблон подвала"
+
+#: models/template/footer.py:27
+msgid "Footer Templates"
+msgstr "Шаблоны подвала"
+
+#: models/template/header.py:22
+msgid "Some help text about header template... `index`, `top`, `bottom`"
+msgstr ""
+
+#: models/template/header.py:26
+msgid "Header Template"
+msgstr "Шаблон шапки"
+
+#: models/template/header.py:27
+msgid "Header Templates"
+msgstr "Шаблоны шапки"
+
 #: plugins/datamart/content_plugins.py:23
 msgid "Data mart"
 msgstr "Витрина данных"
@@ -68,23 +114,19 @@ msgstr "Субъекты"
 msgid "Terms"
 msgstr "Термины"
 
-#: plugins/datamart/models.py:191
-msgid "Template"
-msgstr "Шаблон"
-
-#: plugins/datamart/models.py:197
+#: plugins/datamart/models.py:49
 msgid "In template calculate flag"
 msgstr "Не использывать для шаблонов"
 
-#: plugins/datamart/models.py:197
+#: plugins/datamart/models.py:50
 msgid "Do not use when calculating a template"
 msgstr "Не учитывать эту витрину данных при поиске шаблона для страницы"
 
-#: plugins/datamart/models.py:198
+#: plugins/datamart/models.py:55
 msgid "Сache datamart plugin"
 msgstr "Кешировать плагин"
 
-#: plugins/datamart/models.py:198
+#: plugins/datamart/models.py:56
 msgid "Cache datamart plugin on render output"
 msgstr ""
 "Кешировать плагин витрины данных для рендера страницы. Увеличивает скорость "
@@ -92,10 +134,76 @@ msgstr ""
 "Снимите этот флаг для витрин данных актуальное обновление данных которых на "
 "сайте критично."
 
-#: plugins/datamart/models.py:202
+#: plugins/datamart/models.py:62
 msgid "Data mart item"
 msgstr "Витрина данных"
 
-#: plugins/datamart/models.py:203
+#: plugins/datamart/models.py:63
 msgid "Data mart items"
 msgstr "Витрины данных"
+
+#: plugins/file/content_plugins.py:16
+msgid "Media"
+msgstr "Медиа"
+
+#: plugins/file/models.py:20
+msgid "file"
+msgstr "файл"
+
+#: plugins/file/models.py:24
+msgid "name"
+msgstr "Название"
+
+#: plugins/file/models.py:30
+msgid "target"
+msgstr "Открывать в"
+
+#: plugins/file/models.py:34
+msgid "same window"
+msgstr "том же окне"
+
+#: plugins/file/models.py:35
+msgid "new window"
+msgstr "новом окне"
+
+#: plugins/file/models.py:36
+msgid "parent window"
+msgstr "родительском окне"
+
+#: plugins/file/models.py:37
+msgid "topmost frame"
+msgstr "самом верхнем окне"
+
+#: plugins/file/models.py:44
+msgid "File"
+msgstr "Файл"
+
+#: plugins/file/models.py:45
+msgid "Files"
+msgstr "Файлы"
+
+#: plugins/file/templates/edw_fluent/plugins/file.html:10
+msgid "File does not exist"
+msgstr "Файл не существует"
+
+#: plugins/form_designer_plugin/forms.py:20
+#: plugins/form_designer_plugin/models.py:17
+msgid "Form"
+msgstr "Форма"
+
+#: plugins/form_designer_plugin/models.py:24
+msgid "Form plugin"
+msgstr "Форма"
+
+#: plugins/form_designer_plugin/models.py:25
+msgid "Form plugins"
+msgstr "Формы"
+
+#: plugins/template/content_plugins.py:25
+#: plugins/template/content_plugins.py:26
+msgid "Block"
+msgstr "Инфоблок"
+
+#: plugins/template/content_plugins.py:51
+msgid "Template is not defined"
+msgstr "Шаблон не задан"
