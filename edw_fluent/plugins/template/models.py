@@ -22,7 +22,7 @@ class TemplateItem(ContentItem):
         max_length=255,
         null=True,
         blank=True,
-        elements=get_page_builder_elements_by_model('templateitem'),
+        elements=get_page_builder_elements_by_model('TemplateItem'),
     )
 
     class Meta:

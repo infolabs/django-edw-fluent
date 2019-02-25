@@ -35,21 +35,7 @@
 
                 <!-- {% if 0 %} --><div class="hidden"><!-- {% endif %} -->
                 <div class="col-md-12">
-                    {% load alder_tags edw_tags %}
-                    <!--{% compactjson as data_entry_points %}
-                    {
-                        {% for data_mart in data_marts %}
-                        {% get_data_mart_url data_mart.id as href %}
-                        "{{ data_mart.id }}": {
-                            "name": "{{ data_mart.name }}",
-                            "url": "{% if href %}{{ href }}{% endif %}",
-                            "template_name": "related",
-                            "request_params": [{% if terms_ids %}"terms={{ terms_ids|join:"," }}",{% endif %}{% if subj_ids %}"subj={{ subj_ids|join:"," }}",{% endif %}"limit=4"]
-                        }{% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    }
-                    {% endcompactjson %}-->
-
+                    {% load edw_tags %}
                     <div class="ex-data-mart border-color3 color2 ex-catalog-grid-4-col"
                         data-selected-entry-point-id="{{ data_marts.0.id }}"
                         data-data-mart-pk="{{ data_marts.0.id }}"

@@ -689,6 +689,228 @@ DEFAULT_ELEMENTS = {
                 "thumbnail": "elements/intro/thumbs/page-404.jpg"
             },
         ]
+    },
+    'headertemplate': {
+        "Headers": [
+            {
+                "url": "elements/headers/tpl/header2.html",
+                "height": 498,
+                "thumbnail": "elements/headers/thumbs/header2.jpg"
+            },
+            {
+                "url": "elements/headers/tpl/header3.html",
+                "height": 959,
+                "thumbnail": "elements/headers/thumbs/header3.jpg"
+            },
+            {
+                "url": "elements/headers/tpl/header4.html",
+                "height": 660,
+                "thumbnail": "elements/headers/thumbs/header4.jpg"
+            },
+            {
+                "url": "elements/headers/tpl/header5.html",
+                "height": 694,
+                "thumbnail": "elements/headers/thumbs/header5.jpg"
+            },
+            {
+                "url": "elements/headers/tpl/header6.html",
+                "height": 491,
+                "thumbnail": "elements/headers/thumbs/header6.jpg"
+            },
+            {
+                "url": "elements/headers/tpl/header7.html",
+                "height": 715,
+                "thumbnail": "elements/headers/thumbs/header7.jpg"
+            },
+            {
+                "url": "elements/headers/tpl/header8.html",
+                "height": 633,
+                "thumbnail": "elements/headers/thumbs/header8.jpg"
+            },
+            {
+                "url": "elements/headers/tpl/header9.html",
+                "height": 633,
+                "thumbnail": "elements/headers/thumbs/header9.jpg"
+            },
+            {
+                "url": "elements/headers/tpl/header10.html",
+                "height": 567,
+                "thumbnail": "elements/headers/thumbs/header10.jpg"
+            },
+            {
+                "url": "elements/headers/tpl/header11.html",
+                "height": 708,
+                "thumbnail": "elements/headers/thumbs/header11.jpg"
+            },
+        ],
+        "Navigation": [
+            {
+                "url": "elements/navigation/tpl/nav.html",
+                "height": 60,
+                "thumbnail": "elements/navigation/thumbs/nav.jpg"
+            },
+            {
+                "url": "elements/navigation/tpl/nav-full.html",
+                "height": 60,
+                "thumbnail": "elements/navigation/thumbs/nav-full.jpg"
+            },
+            {
+                "url": "elements/navigation/tpl/nav-info.html",
+                "height": 60,
+                "thumbnail": "elements/navigation/thumbs/nav-info.jpg"
+            },
+            {
+                "url": "elements/navigation/tpl/nav-info-2.html",
+                "height": 60,
+                "thumbnail": "elements/navigation/thumbs/nav-info-2.jpg"
+            },
+            {
+                "url": "elements/navigation/tpl/nav-info-3.html",
+                "height": 60,
+                "thumbnail": "elements/navigation/thumbs/nav-info-3.jpg"
+            },
+            {
+                "url": "elements/navigation/tpl/nav-login.html",
+                "height": 60,
+                "thumbnail": "elements/navigation/thumbs/nav-login.jpg"
+            },
+            {
+                "url": "elements/navigation/tpl/nav-login-full.html",
+                "height": 60,
+                "thumbnail": "elements/navigation/thumbs/nav-login-full.jpg"
+            },
+            {
+                "url": "elements/navigation/tpl/nav-login-full-2.html",
+                "height": 60,
+                "thumbnail": "elements/navigation/thumbs/nav-login-full-2.jpg"
+            },
+            {
+                "url": "elements/navigation/tpl/nav-thin-inverse.html",
+                "height": 60,
+                "thumbnail": "elements/navigation/thumbs/nav-thin-inverse.jpg"
+            },
+            {
+                "url": "elements/navigation/tpl/nav-thin-main.html",
+                "height": 60,
+                "thumbnail": "elements/navigation/thumbs/nav-thin-main.jpg"
+            },
+        ],
+        "Intro": [
+            {
+                "url": "elements/intro/tpl/intro-half-left-app.html",
+                "height": 900,
+                "thumbnail": "elements/intro/thumbs/intro-half-left-app.jpg"
+            },
+            {
+                "url": "elements/intro/tpl/intro-half-left.html",
+                "height": 721,
+                "thumbnail": "elements/intro/thumbs/intro-half-left.jpg"
+            },
+            {
+                "url": "elements/intro/tpl/intro-center.html",
+                "height": 882,
+                "thumbnail": "elements/intro/thumbs/intro-center.jpg"
+            },
+            {
+                "url": "elements/intro/tpl/intro-right.html",
+                "height": 896,
+                "thumbnail": "elements/intro/thumbs/intro-right.jpg"
+            },
+            {
+                "url": "elements/intro/tpl/intro-center-img.html",
+                "height": 944,
+                "thumbnail": "elements/intro/thumbs/intro-center-img.jpg"
+            },
+            {
+                "url": "elements/intro/tpl/intro-items.html",
+                "height": 1129,
+                "thumbnail": "elements/intro/thumbs/intro-items.jpg"
+            },
+            {
+                "url": "elements/intro/tpl/intro-left-2.html",
+                "height": 810,
+                "thumbnail": "elements/intro/thumbs/intro-left-2.jpg"
+            },
+            {
+                "url": "elements/intro/tpl/intro-half-left-2.html",
+                "height": 810,
+                "thumbnail": "elements/intro/thumbs/intro-half-left-2.jpg"
+            },
+            {
+                "url": "elements/intro/tpl/intro-half-left-3.html",
+                "height": 921,
+                "thumbnail": "elements/intro/thumbs/intro-half-left-3.jpg"
+            },
+            {
+                "url": "elements/intro/tpl/intro-video.html",
+                "height": 867,
+                "thumbnail": "elements/intro/thumbs/intro-video.jpg"
+            },
+            {
+                "url": "elements/intro/tpl/intro-line.html",
+                "height": 392,
+                "thumbnail": "elements/intro/thumbs/intro-line.jpg"
+            },
+            {
+                "url": "elements/intro/tpl/intro-left.html",
+                "height": 1011,
+                "thumbnail": "elements/intro/thumbs/intro-left.jpg"
+            },
+            {
+                "url": "elements/intro/tpl/intro-right-img.html",
+                "height": 1034,
+                "thumbnail": "elements/intro/thumbs/intro-right-img.jpg"
+            },
+        ],
+    },
+    'foothertemplate': {
+        "Footers": [
+            {
+                "url": "elements/footers/tpl/footer-2col.html",
+                "height": 221,
+                "thumbnail": "elements/footers/thumbs/footer-2col.jpg"
+            },
+            {
+                "url": "elements/footers/tpl/footer-2col-dark.html",
+                "height": 221,
+                "thumbnail": "elements/footers/thumbs/footer-2col-dark.jpg"
+            },
+            {
+                "url": "elements/footers/tpl/footer-2col-share.html",
+                "height": 221,
+                "thumbnail": "elements/footers/thumbs/footer-2col-share.jpg"
+            },
+            {
+                "url": "elements/footers/tpl/footer-2col-share-2.html",
+                "height": 221,
+                "thumbnail": "elements/footers/thumbs/footer-2col-share-2.jpg"
+            },
+            {
+                "url": "elements/footers/tpl/footer-center.html",
+                "height": 401,
+                "thumbnail": "elements/footers/thumbs/footer-center.jpg"
+            },
+            {
+                "url": "elements/footers/tpl/footer-center-soc.html",
+                "height": 211,
+                "thumbnail": "elements/footers/thumbs/footer-center-soc.jpg"
+            },
+            {
+                "url": "elements/footers/tpl/footer-goto.html",
+                "height": 321,
+                "thumbnail": "elements/footers/thumbs/footer-goto.jpg"
+            },
+            {
+                "url": "elements/footers/tpl/footer-goto-arrow.html",
+                "height": 321,
+                "thumbnail": "elements/footers/thumbs/footer-goto-arrow.jpg"
+            },
+            {
+                "url": "elements/footers/tpl/footer-goto-fixed.html",
+                "height": 401,
+                "thumbnail": "elements/footers/thumbs/footer-goto-fixed.jpg"
+            }
+        ],
     }
 }
 

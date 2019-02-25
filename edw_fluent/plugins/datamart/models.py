@@ -42,7 +42,7 @@ class DataMartItem(ContentItem):
         max_length=255,
         null=True,
         blank=True,
-        elements=get_page_builder_elements_by_model('datamartitem'),
+        elements=get_page_builder_elements_by_model('DataMartItem'),
     )
 
     not_use_for_template_calculate = models.BooleanField(

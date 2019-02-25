@@ -37,18 +37,7 @@
 
                 <!-- {% if 0 %} --><div class="hidden"><!-- {% endif %} -->
                 <div class="col-md-12">
-                    {% load alder_tags edw_tags %}
-                    <!--{% compactjson as data_entry_points %}
-                    {
-                        {% for data_mart in data_marts %}
-                        "{{ data_mart.id }}": {
-                            "template_name": "related",
-                            "request_params": [{% if terms_ids %}"terms={{ terms_ids|join:"," }}",{% endif %}{% if subj_ids %}"subj={{ subj_ids|join:"," }}",{% endif %}"limit=4"]
-                        }{% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    }
-                    {% endcompactjson %}-->
-
+                    {% load edw_tags %}
                     <div class="ex-data-mart ex-catalog-grid-4-col"
                         data-selected-entry-point-id="{{ data_marts.0.id }}"
                         data-data-mart-pk="{{ data_marts.0.id }}"

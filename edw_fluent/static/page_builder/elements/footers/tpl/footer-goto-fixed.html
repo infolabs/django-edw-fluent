@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Footer GoTo Fixed</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-Equiv="Cache-Control" Content="cache">
+    <meta http-Equiv="Pragma" Content="cache">
+    <meta http-Equiv="Expires" Content="1000">
+
+    <!-- Loading Elements Styles -->
+    <link type="text/css" href="/static/css/styles.min.css" rel="stylesheet">
+    <!-- Loading Font Styles -->
+    <link type="text/css" href="/static/page_builder/css/iconfont-style.css" rel="stylesheet">
+    <!-- Loading Icons Styles -->
+    <link type="text/css" href="/static/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    
+    <div id="page" class="page">
+
+        <!-- {% if 0 %} -->
+            <div class="hidden">
+        <!-- {% endif %} -->
+        {% load sekizai_tags compress %}
+        {% addtoblock "css" %}{% compress css %}<link type="text/css" href="/static/page_builder/css/iconfont-style.css" rel="stylesheet">{% endcompress %}{% endaddtoblock %}
+        <!-- {% if 0 %} -->
+            </div><!-- /.hidden -->
+        <!-- {% endif %} -->
+
+		<!-- GOTO FIXED BLOCK -->
+
+        <!-- {% if 0 %} -->
+        <div class="hidden">
+        <!-- {% endif %} -->
+
+            <div id="scrollToTop">
+                <i class="fa fa-arrow-up" aria-hidden="true"></i>
+            </div>
+
+            {% addtoblock "js" %}
+                <script src="/static/page_builder/js/smartScroll.js"></script>
+            {% endaddtoblock %}
+            {% addtoblock "js" %}
+                <script src="/static/page_builder/elements/footers/js/upBtn.js"></script>
+            {% endaddtoblock %}
+
+        <!-- {% if 0 %} -->
+        </div><!-- /.hidden -->
+        <!-- {% endif %} -->
+
+        <!-- {% if 0 %} -->
+            <section class="bg-color3" style="height: 200px;">
+                <div id="scrollToTop" style="display: block; opacity: 1;">
+                    <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                </div>
+            </section>
+        <!-- {% endif %} -->
+    
+    </div><!-- /#page -->
+
+</body>
+</html>
