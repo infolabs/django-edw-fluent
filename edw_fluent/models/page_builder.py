@@ -5,7 +5,7 @@ from django.conf import settings
 
 
 DEFAULT_ELEMENTS = {
-    'datamartitem': {
+    'DataMartItem': {
         "Data marts": [
             {
                 "url": "elements/datamarts/tpl/default_with_tree.html",
@@ -24,7 +24,7 @@ DEFAULT_ELEMENTS = {
             }
         ]
     },
-    'templateitem': {
+    'TemplateItem': {
         "Text Grid": [
             {
                 "url": "elements/text/tpl/text-1col.html",
@@ -286,36 +286,6 @@ DEFAULT_ELEMENTS = {
         ],
         "Content": [
             {
-                "url": "elements/content/tpl/parallax-header.html",
-                "height": 740,
-                "thumbnail": "elements/content/thumbs/parallax-header.jpg"
-            },
-            {
-                "url": "elements/content/tpl/banner_with_link.html",
-                "height": 740,
-                "thumbnail": "elements/content/thumbs/banner_with_link.jpg"
-            },
-            {
-                "url": "elements/content/tpl/banner_without_link.html",
-                "height": 740,
-                "thumbnail": "elements/content/thumbs/banner_without_link.jpg"
-            },
-            {
-               "url": "elements/content/tpl/banner_ob.html",
-               "height": 462,
-               "thumbnail": "elements/content/thumbs/banner_ob.jpg"
-            },
-            {
-                "url": "elements/content/tpl/content-right-3.html",
-                "height": 740,
-                "thumbnail": "elements/content/thumbs/content-right-3.jpg"
-            },
-            {
-                "url": "elements/content/tpl/banner-mart-2018.html",
-                "height": 740,
-                "thumbnail": "elements/content/thumbs/banner-mart-2018.jpg"
-            },
-            {
                 "url": "elements/content/tpl/complex-title.html",
                 "height": 740,
                 "thumbnail": "elements/content/thumbs/complex-title.jpg"
@@ -431,34 +401,9 @@ DEFAULT_ELEMENTS = {
                 "thumbnail": "elements/content/thumbs/content-collapse.jpg"
             },
             {
-                "url": "elements/content/tpl/terms-of-use-block.html",
-                "height": 312,
-                "thumbnail": "elements/content/thumbs/terms-of-use-block.jpg"
-            },
-            {
-                "url": "elements/content/tpl/bus-schedule.html",
-                "height": 312,
-                "thumbnail": "elements/content/thumbs/bus-schedule.jpg"
-            },
-            {
                 "url": "elements/content/tpl/content-link-img.html",
                 "height": 312,
                 "thumbnail": "elements/content/thumbs/content-link-img.jpg"
-            },
-            {
-                "url": "elements/content/tpl/ob-page-nav.html",
-                "height": 312,
-                "thumbnail": "elements/content/thumbs/ob-page-nav.jpg"
-            },
-            {
-                "url": "elements/content/tpl/ob-main-subscribe.html",
-                "height": 312,
-                "thumbnail": "elements/content/thumbs/ob-main-subscribe.jpg"
-            },
-            {
-                "url": "elements/content/tpl/ob-page-top.html",
-                "height": 312,
-                "thumbnail": "elements/content/thumbs/ob-page-top.jpg"
             },
         ],
         "Diagrams": [
@@ -683,14 +628,9 @@ DEFAULT_ELEMENTS = {
                 "height": 1034,
                 "thumbnail": "elements/intro/thumbs/intro-right-img.jpg"
             },
-            {
-                "url": "elements/intro/tpl/page-404.html",
-                "height": 880,
-                "thumbnail": "elements/intro/thumbs/page-404.jpg"
-            },
         ]
     },
-    'headertemplate': {
+    'HeaderTemplate': {
         "Headers": [
             {
                 "url": "elements/headers/tpl/header2.html",
@@ -745,14 +685,9 @@ DEFAULT_ELEMENTS = {
         ],
         "Navigation": [
             {
-                "url": "elements/navigation/tpl/nav.html",
+                "url": "elements/navigation/tpl/nav-full-soc.html",
                 "height": 60,
-                "thumbnail": "elements/navigation/thumbs/nav.jpg"
-            },
-            {
-                "url": "elements/navigation/tpl/nav-full.html",
-                "height": 60,
-                "thumbnail": "elements/navigation/thumbs/nav-full.jpg"
+                "thumbnail": "elements/navigation/thumbs/nav-full-soc.jpg"
             },
             {
                 "url": "elements/navigation/tpl/nav-info.html",
@@ -765,34 +700,24 @@ DEFAULT_ELEMENTS = {
                 "thumbnail": "elements/navigation/thumbs/nav-info-2.jpg"
             },
             {
-                "url": "elements/navigation/tpl/nav-info-3.html",
+                "url": "elements/navigation/tpl/nav-info-soc.html",
                 "height": 60,
-                "thumbnail": "elements/navigation/thumbs/nav-info-3.jpg"
+                "thumbnail": "elements/navigation/thumbs/nav-info-soc.jpg"
             },
             {
-                "url": "elements/navigation/tpl/nav-login.html",
+                "url": "elements/navigation/tpl/nav-share.html",
                 "height": 60,
-                "thumbnail": "elements/navigation/thumbs/nav-login.jpg"
+                "thumbnail": "elements/navigation/thumbs/nav-share.jpg"
             },
             {
-                "url": "elements/navigation/tpl/nav-login-full.html",
+                "url": "elements/navigation/tpl/nav-share-2.html",
                 "height": 60,
-                "thumbnail": "elements/navigation/thumbs/nav-login-full.jpg"
+                "thumbnail": "elements/navigation/thumbs/nav-share-2.jpg"
             },
             {
-                "url": "elements/navigation/tpl/nav-login-full-2.html",
+                "url": "elements/navigation/tpl/nav-soc.html",
                 "height": 60,
-                "thumbnail": "elements/navigation/thumbs/nav-login-full-2.jpg"
-            },
-            {
-                "url": "elements/navigation/tpl/nav-thin-inverse.html",
-                "height": 60,
-                "thumbnail": "elements/navigation/thumbs/nav-thin-inverse.jpg"
-            },
-            {
-                "url": "elements/navigation/tpl/nav-thin-main.html",
-                "height": 60,
-                "thumbnail": "elements/navigation/thumbs/nav-thin-main.jpg"
+                "thumbnail": "elements/navigation/thumbs/nav-soc.jpg"
             },
         ],
         "Intro": [
@@ -863,7 +788,7 @@ DEFAULT_ELEMENTS = {
             },
         ],
     },
-    'foothertemplate': {
+    'FooterTemplate': {
         "Footers": [
             {
                 "url": "elements/footers/tpl/footer-2col.html",

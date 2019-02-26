@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Navigation Info</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-Equiv="Cache-Control" Content="cache">
+	<meta http-Equiv="Pragma" Content="cache">
+	<meta http-Equiv="Expires" Content="1000">
+
+    <!-- Loading Elements Styles -->
+    <link type="text/css" href="/static/css/styles.min.css" rel="stylesheet">
+    <!-- Loading Font Styles -->
+    <link type="text/css" href="/static/page_builder/css/iconfont-style.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    <div id="page" class="page">
+
+        <!-- {% if 0 %} -->
+            <div class="hidden">
+        <!-- {% endif %} -->
+        {% load sekizai_tags compress %}
+        {% addtoblock "css" %}{% compress css %}<link type="text/css" href="/static/css/styles.min.css" rel="stylesheet">{% endcompress %}{% endaddtoblock %}
+        {% addtoblock "css" %}{% compress css %}<link type="text/css" href="/static/page_builder/css/iconfont-style.css" rel="stylesheet">{% endcompress %}{% endaddtoblock %}
+        <!-- {% if 0 %} -->
+            </div><!-- /.hidden -->
+        <!-- {% endif %} -->
+
+        <!-- NAVIGATION INFO -->
+        <nav class="navbar bg-color3">
+            <div class="container">
+                <a class="navbar-brand goto" href="#"><img src="/static/page_builder/images/logo.png" height="25" alt="Your logo"></a>
+                <div class="info-header"><strong><span>Наш телефон:</span> +7(123)-456-7890</strong> <a href="#" class="btn btn-sm btn-primary goto">Подписаться</a></div>
+            </div>
+        </nav>
+
+    </div><!-- /#page -->
+
+</body>
+</html>
