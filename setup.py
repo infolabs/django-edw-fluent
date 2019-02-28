@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-edw-fluent',
-    version=__import__('edw_fluent').__version__,
+    version='1.0.0',
     description='Package for connect Django EDW and Django Fluent Pages.',
     author='Infolabs LLC',
     author_email='team@infolabs.ru',
