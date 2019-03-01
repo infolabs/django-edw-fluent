@@ -1,30 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
-import shutil
 from setuptools import setup, find_packages
-from setuptools.command.install import install as st_install
-
-
-class install(st_install):
-    def _post_install(self, lib_dir):
-        packages = ('edw', 'email_auth', 'social_extra')
-        backend_dir = os.path.join(lib_dir, 'backend')
-        if os.path.exists(backend_dir):
-            for package in packages:
-                src_dir = os.path.join(backend_dir, package)
-                dst_dir = os.path.join(lib_dir, package)
-                if os.path.exists(dst_dir):
-                    shutil.rmtree(dst_dir)
-                shutil.copytree(src_dir, dst_dir, symlinks=True)
-            if os.path.exists(backend_dir):
-                shutil.rmtree(backend_dir)
-
-    def run(self):
-        st_install.run(self)
-        self.execute(self._post_install, (self.install_lib,),
-                     msg="Running post install task")
 
 
 setup(
@@ -36,11 +13,13 @@ setup(
     url='https://github.com/infolabs/django-edw-fluent',
     packages=find_packages(),
     zip_safe=False,
-    cmdclass={'install': install},
     package_data={
         'edw_fluent': [
             'locale/*/LC_MESSAGES/*',
             'static/*',
+            'plugins/*/static/*',
+            'templates/*',
+            'plugins/*/templates/*',
         ],
     },
     classifiers=[
