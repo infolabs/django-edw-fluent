@@ -13,15 +13,7 @@ setup(
     url='https://github.com/infolabs/django-edw-fluent',
     packages=find_packages(),
     zip_safe=False,
-    package_data={
-        'edw_fluent': [
-            'locale/*/LC_MESSAGES/*',
-            'static/*',
-            'plugins/*/static/*',
-            'templates/*',
-            'plugins/*/templates/*',
-        ],
-    },
+    include_package_data=True,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
