@@ -1,5 +1,6 @@
-include README.rst
+include README.md
 include LICENSE
-include AUTHORS
-recursive-include edw_fluent/templates *.html
 recursive-include edw_fluent/static *.*
+recursive-include edw_fluent/locale *.*
+recursive-include edw_fluent/plugins/datamart/templates *.*
+recursive-include edw_fluent/plugins/file/templates *.*
