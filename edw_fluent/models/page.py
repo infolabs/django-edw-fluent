@@ -19,7 +19,17 @@ from edw_fluent.plugins.datamart.models import DataMartItem
 #===================================================================================================================
 class SimplePage(FluentContentsPage):
 
-    layout = models.ForeignKey(PageLayout, verbose_name=_('Layout'), null=True)
+    layout = models.ForeignKey(
+        PageLayout,
+        verbose_name=_('Layout'),
+        null=True,
+    )
+    seo_title = models.CharField(
+        verbose_name=_('SEO title'),
+        max_length=255,
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         app_label = settings.EDW_APP_LABEL
