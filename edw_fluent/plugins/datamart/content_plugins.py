@@ -26,7 +26,6 @@ class DataMartPlugin(ContentPlugin):
     def get_context(self, request, instance, **kwargs):
         context = super(DataMartPlugin, self).get_context(request, instance, **kwargs)
         datamarts = instance.datamarts.active()
-
         terms_ids = list(instance.terms.active().values_list('id', flat=True))
         subj_ids = list(instance.subjects.active().values_list('id', flat=True))
         type_id = instance.polymorphic_ctype_id

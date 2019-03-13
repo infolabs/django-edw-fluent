@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-25 17:58+0300\n"
-"PO-Revision-Date: 2019-02-25 18:56+0300\n"
+"POT-Creation-Date: 2019-03-13 16:01+0300\n"
+"PO-Revision-Date: 2019-03-13 16:04+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: admin/forms/template.py:26
 msgid "The view layout of the publication isn't defined"
@@ -28,19 +28,23 @@ msgstr "Не задан шаблон"
 msgid "EDW fluent"
 msgstr "Управление страницами"
 
-#: models/page.py:22
+#: models/page.py:24
 msgid "Layout"
 msgstr "Макет"
 
-#: models/page.py:26
+#: models/page.py:28
+msgid "SEO title"
+msgstr "SEO-заголовок"
+
+#: models/page.py:36
 msgid "Simple page"
 msgstr "Страница"
 
-#: models/page.py:27
+#: models/page.py:37
 msgid "Simple pages"
 msgstr "Страницы"
 
-#: models/page.py:29
+#: models/page.py:39
 msgid "Can change Page layout"
 msgstr "Может изменить макет страницы"
 
@@ -98,11 +102,11 @@ msgstr "Шаблон шапки"
 msgid "Header Templates"
 msgstr "Шаблоны шапки"
 
-#: plugins/datamart/content_plugins.py:23
+#: plugins/datamart/content_plugins.py:22
 msgid "Data mart"
 msgstr "Витрина данных"
 
-#: plugins/datamart/content_plugins.py:24 plugins/datamart/forms.py:23
+#: plugins/datamart/content_plugins.py:23 plugins/datamart/forms.py:23
 msgid "Data marts"
 msgstr "Витрины данных"
 
