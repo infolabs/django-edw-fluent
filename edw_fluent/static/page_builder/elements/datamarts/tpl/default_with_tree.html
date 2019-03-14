@@ -35,14 +35,42 @@
             <div class="row padding-top-20 padding-bottom-20 datamart-plugin plugin-5">
 
                 <!-- {% if 0 %} --><div class="hidden"><!-- {% endif %} -->
-                {% load edw_tags %}
+                {% load edw_tags alder_tags page_builder %}
 
-                <div class="col-md-12">
-                    <div class="ex-data-mart"
-                        data-data-mart-pk="{{ data_marts.0.id }}"
-                        data-selected-entry-point-id="{{ data_marts.0.id }}"
-                        data-entry-points='{{ data_entry_points }}'
-                    >
+                <!--{% compactjson as data_entry_points %}
+                {
+                    {% for data_mart in data_marts %}
+                    {% get_data_mart_url data_mart.id as href %}
+                    "{{ data_mart.id }}": {
+                        "name": "{{ data_mart.name }}",
+                        "url": "{% if href %}{{ href }}{% endif %}",
+                        "template_name": "data_mart",
+                        "request_params": [{% if terms_ids %}"terms={{ terms_ids|join:"," }}"{% endif %}{% if terms_ids and subj_ids %},{% endif %}{% if subj_ids %}"subj={{ subj_ids|join:"," }}"{% endif %}]
+                    }{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                }
+                {% endcompactjson %}-->
+
+
+                <!--{% for data_mart in data_marts %}
+                    {% get_entities data_mart_pk=data_mart.id as objects %}
+                    {% with objects|pubs_mart_to_articles_ld as ld %}
+                        {% if ld %}-->
+                            {% chr 60 %}script type="application/ld+json"{% chr 62 %}{{ ld|safe }}{% chr 60 %}/script{% chr 62 %}
+                        <!--{% endif %}
+                    {% endwith %}
+                {% endfor %}-->
+
+
+                <div class="container">
+                    <div class="padding-top-20 padding-bottom-20">
+                        <div class="ex-data-mart"
+                            data-data-mart-pk="{{ data_marts.0.id }}"
+                            data-selected-entry-point-id="{{ data_marts.0.id }}"
+                            data-entry-points='{{ data_entry_points }}'
+                        >
+                            <p class="preload-text">{{ data_marts.0.description }}</p>
+                        </div>
                     </div>
                 </div>
 
