@@ -23,11 +23,14 @@ setup(
         'Programming Language :: Python',
         'Framework :: Django',
     ],
-    install_requires = [
-        "Django==1.9.13",
-        "django-edw",
-        "django-page-builder",
-        "django-fluent-pages==1.1.1",
-        "django-fluent-contents==1.2"
+    install_requires=[
+        'Django==1.9.13',
+        'django-edw',
+        'django-page-builder',
+        'django-fluent-pages==1.1.1',
+        'django-fluent-contents==1.2'
     ],
+    dependency_links=[
+        'https://github.com/SmartTeleMax/chakert/tarball/master#egg=chakert-0.1.2'
+    ]
 )

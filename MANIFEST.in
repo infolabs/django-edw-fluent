@@ -4,3 +4,5 @@ recursive-include edw_fluent/static *.*
 recursive-include edw_fluent/locale *.*
 recursive-include edw_fluent/plugins/datamart/templates *.*
 recursive-include edw_fluent/plugins/file/templates *.*
+recursive-include edw_fluent/plugins/block/templates *.*
+recursive-include edw_fluent/templates *.*

@@ -1,0 +1,18 @@
+{% load edw_fluent_tags %}{% with blocks_count=publication.blocks_count terms_ids=publication.terms_ids %}{% comment %}
+{% endcomment %}{%  if position|add:"1" == blocks_count %}{% comment %}
+    {% endcomment %}{% if blocks_count == 1 %}{% comment %}
+        {% endcomment %}{% render_content_block alias='top' terms_ids=terms_ids %}{% comment %}
+        {% endcomment %}{% render_content_block alias='index' terms_ids=terms_ids status='single' position=position %}{% comment %}
+        {% endcomment %}{% render_content_block alias='bottom' terms_ids=terms_ids %}{% comment %}
+    {% endcomment %}{% else %}{% comment %}
+        {% endcomment %}{% render_content_block alias='index' terms_ids=terms_ids status='last' position=position %}{% comment %}
+        {% endcomment %}{% render_content_block alias='bottom' terms_ids=terms_ids %}{% comment %}
+    {% endcomment %}{% endif %}{% comment %}
+{% endcomment %}{% else %}{% comment %}
+    {% endcomment %}{% if position == 0 %}{% comment %}
+        {% endcomment %}{% render_content_block alias='top' terms_ids=terms_ids position=position %}{% comment %}
+        {% endcomment %}{% render_content_block alias='index' terms_ids=terms_ids status='first' position=position %}{% comment %}
+    {% endcomment %}{% else %}{% comment %}
+        {% endcomment %}{% render_content_block alias='index' terms_ids=terms_ids status='inner' position=position %}{% comment %}
+    {% endcomment %}{% endif %}{% comment %}
+{% endcomment %}{% endif %}{% endwith %}

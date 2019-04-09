@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-13 16:01+0300\n"
+"POT-Creation-Date: 2019-04-09 18:48+0300\n"
 "PO-Revision-Date: 2019-03-13 16:04+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -20,31 +20,56 @@ msgstr ""
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 "X-Generator: Poedit 1.8.11\n"
 
+#: admin/forms/file.py:14 admin/forms/image.py:15
+msgid "Default"
+msgstr "По умолчанию"
+
+#: admin/forms/file.py:17 admin/forms/image.py:19
+msgid "Info block"
+msgstr "Инфоблок"
+
+#: admin/forms/image.py:16
+msgid "Thumbnail"
+msgstr "Миниатюра"
+
+#: admin/forms/image.py:21 templates/admin/filer/widgets/admin_file.html:26
+msgid "Author"
+msgstr "Автор"
+
+#: admin/forms/image.py:23 models/publication.py:76
+#: templates/admin/filer/widgets/admin_file.html:32
+msgid "Title"
+msgstr "Заголовок"
+
 #: admin/forms/template.py:26
 msgid "The view layout of the publication isn't defined"
 msgstr "Не задан шаблон"
+
+#: admin/publication.py:62
+msgid "Content blocks"
+msgstr "Основное содержимое"
 
 #: apps.py:10
 msgid "EDW fluent"
 msgstr "Управление страницами"
 
-#: models/page.py:24
+#: models/page.py:134
 msgid "Layout"
 msgstr "Макет"
 
-#: models/page.py:28
+#: models/page.py:138
 msgid "SEO title"
 msgstr "SEO-заголовок"
 
-#: models/page.py:36
+#: models/page.py:146
 msgid "Simple page"
 msgstr "Страница"
 
-#: models/page.py:37
+#: models/page.py:147
 msgid "Simple pages"
 msgstr "Страницы"
 
-#: models/page.py:39
+#: models/page.py:149
 msgid "Can change Page layout"
 msgstr "Может изменить макет страницы"
 
@@ -56,9 +81,87 @@ msgstr "Представление"
 msgid "Page layout"
 msgstr "Страница"
 
-#: models/template/base.py:18
+#: models/publication.py:55
+msgid "By date"
+msgstr "По дате"
+
+#: models/publication.py:56
+msgid "By chronology"
+msgstr "По хронологии"
+
+#: models/publication.py:57
+msgid "By recommendation"
+msgstr "Рекомендации"
+
+#: models/publication.py:58 models/template/base.py:18
 msgid "Alphabetical"
 msgstr "По алфавиту"
+
+#: models/publication.py:65
+msgid "Publication tile"
+msgstr "Плитка"
+
+#: models/publication.py:66
+msgid "Publication list"
+msgstr "Список"
+
+#: models/publication.py:82
+#, fuzzy
+#| msgid "SEO title"
+msgid "Subtitle"
+msgstr "SEO-заголовок"
+
+#: models/publication.py:89
+msgid "Lead"
+msgstr "ЛИД"
+
+#: models/publication.py:94
+msgid "Statistic"
+msgstr "Просмотры"
+
+#: models/publication.py:99
+msgid "Is main publication"
+msgstr "Рекомендуем"
+
+#: models/publication.py:104
+msgid "Content"
+msgstr "Контент"
+
+#: models/publication.py:113
+msgid "Unpublish at"
+msgstr "Дата снятия с публикации"
+
+#: models/publication.py:117
+msgid "Publication draft"
+msgstr "Черновик"
+
+#: models/publication.py:118
+msgid "Publication on editing"
+msgstr "На редактировании"
+
+#: models/publication.py:119
+msgid "Publication on approval"
+msgstr "Черновик"
+
+#: models/publication.py:120
+msgid "Published"
+msgstr "Опубликовано"
+
+#: models/publication.py:125 models/publication.py:370
+msgid "Publication"
+msgstr "Публикация"
+
+#: models/publication.py:126
+msgid "Publications"
+msgstr "Публикации"
+
+#: models/publication.py:236
+msgid "The maximum number of characters 90, you have {}"
+msgstr "Максимальное количество символов 90, у вас {}"
+
+#: models/related.py:20 models/related.py:35
+msgid "Key"
+msgstr "Ключ"
 
 #: models/template/base.py:23
 msgid "Name"
@@ -68,15 +171,29 @@ msgstr "Название"
 msgid "On indexation"
 msgstr "На индексации"
 
-#: models/template/base.py:37 models/template/footer.py:18
-#: models/template/header.py:18 plugins/datamart/models.py:41
-#: plugins/template/models.py:21 plugins/template/models.py:30
+#: models/template/base.py:37 models/template/content_block.py:22
+#: models/template/footer.py:18 models/template/header.py:18
+#: plugins/datamart/models.py:41 plugins/template/models.py:21
+#: plugins/template/models.py:30
 msgid "Template"
 msgstr "Шаблон"
 
 #: models/template/base.py:38 plugins/template/models.py:31
 msgid "Templates"
 msgstr "Шаблоны"
+
+#: models/template/content_block.py:26
+msgid ""
+"Some help text about content block template... `index`, `top`, `bottom`..."
+msgstr ""
+
+#: models/template/content_block.py:30
+msgid "Content Block Template"
+msgstr "Шаблон контент-блока"
+
+#: models/template/content_block.py:31
+msgid "Content Block Templates"
+msgstr "Шаблоны контент-блоков"
 
 #: models/template/footer.py:22
 msgid "Some help text about footer template... `index`, `top`, `bottom`"
@@ -102,11 +219,29 @@ msgstr "Шаблон шапки"
 msgid "Header Templates"
 msgstr "Шаблоны шапки"
 
-#: plugins/datamart/content_plugins.py:22
+#: plugins/block/content_plugins.py:36 plugins/block/content_plugins.py:37
+#: plugins/block/models.py:34 plugins/template/content_plugins.py:25
+#: plugins/template/content_plugins.py:26
+msgid "Block"
+msgstr "Текст"
+
+#: plugins/block/forms.py:28
+msgid "Related entity for this block"
+msgstr "Связанные с этим блоком объекты"
+
+#: plugins/block/models.py:27
+msgid "text"
+msgstr "Текст"
+
+#: plugins/block/models.py:35
+msgid "Blocks"
+msgstr "Блоки"
+
+#: plugins/datamart/content_plugins.py:23
 msgid "Data mart"
 msgstr "Витрина данных"
 
-#: plugins/datamart/content_plugins.py:23 plugins/datamart/forms.py:23
+#: plugins/datamart/content_plugins.py:24 plugins/datamart/forms.py:23
 msgid "Data marts"
 msgstr "Витрины данных"
 
@@ -203,11 +338,36 @@ msgstr "Форма"
 msgid "Form plugins"
 msgstr "Формы"
 
-#: plugins/template/content_plugins.py:25
-#: plugins/template/content_plugins.py:26
-msgid "Block"
-msgstr "Текст"
-
 #: plugins/template/content_plugins.py:51
 msgid "Template is not defined"
 msgstr "Шаблон не задан"
+
+#: templates/admin/filer/widgets/admin_file.html:9
+#: templates/admin/filer/widgets/admin_file.html:55
+msgid "Clear"
+msgstr "Очистить"
+
+#: templates/admin/filer/widgets/admin_file.html:18
+msgid "or drop your file here"
+msgstr "или \"скиньте\" ваш файл сюда"
+
+#: templates/admin/filer/widgets/admin_file.html:46
+#: templates/admin/filer/widgets/admin_file.html:47
+msgid "file missing"
+msgstr "файл не выбран"
+
+#: templates/admin/filer/widgets/admin_file.html:50
+msgid "no file selected"
+msgstr "файл не выбран"
+
+#: templates/admin/filer/widgets/admin_file.html:58
+msgid "Lookup"
+msgstr "Выбрать"
+
+#: templates/admin/filer/widgets/admin_file.html:59
+msgid "Choose File"
+msgstr "Выбрать файл"
+
+#: templates/admin/filer/widgets/admin_file.html:65
+msgid "Properties"
+msgstr "Свойства"

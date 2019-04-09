@@ -24,6 +24,8 @@ from edw_fluent.models.template.header import HeaderTemplate
 from edw_fluent.models.template.footer import FooterTemplate
 from edw_fluent.models.page_layout import get_views_layouts, PAGE_LAYOUT_ROOT_TERM_SLUG
 
+from edw_fluent.models.template.content_block import ContentBlockTemplate
+from edw_fluent.models.publication import PublicationBase
 
 register = django_template.Library()
 
@@ -159,6 +161,18 @@ class RenderFooter(BaseRenderTemplateTag):
 register.tag(RenderFooter)
 
 
+class RenderContentBlock(BaseRenderTemplateTag):
+    name = 'render_content_block'
+    template_model = ContentBlockTemplate
+
+    def render_tag(self, context, kwargs, varname):
+        kwargs['layout'] = PublicationBase.LAYOUT_TERM_SLUG
+        return super(RenderContentBlock, self).render_tag(context, kwargs, varname)
+
+
+register.tag(RenderContentBlock)
+
+
 #==============================================================================
 # Render Placeholder Field
 #==============================================================================
@@ -167,7 +181,7 @@ class RenderPlaceholderField(InclusionTag):
     Inclusion tag for static placeholder.
     """
 
-    template = 'alder/partials/_renderplaceholder.html'
+    template = 'edw_fluent/partials/_renderplaceholder.html'
     name = 'render_placeholder_field'
 
     options = Options(
