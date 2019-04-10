@@ -106,10 +106,8 @@ msgid "Publication list"
 msgstr "Список"
 
 #: models/publication.py:82
-#, fuzzy
-#| msgid "SEO title"
 msgid "Subtitle"
-msgstr "SEO-заголовок"
+msgstr "Подзаголовок"
 
 #: models/publication.py:89
 msgid "Lead"
