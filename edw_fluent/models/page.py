@@ -61,6 +61,9 @@ class SimplePageCacheMiddleware(CacheMiddleware):
 
     # path `learn_cache_key`, method code equal with origin
     def process_response(self, request, response):
+        if request.user.is_authenticated():
+            return response
+
         """Sets the cache, if needed."""
         if not self._should_update_cache(request, response):
             # We don't need to update the cache, just return.
@@ -94,6 +97,12 @@ class SimplePageCacheMiddleware(CacheMiddleware):
                 self.cache.set(cache_key, response, timeout)
         return response
 
+    def process_request(self, request):
+        # Don't cache responses that set a user-specific
+        if request.user.is_authenticated():
+            return None
+        else:
+            return super(SimplePageCacheMiddleware, self).process_request(request)
 
 def cache_simple_page(*args, **kwargs):
     """
