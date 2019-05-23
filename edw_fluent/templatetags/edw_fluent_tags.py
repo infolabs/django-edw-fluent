@@ -7,6 +7,7 @@ from django import template as django_template
 from django.core.cache import cache
 from django.db.models.query import QuerySet
 from django.conf import settings
+from django.apps import AppConfig
 
 from classytags.core import Tag, Options
 from classytags.arguments import MultiKeywordArgument, Argument
@@ -198,3 +199,40 @@ class RenderPlaceholderField(InclusionTag):
 
 
 register.tag(RenderPlaceholderField)
+
+
+#==============================================================================
+# Get data mart url
+#==============================================================================
+class DataMartUrl(Tag):
+
+    name = 'get_data_mart_url'
+
+    options = Options(
+        Argument('datamart_id', resolve=True),
+        'as',
+        Argument('varname', required=False, resolve=False)
+    )
+
+    def render_tag(self, context, datamart_id, varname):
+        model = AppConfig.get_model('DataMart')
+        if not datamart_id:
+            datamart_id = None
+        try:
+            data_mart = model.objects.get(id=datamart_id)
+        except model.DoesNotExist:
+            detail_page = None
+        else:
+            detail_page = data_mart.get_cached_detail_page()
+        if detail_page:
+            detail_url = detail_page.url
+        else:
+            detail_url = None
+        if varname:
+            context[varname] = detail_url
+            return ''
+        else:
+            return detail_url
+
+
+register.tag(DataMartUrl)

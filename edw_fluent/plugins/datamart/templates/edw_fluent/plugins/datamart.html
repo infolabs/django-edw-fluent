@@ -15,16 +15,6 @@
 {% endcompactjson %}-->
 
 
-<!--{% for data_mart in data_marts %}
-    {% get_entities data_mart_pk=data_mart.id as objects %}
-    {% with objects|pubs_mart_to_articles_ld as ld %}
-        {% if ld %}-->
-            <script type="application/ld+json">{{ ld|safe }}</script>
-        <!--{% endif %}
-    {% endwith %}
-{% endfor %}-->
-
-
 <div class="container">
     <div class="padding-top-20 padding-bottom-20">
         <div class="ex-data-mart"
