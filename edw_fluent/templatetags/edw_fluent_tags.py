@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function
 
+import os
 import copy
 
 from django import template as django_template
@@ -236,3 +237,12 @@ class DataMartUrl(Tag):
 
 
 register.tag(DataMartUrl)
+
+
+@register.filter
+def filename(value):
+    try:
+        fn = os.path.basename(value.file.name)
+    except IOError:
+        fn = None
+    return fn
