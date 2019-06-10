@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-04-09 18:48+0300\n"
-"PO-Revision-Date: 2019-03-13 16:04+0300\n"
+"PO-Revision-Date: 2019-06-10 12:27+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: admin/forms/file.py:14 admin/forms/image.py:15
 msgid "Default"
@@ -139,7 +139,7 @@ msgstr "На редактировании"
 
 #: models/publication.py:119
 msgid "Publication on approval"
-msgstr "Черновик"
+msgstr "На утверждении"
 
 #: models/publication.py:120
 msgid "Published"
