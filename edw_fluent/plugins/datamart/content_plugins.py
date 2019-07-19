@@ -5,6 +5,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django import template as django_template
 
+from sekizai.helpers import get_varname as sekizai_get_varname
 from fluent_contents.extensions import ContentPlugin, plugin_pool
 
 from edw_fluent.plugins.datamart.models import DataMartItem
@@ -31,6 +32,8 @@ class DataMartPlugin(ContentPlugin):
         type_id = instance.polymorphic_ctype_id
         pos = instance.sort_order
 
+        sekizai_varname = sekizai_get_varname()
+
         if pos == 0:
             before = False
         else:
@@ -52,6 +55,7 @@ class DataMartPlugin(ContentPlugin):
             'subj_ids': subj_ids,
             'is_first': not before,
             'is_last': not after,
+            sekizai_varname: getattr(request, sekizai_varname),
         })
         return context
 
