@@ -181,29 +181,30 @@ class PublicationBase(EntityModel.materialized):
     def entity_name(self):
         return self.title
 
-    @classmethod
-    def get_ordering_modes(cls, **kwargs):
-        full = super(cls, cls).get_ordering_modes(**kwargs)
-
-        context = kwargs.get("context", None)
-        if context is None:
-            return full
-        ordering = context.get('ordering', None)
-        if not ordering:
-            return full
-
-        ordering = ordering[0]
-
-        created = '-publication__created_at'
-        chrono = '-publication__chronological'
-
-        mode_to_remove = None
-        if ordering == created:
-            mode_to_remove = chrono
-        elif ordering == chrono:
-            mode_to_remove = created
-
-        return [m for m in full if m[0] != mode_to_remove]
+    # todo: NOT WORK! RECURSION
+    # @classmethod
+    # def get_ordering_modes(cls, **kwargs):
+    #     full = super(EntityModel.materialized, cls).get_ordering_modes(**kwargs)
+    #
+    #     context = kwargs.get("context", None)
+    #     if context is None:
+    #         return full
+    #     ordering = context.get('ordering', None)
+    #     if not ordering:
+    #         return full
+    #
+    #     ordering = ordering[0]
+    #
+    #     created = '-publication__created_at'
+    #     chrono = '-publication__chronological'
+    #
+    #     mode_to_remove = None
+    #     if ordering == created:
+    #         mode_to_remove = chrono
+    #     elif ordering == chrono:
+    #         mode_to_remove = created
+    #
+    #     return [m for m in full if m[0] != mode_to_remove]
 
     @classmethod
     def get_summary_annotation(cls):
@@ -343,20 +344,21 @@ class PublicationBase(EntityModel.materialized):
             setattr(cls, cache_key, root_term)
         return getattr(cls, cache_key)
 
-    @classmethod
-    def get_view_components(cls, **kwargs):
-        full = super(PublicationBase, cls).get_view_components(**kwargs)
-        reduced = tuple([c for c in full if c[0] != cls.VIEW_COMPONENT_MAP])
-
-        context = kwargs.get("context", None)
-        if context is None:
-            return reduced
-
-        term_ids = context.get('real_terms_ids', None)
-        if not term_ids:
-            return reduced
-
-        return full
+    # todo: NOT WORK! RECURSION
+    # @classmethod
+    # def get_view_components(cls, **kwargs):
+    #     full = super(PublicationBase, cls).get_view_components(**kwargs)
+    #     reduced = tuple([c for c in full if c[0] != cls.VIEW_COMPONENT_MAP])
+    #
+    #     context = kwargs.get("context", None)
+    #     if context is None:
+    #         return reduced
+    #
+    #     term_ids = context.get('real_terms_ids', None)
+    #     if not term_ids:
+    #         return reduced
+    #
+    #     return full
 
     @classmethod
     def validate_term_model(cls):
