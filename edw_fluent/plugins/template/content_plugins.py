@@ -7,6 +7,7 @@ from django import template as django_template
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
 
+from sekizai.helpers import get_varname as sekizai_get_varname
 from fluent_contents.extensions import ContentPlugin, plugin_pool
 from constance import config
 
@@ -27,13 +28,16 @@ class TemplatePlugin(ContentPlugin):
 
     def render(self, request, instance, **kwargs):
         template_str = instance.template.read_template()
+
+        sekizai_varname = sekizai_get_varname()
         if template_str:
             template = django_template.Template(template_str)
             context = django_template.Context(self.get_context(request, instance, **kwargs))
             context.update(
                 {
                     'config': config,
-                    'request': request
+                    'request': request,
+                    sekizai_varname: getattr(request, sekizai_varname),
                 }
             )
 
