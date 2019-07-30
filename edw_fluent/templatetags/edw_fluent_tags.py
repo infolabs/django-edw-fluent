@@ -216,6 +216,9 @@ class DataMartUrl(Tag):
     )
 
     def render_tag(self, context, datamart_id, varname):
+        # todo: Этот код не работает, необходимо испарвить!
+        #  Для получения нужной модели достаточно - from .data_mart import DataMartModel
+
         model = AppConfig.get_model('DataMart')
         if not datamart_id:
             datamart_id = None
