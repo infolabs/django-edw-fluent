@@ -35,7 +35,9 @@
             <div class="row padding-top-20 padding-bottom-20 datamart-plugin plugin-5">
 
                 <!-- {% if 0 %} --><div class="hidden"><!-- {% endif %} -->
-                {% load edw_tags edw_fluent_tags page_builder %}
+                {% load edw_tags edw_fluent_tags %}
+
+{#                TODO: get_data_mart_url not workin #}
 
                 <!--{% compactjson as data_entry_points %}
                 {
@@ -50,17 +52,6 @@
                     {% endfor %}
                 }
                 {% endcompactjson %}-->
-
-
-                <!--{% for data_mart in data_marts %}
-                    {% get_entities data_mart_pk=data_mart.id as objects %}
-                    {% with objects|pubs_mart_to_articles_ld as ld %}
-                        {% if ld %}-->
-                            {% chr 60 %}script type="application/ld+json"{% chr 62 %}{{ ld|safe }}{% chr 60 %}/script{% chr 62 %}
-                        <!--{% endif %}
-                    {% endwith %}
-                {% endfor %}-->
-
 
                 <div class="container">
                     <div class="padding-top-20 padding-bottom-20">
