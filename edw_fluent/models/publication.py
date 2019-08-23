@@ -206,7 +206,7 @@ class PublicationBase(EntityModel.materialized):
         return [m for m in full if m[0] != mode_to_remove]
 
     @classmethod
-    def get_summary_annotation(cls):
+    def get_summary_annotation(cls, request):
         return {
             'publication__chronological': (
                 Case(
@@ -346,15 +346,16 @@ class PublicationBase(EntityModel.materialized):
     @classmethod
     def get_view_components(cls, **kwargs):
         full = cls.VIEW_COMPONENTS
-        reduced = tuple([c for c in full if c[0] != cls.VIEW_COMPONENT_MAP])
+        if hasattr(cls, 'VIEW_COMPONENT_MAP'):
+            reduced = tuple([c for c in full if c[0] != cls.VIEW_COMPONENT_MAP])
 
-        context = kwargs.get("context", None)
-        if context is None:
-            return reduced
+            context = kwargs.get("context", None)
+            if context is None:
+                return reduced
 
-        term_ids = context.get('real_terms_ids', None)
-        if not term_ids:
-            return reduced
+            term_ids = context.get('real_terms_ids', None)
+            if not term_ids:
+                return reduced
 
         return full
 
