@@ -16,6 +16,8 @@ from fluent_contents.extensions import PluginHtmlField
 from fluent_contents.models import ContentItem
 from fluent_contents.utils.filters import apply_filters
 
+from edw_fluent.utils import remove_unprintable
+
 
 @python_2_unicode_compatible
 class BlockItem(ContentItem):
@@ -45,7 +47,7 @@ class BlockItem(ContentItem):
         # The pre filters are applied here, so any errors also appear as ValidationError.
         super(BlockItem, self).full_clean(*args, **kwargs)
 
-        self.text = Typograph.typograph_html(self.text, 'ru')
+        self.text = Typograph.typograph_html(remove_unprintable(self.text), 'ru')
 
         self.text, self.text_final = apply_filters(self, self.text, field_name='text')
         if self.text_final == self.text:
