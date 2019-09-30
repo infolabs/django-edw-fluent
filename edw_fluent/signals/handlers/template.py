@@ -8,7 +8,6 @@ from django.db.models.signals import (
 )
 
 from edw.signals import make_dispatch_uid
-
 from edw_fluent.models.template.base import BaseTemplate
 from edw_fluent.templatetags.edw_fluent_tags import BaseRenderTemplateTag
 
@@ -31,5 +30,3 @@ for clazz in itertools.chain([Model], Model.get_all_subclasses()):
                        dispatch_uid=make_dispatch_uid(pre_delete, invalidate_entity_before_delete, clazz))
     post_save.connect(invalidate_entity_after_save, clazz,
                       dispatch_uid=make_dispatch_uid(post_save, invalidate_entity_after_save, clazz))
-
-    clazz.validate_term_model()
