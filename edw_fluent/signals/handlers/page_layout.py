@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-
+from django.core.cache import cache
 from django.db.models.signals import (
     pre_delete,
     pre_save
 )
-
 from fluent_pages.models.db import PageLayout
 
+from edw.models.entity import EntityModel
 from edw.signals import make_dispatch_uid
-
 from edw_fluent.models.page_layout import (
     VIEW_LAYOUT_CACHE_KEY,
     get_views_layouts,
@@ -57,4 +56,9 @@ pre_delete.connect(
 #==============================================================================
 # Call PageLayout model validation (hack for non Entity model)
 #==============================================================================
-validate_term_model()
+# Устанавливаем таймаут для валидации
+key = 'vldt:page_layout:cls'
+need_validation = cache.get(key, True)
+if need_validation:
+    cache.set(key, False, EntityModel.VALIDATE_TERM_MODEL_CACHE_TIMEOUT)
+    validate_term_model()
