@@ -58,7 +58,7 @@ pre_delete.connect(
 #==============================================================================
 # Устанавливаем таймаут для валидации
 key = 'vldt:page_layout:cls'
-need_validation = cache.get(key, True)
-if need_validation:
-    cache.set(key, False, EntityModel.VALIDATE_TERM_MODEL_CACHE_TIMEOUT)
+is_valid = cache.get(key, False)
+if not is_valid:
+    cache.set(key, True, EntityModel.VALIDATE_TERM_MODEL_CACHE_TIMEOUT)
     validate_term_model()
