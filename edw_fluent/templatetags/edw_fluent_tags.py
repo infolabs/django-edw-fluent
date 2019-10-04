@@ -216,15 +216,13 @@ class DataMartUrl(Tag):
     )
 
     def render_tag(self, context, datamart_id, varname):
-        # todo: Этот код не работает, необходимо испарвить!
-        #  Для получения нужной модели достаточно - from .data_mart import DataMartModel
-
-        model = AppConfig.get_model('DataMart')
+        # todo: сделать возможность передавать не только id, но и slug
+        from edw.models.data_mart import DataMartModel
         if not datamart_id:
             datamart_id = None
         try:
-            data_mart = model.objects.get(id=datamart_id)
-        except model.DoesNotExist:
+            data_mart = DataMartModel.objects.get(id=datamart_id)
+        except DataMartModel.DoesNotExist:
             detail_page = None
         else:
             detail_page = data_mart.get_cached_detail_page()
