@@ -7,9 +7,11 @@ from django import template as django_template
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
 
-from sekizai.helpers import get_varname as sekizai_get_varname
-from fluent_contents.extensions import ContentPlugin, plugin_pool
 from constance import config
+
+from sekizai.helpers import get_varname as sekizai_get_varname
+
+from fluent_contents.extensions import ContentPlugin, plugin_pool
 
 from edw_fluent.models.page import SimplePage
 from edw_fluent.plugins.template.models import TemplateItem
