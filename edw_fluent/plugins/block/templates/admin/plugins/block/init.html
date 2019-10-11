@@ -24,11 +24,14 @@ div[class*='cke_editor_id_blockitem'] {
             ['Format', 'Styles'],
             ['TextColor', 'BGColor'],
             ['Link', 'Unlink', 'Anchor'],
-            ['Table', 'HorizontalRule', 'Iframe'],
+            //['Table', 'HorizontalRule', 'Iframe'],
         ],
         'skin': 'moono',
         'height': '{{ config.CKEDITOR_HEIGHT }}',
         'width': '100%',
+        'extraPlugins': ','.join([
+            'hottag',
+        ]),
     };
 
     var django_wysiwyg =
