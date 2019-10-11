@@ -5,7 +5,10 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django import template as django_template
 
+from constance import config
+
 from sekizai.helpers import get_varname as sekizai_get_varname
+
 from fluent_contents.extensions import ContentPlugin, plugin_pool
 
 from edw_fluent.plugins.datamart.models import DataMartItem
@@ -48,6 +51,7 @@ class DataMartPlugin(ContentPlugin):
 
         context.update({
             'request': request,
+            'config': config,
             'data_marts': datamarts,
             'data_mart_pk': str(datamarts[0].pk),
             'data_mart_name': datamarts[0].name,

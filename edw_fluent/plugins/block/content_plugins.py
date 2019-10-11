@@ -5,9 +5,11 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
-from sekizai.helpers import get_varname as sekizai_get_varname
-from fluent_contents.extensions import ContentPlugin, plugin_pool
 from constance import config
+
+from sekizai.helpers import get_varname as sekizai_get_varname
+
+from fluent_contents.extensions import ContentPlugin, plugin_pool
 
 from edw.rest.serializers.entity import EntityDetailSerializer
 from edw.views.entity import EntityViewSet
