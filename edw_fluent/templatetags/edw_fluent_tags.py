@@ -8,7 +8,6 @@ from django import template as django_template
 from django.core.cache import cache
 from django.db.models.query import QuerySet
 from django.conf import settings
-from django.apps import AppConfig
 
 from classytags.core import Tag, Options
 from classytags.arguments import MultiKeywordArgument, Argument
@@ -216,20 +215,26 @@ class DataMartUrl(Tag):
     )
 
     def render_tag(self, context, datamart_id, varname):
-        # todo: сделать возможность передавать не только id, но и slug
+        """
+
+        :param context: контекст рендена
+        :param datamart_id: id или slug витрины данных
+        :param varname: переменная для возарата результата
+        :return: возвращает адррес страницы с размещенной на ней заданной витриной данных, если таких
+        несколько - вернется первая попавшаяся
+        """
         from edw.models.data_mart import DataMartModel
-        if not datamart_id:
-            datamart_id = None
-        try:
-            data_mart = DataMartModel.objects.get(id=datamart_id)
-        except DataMartModel.DoesNotExist:
-            detail_page = None
-        else:
-            detail_page = data_mart.get_cached_detail_page()
-        if detail_page:
-            detail_url = detail_page.url
-        else:
-            detail_url = None
+        detail_url = None
+        if datamart_id:
+            id_attr = "id" if isinstance(datamart_id, (int, long)) else "slug"
+            try:
+                data_mart = DataMartModel.objects.get(**{id_attr: datamart_id})
+            except DataMartModel.DoesNotExist:
+                pass
+            else:
+                detail_page = data_mart.get_cached_detail_page()
+                if detail_page:
+                    detail_url = detail_page.url
         if varname:
             context[varname] = detail_url
             return ''
