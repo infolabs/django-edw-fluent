@@ -1,8 +1,17 @@
 1. в шаблоне подключения /alder/alder/plugins/block/templates/alder/plugins/block.html
 и в CKEDITOR_CONFIGS добавлено:
 'extraPlugins': 'hottag',
+'allowedContent': true,
 'extraAllowedContent': '*[*]{*}(*)'
 и кнопка 'Hottag' в панель - ['Link', 'Unlink', 'Anchor', 'Hottag'],
+
+В BlockPlugin добавлено
+from edw_fluent.plugins.hottag.utils import update_hot_tags_on_render
+
+def get_context(self, request, instance, **kwargs):
+        # hottags
+        if update_hot_tags_on_render:
+            instance = update_hot_tags_on_render(instance)
 
 
 2. Installed_apps

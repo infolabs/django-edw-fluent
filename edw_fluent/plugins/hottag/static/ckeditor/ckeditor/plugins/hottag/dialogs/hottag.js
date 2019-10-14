@@ -37,23 +37,18 @@ CKEDITOR.dialog.add( 'hottagDialog', function( editor ) {
 				 {
 					 type: "text", 
 					 label: "Тег",
+					 validate: CKEDITOR.dialog.validate.notEmpty( "Тег не может быть пустым" ),
 					 id: "edw-tag", 
-					 setup: function( element ) { 
-						 var tag = element.getAttribute("data-edw-tag");
-
-						 if(tag == "" || tag == null){
-							 tag = element.getText();
-
-						 }
-
-						 this.setValue(tag); 
+					 setup: function( dialog ) { 
+						 this.setValue(dialog.data_edw_tag_txt); 
 					 },
-					 commit: function(element) {
+					 commit: function(dialog) {
 						 var currentValue = this.getValue();
-						 if(currentValue !== "" && currentValue !== null) { 
-							 element.setAttribute("data-edw-tag", currentValue);
-						 } 
+
+						 dialog.data_edw_tag_txt = currentValue;
+						  
 					 }
+
 			 	},
 				 {
 						type: 'button',
@@ -66,36 +61,32 @@ CKEDITOR.dialog.add( 'hottagDialog', function( editor ) {
 							var tag = edw_tag.getValue();
 							var query_data = ge_search_data(tag);
 
-							if (tag!=""){
-								dialog.element.setAttribute("data-edw-tag", tag);
-							} else {
-								dialog.element.removeAttribute("data-edw-tag");
-							};
+							dialog.data_edw_tag_txt = tag;
 
 							if (query_data.hasOwnProperty('model_id')){
-								dialog.element.setAttribute("data-edw-model-id", query_data['model_id']);
+								dialog.data_edw_model_id = query_data['model_id'];
 							} else {
-								dialog.element.removeAttribute('data-edw-model-id');
+								dialog.data_edw_model_id = "";
 							};
 
 							if (query_data.hasOwnProperty('title')){
-								dialog.element.setAttribute("title", query_data['title']);
+								dialog.data_edw_title = query_data['title'];
 							} else {
-								dialog.element.removeAttribute("title");
+								dialog.data_edw_title = "";
 							};
 
 							if (query_data.hasOwnProperty('url')){
-								dialog.element.setAttribute("href", query_data['url']);
+								dialog.data_edw_href = query_data['url'];
 							}else {
-								dialog.element.removeAttribute("href");
+								dialog.data_edw_href = "";
 							};
 
 							// update preview
 							var eHtml = dialog.getContentElement("HotTag",'edw-link').getElement();
-							var tile = dialog.element.getAttribute("title");
-							var href = dialog.element.getAttribute("href");
-							if (tile && href){
-								 eHtml.setHtml('<h4>Текущая публикация:</h4><a target="_blank" style="color:#447e9b; text-decoration: underline;" href="' + href +'">'+tile+'</a>');
+
+
+							if (dialog.data_edw_title && dialog.data_edw_href){
+								 eHtml.setHtml('<h4>Текущая публикация:</h4><a target="_blank" style="color:#447e9b; text-decoration: underline;" href="' + dialog.data_edw_href +'">'+dialog.data_edw_title+'</a>');
 							}else{
 								eHtml.setHtml("<h4>Нет подходящих публикаций</h4>" );
 							};
@@ -106,18 +97,16 @@ CKEDITOR.dialog.add( 'hottagDialog', function( editor ) {
 					 type: "text",
 					 label: "Заголовок",
 					 id: "edw-text",
-					 validate: CKEDITOR.dialog.validate.notEmpty( "Text cannot be empty." ),
-					 setup: function( element ) {
-						 var text = element.getText();
-						 if(text) {
-							 this.setValue(text);
-						 }
+					 validate: CKEDITOR.dialog.validate.notEmpty( "Заголовок не может быть пустым" ),
+					 setup: function( dialog ) {
+						 this.setValue(dialog.data_edw_selection_txt);
+
 					 },
-					 commit: function(element) { 
-						 var text = this.getValue();
-						 if(text) {
-							 element.setText(text);
-						 }
+					 commit: function(dialog) {
+						 var currentValue = this.getValue();
+
+						 dialog.data_edw_selection_txt = currentValue;
+						  
 					 }
 				 }, 
 				 { 
@@ -131,57 +120,178 @@ CKEDITOR.dialog.add( 'hottagDialog', function( editor ) {
 		 }]
 		, onShow: function() {
 			var selection = editor.getSelection();
-			var selector = selection.getStartElement()
+			var selector = selection.getStartElement();
 			var element;
-
+			var data_edw_id;
+			var data_edw_tag_txt;
+			var data_edw_selection_txt;
+			var data_edw_model_id;
+			var data_edw_title;
+			var data_edw_href;
+			
 			if(selector) {
 				element = selector.getAscendant( 'a', true );
-			} 
-			if ( !element || element.getName() != 'a' ) {
-				element = editor.document.createElement( 'a' ); 
-
-				if(selection) { 
-					element.setText(selection.getSelectedText()); 
+				if (!element){
+					element = selector.getAscendant( 'span', true );
 				}
-				this.insertMode = true; 
-			} else{
-				this.insertMode = false;
+			} 
+
+			this.element = element;
+
+
+			if (element){
+				data_edw_id = element.getAttribute("data_edw_id");
+				data_edw_tag_txt = element.getAttribute("data-edw-tag") || element.getText();
+				data_edw_selection_txt = element.getText();
+				data_edw_model_id = element.getAttribute("data-edw-model-id");
+				data_edw_title = element.getAttribute("title");
+				data_edw_href = element.getAttribute("href");
+			}else{
+				data_edw_id = null;
+				if(selection) { 
+					data_edw_tag_txt = selection.getSelectedText();
+					data_edw_selection_txt = selection.getSelectedText();
+				}else{
+					data_edw_tag_txt = "";
+					data_edw_selection_txt = "";
+				}
 			}
 
-			var c_txt = element.getAttribute("data-edw-tag") || element.getText()
-
-			if ( !element.getAttribute("data-edw-model-id") && c_txt){
-				var query_data = ge_search_data(c_txt);
+			if ( !data_edw_model_id && data_edw_tag_txt){
+				var query_data = ge_search_data(data_edw_tag_txt);
 
 				if (query_data){
 					if (query_data.hasOwnProperty('model_id')){
-						element.setAttribute("data-edw-model-id", query_data['model_id']);
-					};
+						data_edw_model_id = query_data['model_id'];
+					}else{
+						data_edw_model_id = "";
+					}
 					if (query_data.hasOwnProperty('title')){
-						element.setAttribute("title", query_data['title']);
-					};
+						data_edw_title = query_data['title'];
+					}else {
+						data_edw_title = "";
+					}
 					if (query_data.hasOwnProperty('url')){
-						element.setAttribute("href", query_data['url']);
-					};
+						data_edw_href = query_data['url'];
+					}else {
+						data_edw_href = "";
+					}
 				}
 			}
 
-			element.addClass( 'edw-hottag' );
-			this.element = element; 
+
 			eHtml = this.getContentElement("HotTag",'edw-link').getElement();
-          	var tile = element.getAttribute("title");
-			var href = element.getAttribute("href");
 
-			if (tile && href && href!="#"){
-				 eHtml.setHtml('<h4>Текущая публикация:</h4><a target="_blank" style="color:#447e9b; text-decoration: underline;" href="' + href +'">'+tile+'</a>');
-			}
+			if (data_edw_title && data_edw_href){
+				 eHtml.setHtml('<h4>Текущая публикация:</h4><a target="_blank" style="color:#447e9b; text-decoration: underline;" href="' + data_edw_href +'">'+data_edw_title+'</a>');
+			}else{
+				eHtml.setHtml("<h4>Нет подходящих публикаций</h4>" );
+			};
 
-			this.setupContent(this.element); 
+			this.data_edw_tag_txt = data_edw_tag_txt;
+			this.data_edw_model_id = data_edw_model_id;
+			this.data_edw_title = data_edw_title;
+			this.data_edw_href = data_edw_href;
+			this.data_edw_selection_txt = data_edw_selection_txt;
+			this.data_edw_id = data_edw_id;
+
+
+			this.setupContent(this);  //dialog
 		}
 		, onOk: function() { 
 			var dialog = this; 
 			var anchorElement = this.element; 
-			this.commitContent(this.element);
+			this.commitContent(dialog);
+
+			if (this.data_edw_tag_txt && this.data_edw_tag_txt!=""){
+				var query_data = ge_search_data(this.data_edw_tag_txt);
+
+				if (query_data.hasOwnProperty('model_id')){
+					dialog.data_edw_model_id = query_data['model_id'];
+				} else {
+					dialog.data_edw_model_id = "";
+				};
+
+				if (query_data.hasOwnProperty('title')){
+					dialog.data_edw_title = query_data['title'];
+				} else {
+					dialog.data_edw_title = "";
+				};
+
+				if (query_data.hasOwnProperty('url')){
+					dialog.data_edw_href = query_data['url'];
+				}else {
+					dialog.data_edw_href = "";
+				};
+
+			}else{
+
+				this.data_edw_href = "";
+				this.data_edw_title = "";
+				this.data_edw_model_id = "";
+
+			};
+
+			if(anchorElement){
+				this.insertMode = false;
+				if (this.data_edw_href && this.data_edw_href!="") {
+					//<a> tag
+					if(anchorElement.getName() != 'a'){
+						anchorElement.renameNode('a');
+					};
+				}else{
+					// span tag
+					if(anchorElement.getName() != 'span'){
+						anchorElement.renameNode('span');
+					};
+				}
+
+			}else{
+
+				this.insertMode = true;
+				if (this.data_edw_href && this.data_edw_href!="") {
+					anchorElement = editor.document.createElement('a');
+				}else{
+					anchorElement = editor.document.createElement('span');
+				}
+			};
+
+
+			if (this.data_edw_selection_txt){
+				anchorElement.setText(this.data_edw_selection_txt);
+			};
+
+			if (this.data_edw_tag_txt && this.data_edw_tag_txt!=""){
+				anchorElement.setAttribute("data-edw-tag", this.data_edw_tag_txt);
+			} else {
+				anchorElement.removeAttribute("data-edw-tag");
+			};
+
+
+			if (this.data_edw_title && this.data_edw_title!=""){
+				anchorElement.setAttribute("title", this.data_edw_title);
+			} else {
+				anchorElement.removeAttribute("title");
+			};
+
+
+			if (this.data_edw_model_id && this.data_edw_model_id!="" ){
+				anchorElement.setAttribute("data-edw-model-id", this.data_edw_model_id);
+			} else {
+				anchorElement.removeAttribute("data-edw-model-id");
+			};
+
+
+			if (this.data_edw_href && this.data_edw_href!="" ){
+				anchorElement.setAttribute("href", this.data_edw_href);
+			} else {
+				anchorElement.removeAttribute("href");
+			};
+
+
+			anchorElement.addClass('edw-hottag');
+			this.element = anchorElement;
+
 			if(this.insertMode) {
 				editor.insertElement(this.element); 
 			} ;

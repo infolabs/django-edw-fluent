@@ -4,13 +4,16 @@ from haystack.query import SearchQuerySet
 from .models import HotTag
 from .utils import turncat
 
+
+
 def hottag_filter(textitem, html):
     """
     Apply filter to the text.
     """
-
     soup = BeautifulSoup(html, 'html.parser')
-    hot_tags = soup.find_all('a', 'edw-hottag')
+    hot_tags = soup.select('.edw-hottag')
+    founded_hot_tags_ids = []
+
     for tag in hot_tags:
         try:
             e_tag_pk = tag.attrs.get('data-edw-id', None)
@@ -31,6 +34,7 @@ def hottag_filter(textitem, html):
                 tag_obj.target_publication = None
 
             tag_obj.save()
+            founded_hot_tags_ids.append(tag_obj.pk)
 
             tag['data-edw-id'] = tag_obj.pk
             tag['data-edw-tag'] = tag_obj.title
@@ -39,12 +43,18 @@ def hottag_filter(textitem, html):
                 tag['data-edw-model-id'] = tag_obj.target_publication.pk
                 tag['title'] = turncat(tag_obj.target_publication.entity_name)
                 tag['href'] = tag_obj.target_publication.get_detail_url()
+                tag.name = 'a'
             else:
                 if tag.has_key('data-edw-model-id'):
                     del tag['data-edw-model-id']
                 if tag.has_key('title'):
                     del tag['title']
-                tag['href'] = "#"
+                if tag.has_key('href'):
+                    del tag['href']
+                tag.name = 'span'
+
+            # del tags from db if they were deleted in text
+            HotTag.objects.filter(object_id=textitem.pk).exclude(pk__in=founded_hot_tags_ids).delete()
 
         except:
             pass
