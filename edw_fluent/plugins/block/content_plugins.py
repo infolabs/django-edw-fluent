@@ -39,6 +39,7 @@ class BlockPlugin(ContentPlugin):
         verbose_name_plural = _('Block')
 
     def get_context(self, request, instance, **kwargs):
+
         context = super(BlockPlugin, self).get_context(request, instance, **kwargs)
         current_index = getattr(request, '_blockitem_index', 0)
         publication = request.GET.get(EntityViewSet.REQUEST_CACHED_SERIALIZED_DATA_KEY, None)
@@ -59,4 +60,5 @@ class BlockPlugin(ContentPlugin):
             sekizai_varname: getattr(request, sekizai_varname),
         })
         request._blockitem_index = current_index + 1
+
         return context
