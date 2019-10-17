@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+import simplejson as json
 
 from django.http import HttpResponse
-import simplejson as json
-from .utils import turncat, search_tag
+
+from edw_fluent.plugins.hottag.utils import turncat, search_tag
 
 
 def hottagsearch(request):

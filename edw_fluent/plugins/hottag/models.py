@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
 from django.db import models
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
-from future.utils import python_2_unicode_compatible
-from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from .utils import turncat
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.utils.translation import ugettext_lazy as _
+
+from future.utils import python_2_unicode_compatible
+
+from edw_fluent.plugins.hottag.utils import turncat
 
 
 @python_2_unicode_compatible

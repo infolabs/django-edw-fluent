@@ -20,13 +20,12 @@ from edw.models.term import TermModel
 from edw.utils.circular_buffer_in_cache import RingBuffer, empty
 from edw.utils.hash_helpers import hash_unsorted_list, create_hash
 
-
 from edw_fluent.models.template.header import HeaderTemplate
 from edw_fluent.models.template.footer import FooterTemplate
 from edw_fluent.models.page_layout import get_views_layouts, PAGE_LAYOUT_ROOT_TERM_SLUG
-
 from edw_fluent.models.template.content_block import ContentBlockTemplate
 from edw_fluent.models.publication import PublicationBase
+from edw_fluent.utils import get_data_mart_page
 
 register = django_template.Library()
 
@@ -202,11 +201,10 @@ register.tag(RenderPlaceholderField)
 
 
 #==============================================================================
-# Get data mart url
+# Get default datamarts page
 #==============================================================================
-class DataMartUrl(Tag):
-
-    name = 'get_data_mart_url'
+class GetDataMartPage(Tag):
+    name = 'get_data_mart_page'
 
     options = Options(
         Argument('datamart_id', resolve=True),
@@ -215,34 +213,14 @@ class DataMartUrl(Tag):
     )
 
     def render_tag(self, context, datamart_id, varname):
-        """
-
-        :param context: контекст рендена
-        :param datamart_id: id или slug витрины данных
-        :param varname: переменная для возарата результата
-        :return: возвращает адррес страницы с размещенной на ней заданной витриной данных, если таких
-        несколько - вернется первая попавшаяся
-        """
-        from edw.models.data_mart import DataMartModel
-        detail_url = None
-        if datamart_id:
-            id_attr = "id" if isinstance(datamart_id, (int, long)) else "slug"
-            try:
-                data_mart = DataMartModel.objects.get(**{id_attr: datamart_id})
-            except DataMartModel.DoesNotExist:
-                pass
-            else:
-                detail_page = data_mart.get_cached_detail_page()
-                if detail_page:
-                    detail_url = detail_page.url
+        detail_page = get_data_mart_page(datamart_id)
         if varname:
-            context[varname] = detail_url
+            context[varname] = detail_page
             return ''
         else:
-            return detail_url
+            return detail_page
 
-
-register.tag(DataMartUrl)
+register.tag(GetDataMartPage)
 
 
 @register.filter

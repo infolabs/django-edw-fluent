@@ -1,8 +1,10 @@
 #-*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
 from optparse import make_option
-from django.utils.translation import ugettext as _
+
 from django.core.management.base import NoArgsCommand
+from django.utils.translation import ugettext as _
 
 from edw_fluent.plugins.hottag.tasks.update_hot_tags import update_hot_tags
 
