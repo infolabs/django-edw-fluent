@@ -26,7 +26,7 @@ def hottag_filter(textitem, html):
 
         tag_obj.content_object = textitem
         tag_obj.title = tag.attrs['data-edw-tag']
-        # todo: отловить конктерную ошибку, если она может быть получена SearchQuerySet()
+
         sqs = SearchQuerySet().auto_query(tag_obj.title, "text")
         result = sqs.best_match() if sqs else None
 
@@ -45,9 +45,17 @@ def hottag_filter(textitem, html):
         if tag_obj.target_publication:
             tag['data-edw-model-id'] = tag_obj.target_publication.pk
             tag['title'] = turncat(tag_obj.target_publication.entity_name)
-            # todo: отловить конктерную ошибку, если она может быть получена get_detail_url()
-            tag['href'] = tag_obj.target_publication.get_detail_url()
-            tag.name = 'a'
+
+            try:
+                tag['href'] = tag_obj.target_publication.get_detail_url()
+            except:
+                if tag.has_key('href'):
+                    del tag['href']
+
+            if tag.has_key('href'):
+                tag.name = 'a'
+            else:
+                tag.name = 'span'
         else:
             if tag.has_key('data-edw-model-id'):
                 del tag['data-edw-model-id']

@@ -38,21 +38,27 @@ def update_hot_tags_on_render(text_block):
             cache.set("hot_tag_list_%s" % text_block.pk, True, TAGS_CACHE_TIME)
 
     if not isinstance(tags, bool) and hasattr(text_block, 'text'):
+        try:
+            soup = BeautifulSoup(text_block.text, 'html.parser')
+        except:
+            return text_block
 
-        # todo: отловить конктерную ошибку, если она может быть получена BeautifulSoup(...)
-        soup = BeautifulSoup(text_block.text, 'html.parser')
         for tag in tags:
             # update tag
-            # todo: отловить конктерную ошибку, если она может быть получена soup.find(...)
             hot_tag = soup.find(attrs={"data-edw-id": "%s" % tag.pk})
             if hot_tag:
                 if tag.target_publication:
                     hot_tag['data-edw-model-id'] = tag.target_publication.pk
                     hot_tag['title'] = turncat(tag.target_publication.entity_name)
-                    # todo: отловить конктерную ошибку, если она может быть получена get_detail_url()
-                    hot_tag['href'] = tag.target_publication.get_detail_url()
-                    if hot_tag.name != 'a':
+                    try:
+                        hot_tag['href'] = tag.target_publication.get_detail_url()
+                    except:
+                        hot_tag['href'] = ''
+
+                    if hot_tag['href'] == '':
                         hot_tag.name = 'a'
+                    else:
+                        hot_tag.name = 'span'
                 else:
                     if hot_tag.has_key('data-edw-model-id'):
                         del hot_tag['data-edw-model-id']
@@ -63,7 +69,9 @@ def update_hot_tags_on_render(text_block):
                     if hot_tag.name != 'span':
                         hot_tag.name = 'span'
 
-        # todo: отловить конктерную ошибку, если она может быть получена soup.prettify()
-        text_block.text = soup.prettify()
+        try:
+            text_block.text = soup.prettify()
+        except:
+            pass
 
     return text_block

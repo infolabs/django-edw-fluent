@@ -15,23 +15,39 @@ from edw_fluent.plugins.hottag.utils import search_tag
 
 
 @shared_task(name='update_hot_tags')
-def update_hot_tags(delta_days=0):
+def update_hot_tags(delta_days=0, full_update=False):
+    """
+    :param delta_days: количество дней старше старше которых обновлять
+     если 0 обновляюся все
+    :param full_update: Если True то делает полное обновление
+            по умолчанию обновляет только те у которых нет публикаций
+    :return:
+    """
+
     founded_target_count = 0
     empty_target_count = 0
     deleted_tag_count = 0
     updeted_tag_count = 0
+    update_errors_count = 0
+
 
     if delta_days > 0:
         date = timezone.now() - timedelta(days=delta_days)
         tags_qs = HotTag.objects.filter(created_at__lte=date)
+        if not full_update:
+            tags_qs = tags_qs.filter(target_publication__isnull=True)
     else:
-        tags_qs = HotTag.objects.all()
+        if not full_update:
+            tags_qs = HotTag.objects.filter(target_publication__isnull=True)
+        else:
+            tags_qs = HotTag.objects.all()
 
     total_tag_count = tags_qs.count()
 
     for tag_obj in tags_qs:
+        error = False
         # find empty target
-        if not tag_obj.target_publication:
+        if not tag_obj.target_publication or full_update:
             #search
             result = search_tag(tag_obj.title)
             if result:
@@ -45,42 +61,61 @@ def update_hot_tags(delta_days=0):
 
         text_plugin = tag_obj.content_object
 
-        # TODO: in plugin it may by not text field
         if text_plugin and hasattr(text_plugin, 'text'):
-            # todo: отловить конктерную ошибку, если она может быть получена BeautifulSoup(...)
-            soup = BeautifulSoup(text_plugin.text, 'html.parser')
-            hot_tag = soup.find('a', attrs={"data-edw-id": "%s" % tag_obj.pk})
+            try:
+                soup = BeautifulSoup(text_plugin.text, 'html.parser')
+            except:
+                update_errors_count = update_errors_count + 1
+                continue
 
+            hot_tag = soup.find(attrs={"data-edw-id": "%s" % tag_obj.pk})
             if hot_tag:
                 hot_tag['data-edw-id'] = tag_obj.pk
                 hot_tag['data-edw-tag'] = tag_obj.title
                 if tag_obj.target_publication:
                     hot_tag['data-edw-model-id'] = tag_obj.target_publication.pk
                     hot_tag['title'] = turncat(tag_obj.target_publication.entity_name)
-                    # todo: отловить конктерную ошибку, если она может быть получена get_detail_url()
-                    hot_tag['href'] = tag_obj.target_publication.get_detail_url()
+                    try:
+                        hot_tag['href'] = tag_obj.target_publication.get_detail_url()
+                    except:
+                        if hot_tag.has_key('href'):
+                            del hot_tag['href']
                 else:
                     if hot_tag.has_key('data-edw-model-id'):
                         del hot_tag['data-edw-model-id']
                     if hot_tag.has_key('title'):
                         del hot_tag['title']
-                    hot_tag['href'] = "#"
+                    if hot_tag.has_key('href'):
+                        del hot_tag['href']
 
-                # todo: отловить конктерную ошибку, если она может быть получена soup.prettify()
-                text_plugin.text = soup.prettify()
-                # todo: отловить конктерную ошибку, если она может быть получена text_plugin.save()
-                text_plugin.save()
+                if hot_tag.has_key('href'):
+                    hot_tag.name = 'a'
+                else:
+                    hot_tag.name = 'span'
+
+                try:
+                    text_plugin.text = soup.prettify()
+                    text_plugin.save()
+                except:
+                    update_errors_count = update_errors_count + 1
+                    continue
+
                 updeted_tag_count = updeted_tag_count + 1
+
             else:
                 # no parent plugin
-                tag_obj.delete()
-                deleted_tag_count = deleted_tag_count + 1
-
+                try:
+                    tag_obj.delete()
+                    deleted_tag_count = deleted_tag_count + 1
+                except:
+                    update_errors_count = update_errors_count + 1
         else:
             # no parent plugin
-            # todo: отловить конктерную ошибку, если она может быть получена tag_obj.delete()
-            tag_obj.delete()
-            deleted_tag_count = deleted_tag_count + 1
+            try:
+                tag_obj.delete()
+                deleted_tag_count = deleted_tag_count + 1
+            except:
+                update_errors_count = update_errors_count + 1
 
 
     return {
@@ -88,5 +123,6 @@ def update_hot_tags(delta_days=0):
         'founded_target_count': founded_target_count,
         'empty_target_count': empty_target_count,
         'deleted_tag_count': deleted_tag_count,
-        'updeted_tag_count': updeted_tag_count
+        'updeted_tag_count': updeted_tag_count,
+        'update_errors_count': update_errors_count
     }
