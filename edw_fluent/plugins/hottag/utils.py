@@ -19,7 +19,7 @@ def search_tag(search_text):
     return None
 
 
-def turncat(title, w_count=5, c_count=20, end_ch='...'):
+def turncat(title, w_count=5, c_count=50, end_ch='...'):
 
     return Truncator(
         Truncator(strip_tags(title)).words(w_count, truncate=end_ch)

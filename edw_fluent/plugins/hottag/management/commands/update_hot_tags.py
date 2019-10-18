@@ -27,8 +27,9 @@ class Command(NoArgsCommand):
         make_option(
             '--full_update',
             dest='full_update',
-            type=bool,
-            default=False,
+            type='choice',
+            choices = ("false", "true"),
+            default='false',
             help=_('Update not empty publications for best match')
         ),
     )

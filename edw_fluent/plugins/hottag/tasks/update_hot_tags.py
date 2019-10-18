@@ -15,11 +15,11 @@ from edw_fluent.plugins.hottag.utils import search_tag
 
 
 @shared_task(name='update_hot_tags')
-def update_hot_tags(delta_days=0, full_update=False):
+def update_hot_tags(delta_days=0, full_update="false"):
     """
     :param delta_days: количество дней старше старше которых обновлять
      если 0 обновляюся все
-    :param full_update: Если True то делает полное обновление
+    :param full_update: Если "true" то делает полное обновление
             по умолчанию обновляет только те у которых нет публикаций
     :return:
     """
@@ -29,6 +29,9 @@ def update_hot_tags(delta_days=0, full_update=False):
     deleted_tag_count = 0
     updeted_tag_count = 0
     update_errors_count = 0
+
+
+    full_update = False if full_update == "false" else True
 
 
     if delta_days > 0:
