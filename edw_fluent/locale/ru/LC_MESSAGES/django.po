@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-25 11:52+0300\n"
-"PO-Revision-Date: 2019-10-25 11:55+0300\n"
+"POT-Creation-Date: 2019-10-25 12:10+0300\n"
+"PO-Revision-Date: 2019-10-25 12:10+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -338,6 +338,10 @@ msgstr "Форма"
 msgid "Form plugins"
 msgstr "Формы"
 
+#: plugins/hottag/admin.py:22
+msgid "Content block"
+msgstr "Блок контента"
+
 #: plugins/hottag/management/commands/update_hot_tags.py:14
 msgid "Update HotTag "
 msgstr ""
@@ -369,6 +373,10 @@ msgstr "Линк"
 #: plugins/hottag/models.py:28
 msgid "Hot tags"
 msgstr "Контекстная перелинковка"
+
+#: plugins/hottag/models.py:31
+msgid "Tag: {}"
+msgstr "Метка: {}"
 
 #: plugins/template/content_plugins.py:57
 msgid "Template is not defined"
