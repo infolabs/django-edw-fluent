@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-09 18:48+0300\n"
-"PO-Revision-Date: 2019-06-10 12:27+0300\n"
+"POT-Creation-Date: 2019-10-25 11:52+0300\n"
+"PO-Revision-Date: 2019-10-25 11:55+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -37,6 +37,7 @@ msgid "Author"
 msgstr "Автор"
 
 #: admin/forms/image.py:23 models/publication.py:76
+#: plugins/hottag/models.py:17
 #: templates/admin/filer/widgets/admin_file.html:32
 msgid "Title"
 msgstr "Заголовок"
@@ -53,23 +54,23 @@ msgstr "Основное содержимое"
 msgid "EDW fluent"
 msgstr "Управление страницами"
 
-#: models/page.py:134
+#: models/page.py:143
 msgid "Layout"
 msgstr "Макет"
 
-#: models/page.py:138
+#: models/page.py:147
 msgid "SEO title"
 msgstr "SEO-заголовок"
 
-#: models/page.py:146
+#: models/page.py:155
 msgid "Simple page"
 msgstr "Страница"
 
-#: models/page.py:147
+#: models/page.py:156
 msgid "Simple pages"
 msgstr "Страницы"
 
-#: models/page.py:149
+#: models/page.py:158
 msgid "Can change Page layout"
 msgstr "Может изменить макет страницы"
 
@@ -145,7 +146,8 @@ msgstr "На утверждении"
 msgid "Published"
 msgstr "Опубликовано"
 
-#: models/publication.py:125 models/publication.py:370
+#: models/publication.py:125 models/publication.py:371
+#: plugins/hottag/models.py:22
 msgid "Publication"
 msgstr "Публикация"
 
@@ -217,29 +219,29 @@ msgstr "Шаблон шапки"
 msgid "Header Templates"
 msgstr "Шаблоны шапки"
 
-#: plugins/block/content_plugins.py:36 plugins/block/content_plugins.py:37
-#: plugins/block/models.py:34 plugins/template/content_plugins.py:25
-#: plugins/template/content_plugins.py:26
-msgid "Block"
-msgstr "Текст"
-
 #: plugins/block/forms.py:28
 msgid "Related entity for this block"
 msgstr "Связанные с этим блоком объекты"
 
-#: plugins/block/models.py:27
+#: plugins/block/models.py:29
 msgid "text"
 msgstr "Текст"
 
-#: plugins/block/models.py:35
+#: plugins/block/models.py:36 plugins/block/pluginbase.py:43
+#: plugins/block/pluginbase.py:44 plugins/template/content_plugins.py:28
+#: plugins/template/content_plugins.py:29
+msgid "Block"
+msgstr "Текст"
+
+#: plugins/block/models.py:37
 msgid "Blocks"
 msgstr "Блоки"
 
-#: plugins/datamart/content_plugins.py:23
+#: plugins/datamart/content_plugins.py:27
 msgid "Data mart"
 msgstr "Витрина данных"
 
-#: plugins/datamart/content_plugins.py:24 plugins/datamart/forms.py:23
+#: plugins/datamart/content_plugins.py:28 plugins/datamart/forms.py:23
 msgid "Data marts"
 msgstr "Витрины данных"
 
@@ -336,7 +338,39 @@ msgstr "Форма"
 msgid "Form plugins"
 msgstr "Формы"
 
-#: plugins/template/content_plugins.py:51
+#: plugins/hottag/management/commands/update_hot_tags.py:14
+msgid "Update HotTag "
+msgstr ""
+
+#: plugins/hottag/management/commands/update_hot_tags.py:23
+msgid "Count of days left for update"
+msgstr ""
+
+#: plugins/hottag/management/commands/update_hot_tags.py:33
+msgid "Update not empty publications for best match"
+msgstr ""
+
+#: plugins/hottag/models.py:18
+msgid "Content type"
+msgstr "Тип содержимого"
+
+#: plugins/hottag/models.py:19
+msgid "ID"
+msgstr "ID"
+
+#: plugins/hottag/models.py:23
+msgid "Created at"
+msgstr "Дата создания"
+
+#: plugins/hottag/models.py:27
+msgid "Hot tag"
+msgstr "Линк"
+
+#: plugins/hottag/models.py:28
+msgid "Hot tags"
+msgstr "Контекстная перелинковка"
+
+#: plugins/template/content_plugins.py:57
 msgid "Template is not defined"
 msgstr "Шаблон не задан"
 
@@ -369,3 +403,8 @@ msgstr "Выбрать файл"
 #: templates/admin/filer/widgets/admin_file.html:65
 msgid "Properties"
 msgstr "Свойства"
+
+#, fuzzy
+#~| msgid "Title"
+#~ msgid "title"
+#~ msgstr "Заголовок"
