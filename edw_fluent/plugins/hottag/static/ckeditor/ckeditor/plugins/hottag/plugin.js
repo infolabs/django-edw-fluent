@@ -3,7 +3,7 @@ CKEDITOR.plugins.add( 'hottag', {
     init: function( editor ) {
         editor.addCommand( 'hottag', new CKEDITOR.dialogCommand( 'hottagDialog' ) );
         editor.ui.addButton( 'Hottag', {
-            label: 'Insert Timestamp',
+            label: 'Insert Hottag',
             command: 'hottag',
             toolbar: 'insert'
         });

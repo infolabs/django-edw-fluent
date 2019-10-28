@@ -8,7 +8,8 @@ try:
         entity,
         data_mart,
         term,
-        simple_page
+        simple_page,
+        hot_tag
     )
 except (AttributeError, ProgrammingError) as e:
     # initial migrations hack

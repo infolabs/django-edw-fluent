@@ -69,9 +69,10 @@ def update_hot_tags_on_render(text_block):
                     if hot_tag.name != 'span':
                         hot_tag.name = 'span'
 
-        try:
-            text_block.text = soup.prettify()
-        except:
-            pass
+        if tags:
+            try:
+                text_block.text = unicode(soup)
+            except:
+                pass
 
     return text_block

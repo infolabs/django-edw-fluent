@@ -97,7 +97,7 @@ def update_hot_tags(delta_days=0, full_update="false"):
                     hot_tag.name = 'span'
 
                 try:
-                    text_plugin.text = soup.prettify()
+                    text_plugin.text = unicode(soup)
                     text_plugin.save()
                 except:
                     update_errors_count = update_errors_count + 1
