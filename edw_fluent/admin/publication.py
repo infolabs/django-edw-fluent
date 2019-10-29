@@ -72,7 +72,7 @@ class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
             ]
         }
 
-    search_fields = ('title', 'subtitle', 'lead')
+    search_fields = ('title', 'id', 'subtitle', 'lead')
 
     list_display = ['title', 'id', 'created_at', 'pinned', 'active', 'statistic']
 
