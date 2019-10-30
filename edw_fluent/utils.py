@@ -3,10 +3,12 @@ from __future__ import unicode_literals
 
 
 def remove_unprintable(text):
-    # Alphabetical chars
-    ranges = range(32, 1106)
-    # General punctuation
-    ranges += range(8192, 8304)
+    # Alphabetical characters (base latin, extend latin, cyrilic)
+    ranges = range(32, 1280)
+    # General punctuation, Superscript and subscript characters, Currency Symbols
+    ranges += range(8192, 8399)
+    # Letter-like characters, Numeric forms
+    ranges += range(8448, 8591)
     allowed_chars = ''.join(map(unichr, ranges))
     return filter(lambda x: x in allowed_chars, text)
 
