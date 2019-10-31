@@ -18,6 +18,10 @@ from edw_fluent.models.related import EntityImage, EntityFile
 from edw_fluent.plugins.block.models import BlockItem
 from edw_fluent.plugins.block.forms import BlockPluginForm
 
+try:
+    from edw_fluent.plugins.hottag.utils import update_hot_tags_on_render
+except:
+    pass
 
 # ------------------------------------------------------------------------------------------------------
 # BaseBlockPlugin сделано так для того, чтоб можно было наследоваться от этого блока и перекрывать его
@@ -44,6 +48,9 @@ class BaseBlockPlugin(ContentPlugin):
         verbose_name_plural = _('Block')
 
     def get_context(self, request, instance, **kwargs):
+
+        if update_hot_tags_on_render:
+            instance = update_hot_tags_on_render(instance)
 
         context = super(BaseBlockPlugin, self).get_context(request, instance, **kwargs)
         current_index = getattr(request, '_blockitem_index', 0)

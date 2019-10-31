@@ -27,6 +27,7 @@ def turncat(title, w_count=5, c_count=50, end_ch='...'):
 
 
 def update_hot_tags_on_render(text_block):
+
     tags = cache.get("hot_tag_list_%s" % text_block.pk)
     if not tags:
         from edw_fluent.plugins.hottag.models import HotTag
@@ -55,7 +56,7 @@ def update_hot_tags_on_render(text_block):
                     except:
                         hot_tag['href'] = ''
 
-                    if hot_tag['href'] == '':
+                    if hot_tag['href'] != '':
                         hot_tag.name = 'a'
                     else:
                         hot_tag.name = 'span'
