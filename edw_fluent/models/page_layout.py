@@ -24,18 +24,13 @@ _default_layout_system_flags_restriction = (
 )
 
 
-#===================================================================================================================
-# Возвращаем имя синонима для термина представления внешней модели
-#===================================================================================================================
 def get_layout_slug_by_model_name(model_name):
+    """Возвращаем имя синонима для термина представления внешней модели"""
     return '{}-layout'.format(model_name.lower())
 
 
-#===================================================================================================================
-# Создаем или возвращаем корневой термин представлений
-#===================================================================================================================
 def get_or_create_view_layouts_root():
-
+    """Создаем или возвращаем корневой термин представлений"""
     view_root = getattr(PageLayout, '_view_layouts_root_cache', None)
 
     if not view_root:
@@ -56,11 +51,55 @@ def get_or_create_view_layouts_root():
     return view_root
 
 
-#===================================================================================================================
-# Возвращаем список терминов представлений разметок страниц
-#===================================================================================================================
-def get_views_layouts():
+def get_or_create_layout_term(slug, name):
+    """
+    Получить или создать термин представления,
+    проставить автоматически XOR, флаги и родителя.
 
+    :param slug: слаг термина
+    :param name: имя термина
+    :return (term, is_created)
+    """
+    layout_root_term = get_or_create_view_layouts_root()
+    system_flags = (
+        TermModel.system_flags.delete_restriction
+        | TermModel.system_flags.change_parent_restriction
+        | TermModel.system_flags.change_slug_restriction
+    )
+    return TermModel.objects.get_or_create(
+        slug=slug,
+        parent=layout_root_term,
+        defaults={
+            'slug': slug,
+            'name': name,
+            'parent': layout_root_term,
+            'system_flags': system_flags,
+            'semantic_rule': TermModel.XOR_RULE,
+        }
+    )
+
+
+def set_correct_layout_terms(instance):
+    """
+    Снять чужие термины представления, поставить термин этой модели.
+    К примеру, если учреждению проставят термин «Страница», он снимется,
+    а термин «Учреждение» поставится автоматически.
+
+    :param instance: ребёнок Entity, должен иметь LAYOUT_TERM_SLUG
+    """
+    view_layouts = get_views_layouts()
+    terms_to_remove = [
+        term for slug, term in view_layouts.items()
+        if slug != instance.LAYOUT_TERM_SLUG
+    ]
+    instance.terms.remove(*terms_to_remove)
+    terms_to_add = view_layouts.get(instance.LAYOUT_TERM_SLUG, None)
+    if terms_to_add is not None:
+        instance.terms.add(terms_to_add)
+
+
+def get_views_layouts():
+    """Возвращаем список терминов представлений разметок страниц"""
     pages_views = getattr(PageLayout, VIEW_LAYOUT_CACHE_KEY, None)
 
     if pages_views is None:
@@ -80,11 +119,8 @@ def get_views_layouts():
     return pages_views
 
 
-#==============================================================================
-# Валидатор терминов для не Entity модели
-#==============================================================================
 def validate_term_model():
-
+    """Валидатор терминов для не Entity модели"""
     view_root = get_or_create_view_layouts_root()
 
     try:  # page layout root
@@ -113,10 +149,8 @@ def validate_term_model():
             layout.save()
 
 
-#==============================================================================
-# Валидатор терминов представлений для конкретной инстанции
-#==============================================================================
 def validate_terms(instance):
+    """Валидатор терминов представлений для конкретной инстанции"""
     system_flags = _default_layout_system_flags_restriction
 
     pages_views = get_views_layouts()
