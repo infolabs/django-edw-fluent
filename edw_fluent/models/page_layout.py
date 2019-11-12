@@ -88,14 +88,14 @@ def set_correct_layout_terms(instance):
     :param instance: ребёнок Entity, должен иметь LAYOUT_TERM_SLUG
     """
     view_layouts = get_views_layouts()
-    terms_to_remove = [
+    wrong_layout_terms = [
         term for slug, term in view_layouts.items()
         if slug != instance.LAYOUT_TERM_SLUG
     ]
-    instance.terms.remove(*terms_to_remove)
-    terms_to_add = view_layouts.get(instance.LAYOUT_TERM_SLUG, None)
-    if terms_to_add is not None:
-        instance.terms.add(terms_to_add)
+    instance.terms.remove(*wrong_layout_terms)
+    right_layout_term = view_layouts.get(instance.LAYOUT_TERM_SLUG)
+    if right_layout_term:
+        instance.terms.add(right_layout_term)
 
 
 def get_views_layouts():
