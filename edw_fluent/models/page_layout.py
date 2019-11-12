@@ -79,7 +79,7 @@ def get_or_create_layout_term(slug, name):
     )
 
 
-def set_correct_layout_terms(instance):
+def set_correct_layout_term(instance):
     """
     Снять чужие термины представления, поставить термин этой модели.
     К примеру, если учреждению проставят термин «Страница», он снимется,
