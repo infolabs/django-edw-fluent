@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-
-from django.utils.translation import ugettext_lazy as _
-
-from fluent_pages.models.db import PageLayout
-
 from edw.models.term import TermModel
-
+from fluent_pages.models.db import PageLayout
+from django.utils.translation import ugettext_lazy as _
 
 VIEW_LAYOUT_ROOT_TERM_SLUG = 'view-layout'
 PAGE_LAYOUT_ROOT_TERM_SLUG = 'page-layout'
@@ -70,9 +66,7 @@ def get_or_create_layout_term(slug, name):
         slug=slug,
         parent=layout_root_term,
         defaults={
-            'slug': slug,
             'name': name,
-            'parent': layout_root_term,
             'system_flags': system_flags,
             'semantic_rule': TermModel.XOR_RULE,
         }
