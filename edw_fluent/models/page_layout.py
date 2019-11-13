@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from edw.models.term import TermModel
 from fluent_pages.models.db import PageLayout
+
 from django.utils.translation import ugettext_lazy as _
+
+from edw.models.term import TermModel
 
 VIEW_LAYOUT_ROOT_TERM_SLUG = 'view-layout'
 PAGE_LAYOUT_ROOT_TERM_SLUG = 'page-layout'
@@ -45,51 +47,6 @@ def get_or_create_view_layouts_root():
         PageLayout._view_layouts_root_cache = view_root
 
     return view_root
-
-
-def get_or_create_layout_term(slug, name):
-    """
-    Получить или создать термин представления,
-    проставить автоматически XOR, флаги и родителя.
-
-    :param slug: слаг термина
-    :param name: имя термина
-    :return (term, is_created)
-    """
-    layout_root_term = get_or_create_view_layouts_root()
-    system_flags = (
-        TermModel.system_flags.delete_restriction
-        | TermModel.system_flags.change_parent_restriction
-        | TermModel.system_flags.change_slug_restriction
-    )
-    return TermModel.objects.get_or_create(
-        slug=slug,
-        parent=layout_root_term,
-        defaults={
-            'name': name,
-            'system_flags': system_flags,
-            'semantic_rule': TermModel.XOR_RULE,
-        }
-    )
-
-
-def set_correct_layout_term(instance):
-    """
-    Снять чужие термины представления, поставить термин этой модели.
-    К примеру, если учреждению проставят термин «Страница», он снимется,
-    а термин «Учреждение» поставится автоматически.
-
-    :param instance: ребёнок Entity, должен иметь LAYOUT_TERM_SLUG
-    """
-    view_layouts = get_views_layouts()
-    wrong_layout_terms = [
-        term for slug, term in view_layouts.items()
-        if slug != instance.LAYOUT_TERM_SLUG
-    ]
-    instance.terms.remove(*wrong_layout_terms)
-    right_layout_term = view_layouts.get(instance.LAYOUT_TERM_SLUG)
-    if right_layout_term:
-        instance.terms.add(right_layout_term)
 
 
 def get_views_layouts():
