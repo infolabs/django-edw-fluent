@@ -124,7 +124,7 @@ def validate_terms(instance):
             except PageLayout.DoesNotExist:
                 pass
             else:
-                layout = pages_layouts_root.get(origin.key, None)
+                layout = views_layouts.get(origin.key, None)
                 if layout is not None:
                     layout.slug, layout.name = instance.key, instance.title
                     layout.save()
