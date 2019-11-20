@@ -12,9 +12,9 @@ from haystack.query import SearchQuerySet
 
 TAGS_CACHE_TIME = 3600
 
-def search_tag(search_text):
+def search_tag(search_text, publication_id=None):
     if search_text:
-        sqs = SearchQuerySet().auto_query(search_text, "text")
+        sqs = SearchQuerySet().exclude(id=publication_id).auto_query(search_text, "text")
         return sqs.best_match() if sqs else None
     return None
 
