@@ -47,9 +47,11 @@ class BlockItem(ContentItem):
         # The pre filters are applied here, so any errors also appear as ValidationError.
         super(BlockItem, self).full_clean(*args, **kwargs)
 
+        # todo: переделать через фильтры и сделать фильтр типографа последним, remove_unprintable сделать тоже фильтром
         self.text = Typograph.typograph_html(remove_unprintable(self.text), 'ru')
 
         self.text, self.text_final = apply_filters(self, self.text, field_name='text')
+
         if self.text_final == self.text:
             # No need to store duplicate content:
             self.text_final = None
