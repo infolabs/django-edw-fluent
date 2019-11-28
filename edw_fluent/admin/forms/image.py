@@ -10,7 +10,9 @@ from edw_fluent.plugins.block.models import BlockItem
 
 
 class PublicationImageInlineForm(forms.ModelForm):
-
+    """
+    Определяет форму и поля загрузчика изображений в публикациях
+    """
     AVAILABLE_CHOICES = (
         (None, _("Default")),
         (EntityImage.THUMBNAIL_KEY, _("Thumbnail"))
@@ -23,6 +25,9 @@ class PublicationImageInlineForm(forms.ModelForm):
     image_caption = forms.CharField(label=_("Title"), required=False, max_length=255)
 
     def __init__(self, *args, **kwargs):
+        """
+        Конструктор класса
+        """
         super(PublicationImageInlineForm, self).__init__(*args, **kwargs)
         publication = getattr(self, 'publication', None)
         available_choices = list(self.AVAILABLE_CHOICES)
@@ -32,6 +37,9 @@ class PublicationImageInlineForm(forms.ModelForm):
         self.fields['key'].choices = available_choices
 
     def clean(self):
+        """
+        Словарь проверенных и нормализованных данных формы загрузки изображений в публикациях
+        """
         cleaned_data = super(PublicationImageInlineForm, self).clean()
         key = cleaned_data['key']
         if key == '':

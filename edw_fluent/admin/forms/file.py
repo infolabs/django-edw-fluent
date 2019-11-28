@@ -9,7 +9,9 @@ from edw_fluent.plugins.block.models import BlockItem
 
 
 class PublicationFileInlineForm(forms.ModelForm):
-
+    """
+    Определяет форму и поля загрузчика файлов в публикациях
+    """
     AVAILABLE_CHOICES = (
         (None, _("Default")),
     )
@@ -17,6 +19,9 @@ class PublicationFileInlineForm(forms.ModelForm):
     key = forms.ChoiceField(label=_("Info block"), required=False, choices=AVAILABLE_CHOICES)
 
     def __init__(self, *args, **kwargs):
+        """
+        Конструктор класса
+        """
         super(PublicationFileInlineForm, self).__init__(*args, **kwargs)
         publication = getattr(self, 'publication', None)
         available_choices = list(self.AVAILABLE_CHOICES)
@@ -26,6 +31,9 @@ class PublicationFileInlineForm(forms.ModelForm):
         self.fields['key'].choices = available_choices
 
     def clean(self):
+        """
+        Словарь проверенных и нормализованных данных формы загрузки файлов в публикациях
+        """
         cleaned_data = super(PublicationFileInlineForm, self).clean()
         key = cleaned_data['key']
         if key == '':
