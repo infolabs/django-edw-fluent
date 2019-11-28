@@ -28,6 +28,8 @@ class HotTag(models.Model):
         verbose_name_plural = _('Hot tags')
 
     def __str__(self):
-        return _("`{}` → `{}`").format(turncat(self.title), self.target_publication.title)
+        if self.target_publication:
+            return _("`{}` → `{}`").format(turncat(self.title), self.target_publication.title)
+        return _("`{}` → ").format(turncat(self.title))
 
 

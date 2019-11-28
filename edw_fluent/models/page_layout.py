@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from fluent_pages.models.db import PageLayout
 
 from django.utils.translation import ugettext_lazy as _
 
-from fluent_pages.models.db import PageLayout
-
 from edw.models.term import TermModel
-
 
 VIEW_LAYOUT_ROOT_TERM_SLUG = 'view-layout'
 PAGE_LAYOUT_ROOT_TERM_SLUG = 'page-layout'
@@ -25,12 +23,16 @@ _default_layout_system_flags_restriction = (
 
 
 def get_layout_slug_by_model_name(model_name):
-    """Возвращаем имя синонима для термина представления внешней модели"""
+    """
+    Возвращаем имя синонима для термина представления внешней модели
+    """
     return '{}-layout'.format(model_name.lower())
 
 
 def get_or_create_view_layouts_root():
-    """Создаем или возвращаем корневой термин представлений"""
+    """
+    Создаем или возвращаем корневой термин представлений
+    """
     view_root = getattr(PageLayout, '_view_layouts_root_cache', None)
 
     if not view_root:
@@ -51,97 +53,54 @@ def get_or_create_view_layouts_root():
     return view_root
 
 
-def get_or_create_layout_term(slug, name):
-    """
-    Получить или создать термин представления,
-    проставить автоматически XOR, флаги и родителя.
-
-    :param slug: слаг термина
-    :param name: имя термина
-    :return (term, is_created)
-    """
-    layout_root_term = get_or_create_view_layouts_root()
-    system_flags = (
-        TermModel.system_flags.delete_restriction
-        | TermModel.system_flags.change_parent_restriction
-        | TermModel.system_flags.change_slug_restriction
-    )
-    return TermModel.objects.get_or_create(
-        slug=slug,
-        parent=layout_root_term,
-        defaults={
-            'slug': slug,
-            'name': name,
-            'parent': layout_root_term,
-            'system_flags': system_flags,
-            'semantic_rule': TermModel.XOR_RULE,
-        }
-    )
-
-
-def set_correct_layout_terms(instance):
-    """
-    Снять чужие термины представления, поставить термин этой модели.
-    К примеру, если учреждению проставят термин «Страница», он снимется,
-    а термин «Учреждение» поставится автоматически.
-
-    :param instance: ребёнок Entity, должен иметь LAYOUT_TERM_SLUG
-    """
-    view_layouts = get_views_layouts()
-    terms_to_remove = [
-        term for slug, term in view_layouts.items()
-        if slug != instance.LAYOUT_TERM_SLUG
-    ]
-    instance.terms.remove(*terms_to_remove)
-    terms_to_add = view_layouts.get(instance.LAYOUT_TERM_SLUG, None)
-    if terms_to_add is not None:
-        instance.terms.add(terms_to_add)
-
-
 def get_views_layouts():
-    """Возвращаем список терминов представлений разметок страниц"""
-    pages_views = getattr(PageLayout, VIEW_LAYOUT_CACHE_KEY, None)
+    """
+    Возвращаем список терминов представлений разметок страниц и объектов
+    """
+    views_layouts = getattr(PageLayout, VIEW_LAYOUT_CACHE_KEY, None)
 
-    if pages_views is None:
-        pages_views = {}
+    if views_layouts is None:
+        views_layouts = {}
         try:
             root = TermModel.objects.get(
                 slug=VIEW_LAYOUT_ROOT_TERM_SLUG,
                 parent=None
             )
             for term in root.get_descendants(include_self=True):
-                pages_views[term.slug] = term
+                views_layouts[term.slug] = term
         except TermModel.DoesNotExist:
             pass
 
-        setattr(PageLayout, VIEW_LAYOUT_CACHE_KEY, pages_views)
+        setattr(PageLayout, VIEW_LAYOUT_CACHE_KEY, views_layouts)
 
-    return pages_views
+    return views_layouts
 
 
 def validate_term_model():
-    """Валидатор терминов для не Entity модели"""
-    view_root = get_or_create_view_layouts_root()
+    """
+    Валидатор терминов для не Entity модели
+    """
+    views_layouts_root = get_or_create_view_layouts_root()
 
     try:  # page layout root
-        layout_root = TermModel.objects.get(slug=PAGE_LAYOUT_ROOT_TERM_SLUG, parent=view_root)
+        pages_layouts_root = TermModel.objects.get(slug=PAGE_LAYOUT_ROOT_TERM_SLUG, parent=views_layouts_root)
     except TermModel.DoesNotExist:
-        layout_root = TermModel(
+        pages_layouts_root = TermModel(
             slug=PAGE_LAYOUT_ROOT_TERM_SLUG,
-            parent=view_root,
+            parent=views_layouts_root,
             name=_('Page layout'),
             semantic_rule=TermModel.XOR_RULE,
             system_flags=_default_layout_system_flags_restriction
         )
-        layout_root.save()
+        pages_layouts_root.save()
 
     for page_layout in PageLayout.objects.all():
         try:  # page layout
-            TermModel.objects.get(slug=page_layout.key, parent=layout_root)
+            TermModel.objects.get(slug=page_layout.key, parent=pages_layouts_root)
         except TermModel.DoesNotExist:
             layout = TermModel(
                 slug=page_layout.key,
-                parent=layout_root,
+                parent=pages_layouts_root,
                 name=page_layout.title,
                 semantic_rule=TermModel.OR_RULE,
                 system_flags=_default_layout_system_flags_restriction
@@ -150,27 +109,29 @@ def validate_term_model():
 
 
 def validate_terms(instance):
-    """Валидатор терминов представлений для конкретной инстанции"""
+    """
+    Валидатор терминов представлений для конкретной инстанции
+    """
     system_flags = _default_layout_system_flags_restriction
 
-    pages_views = get_views_layouts()
+    views_layouts = get_views_layouts()
 
-    layout_root = pages_views.get(PAGE_LAYOUT_ROOT_TERM_SLUG, None)
-    if layout_root is not None:
+    pages_layouts_root = views_layouts.get(PAGE_LAYOUT_ROOT_TERM_SLUG, None)
+    if pages_layouts_root is not None:
         if instance.id is not None:
             try:
                 origin = PageLayout.objects.get(pk=instance.id)
             except PageLayout.DoesNotExist:
                 pass
             else:
-                layout = pages_views.get(origin.key, None)
+                layout = views_layouts.get(origin.key, None)
                 if layout is not None:
                     layout.slug, layout.name = instance.key, instance.title
                     layout.save()
         else:
             layout = TermModel(
                 slug=instance.key,
-                parent=layout_root,
+                parent=pages_layouts_root,
                 name=instance.title,
                 semantic_rule=TermModel.OR_RULE,
                 system_flags=system_flags

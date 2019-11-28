@@ -3,8 +3,7 @@ from __future__ import unicode_literals
 
 from bs4 import BeautifulSoup
 
-from haystack.query import SearchQuerySet
-
+from .utils import search_tag
 from edw_fluent.plugins.hottag.models import HotTag
 from edw_fluent.plugins.hottag.utils import turncat
 
@@ -18,6 +17,7 @@ def hottag_filter(textitem, html):
     founded_hot_tags_ids = []
 
     if textitem.pk:
+
         for tag in hot_tags:
             e_tag_pk = tag.attrs.get('data-edw-id', None)
             try:
@@ -26,23 +26,24 @@ def hottag_filter(textitem, html):
                 tag_obj = HotTag()
 
             tag_obj.content_object = textitem
-            tag_obj.title = tag.attrs['data-edw-tag']
+            tag_obj.title = tag.attrs.get('data-edw-tag', '')
 
             # check if already founded
-            target_model_id = tag.attrs['data-edw-model-id']
+            target_model_id = tag.attrs.get('data-edw-model-id', None)
             if target_model_id:
                 try:
                     PublicationModel = HotTag._meta.get_field('target_publication').rel.to
                     target_publication = PublicationModel.objects.get(pk=target_model_id)
                 except:
                     target_publication = None
-
+            else:
+                target_publication = None
 
             if target_publication:
                 tag_obj.target_publication = target_publication
             else:
-                sqs = SearchQuerySet().auto_query(tag_obj.title, "text")
-                result = sqs.best_match() if sqs else None
+                pid = textitem.parent_id if textitem.parent_id else None
+                result = search_tag(tag_obj.title, pid)
 
                 if result and result.object:
                    tag_obj.target_publication = result.object

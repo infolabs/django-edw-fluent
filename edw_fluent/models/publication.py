@@ -35,6 +35,7 @@ _publication_root_terms_system_flags_restriction = (
 
 
 def naive_date_to_utc_date(naive_date):
+    # todo: отрефакторить см. edw.utils.dateutils.datetime_to_local
     return naive_date \
         .replace(tzinfo=timezone.utc) \
         .astimezone(tz=timezone.get_current_timezone()) \

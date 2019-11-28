@@ -1,12 +1,13 @@
 ﻿
-function ge_search_data(str) {
+function ge_search_data(str, publication_id) {
+
 	var search_url = '/hottagplugin/hottagsearch/';
 	var res = $.ajax({
 		url: search_url,
 		async: false,
         cache: false,
         timeout: 10000,
-		data: {'q': str}
+		data: {'q': str, 'pid': publication_id}
 	}).done(function (resp) {
 
 		return resp;
@@ -59,7 +60,7 @@ CKEDITOR.dialog.add( 'hottagDialog', function( editor ) {
 							var dialog = this.getDialog();
 							var edw_tag = dialog.getContentElement("HotTag",'edw-tag');//.getElement();
 							var tag = edw_tag.getValue();
-							var query_data = ge_search_data(tag);
+							var query_data = ge_search_data(tag, dialog.publication_id);
 
 							dialog.data_edw_tag_txt = tag;
 
@@ -128,7 +129,14 @@ CKEDITOR.dialog.add( 'hottagDialog', function( editor ) {
 			var data_edw_model_id;
 			var data_edw_title;
 			var data_edw_href;
-			
+			var href = document.location.href;
+			var re_id = href.match(/\/(\d+)\//);
+			var publication_id =  re_id ? re_id[1] : null;
+
+			this.publication_id = publication_id;
+
+
+
 			if(selector) {
 				element = selector.getAscendant( 'a', true );
 				if (!element){
@@ -158,7 +166,7 @@ CKEDITOR.dialog.add( 'hottagDialog', function( editor ) {
 			}
 
 			if ( !data_edw_model_id && data_edw_tag_txt){
-				var query_data = ge_search_data(data_edw_tag_txt);
+				var query_data = ge_search_data(data_edw_tag_txt, this.publication_id);
 
 				if (query_data){
 					if (query_data.hasOwnProperty('model_id')){
@@ -196,6 +204,7 @@ CKEDITOR.dialog.add( 'hottagDialog', function( editor ) {
 			this.data_edw_id = data_edw_id;
 
 
+
 			this.setupContent(this);  //dialog
 		}
 		, onOk: function() { 
@@ -204,7 +213,7 @@ CKEDITOR.dialog.add( 'hottagDialog', function( editor ) {
 			this.commitContent(dialog);
 
 			if (this.data_edw_tag_txt && this.data_edw_tag_txt!=""){
-				var query_data = ge_search_data(this.data_edw_tag_txt);
+				var query_data = ge_search_data(this.data_edw_tag_txt, this.publication_id);
 
 				if (query_data.hasOwnProperty('model_id')){
 					dialog.data_edw_model_id = query_data['model_id'];

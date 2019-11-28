@@ -11,7 +11,9 @@ from edw_fluent.plugins.hottag.utils import turncat, search_tag
 def hottagsearch(request):
 
     search_text = request.GET.get('q', '')
-    result = search_tag(search_text)
+    publication_id = request.GET.get('pid', None)
+    result = search_tag(search_text, publication_id)
+
 
     if result and result.object:
         # TODO: result may be not Entity instance
