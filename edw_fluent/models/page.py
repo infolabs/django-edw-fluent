@@ -33,11 +33,17 @@ SIMPLE_PAGE_BUFFER_CACHE_SIZE = getattr(settings, 'SIMPLE_PAGE_BUFFER_CACHE_SIZE
 
 
 def get_simple_page_buffer():
+    """
+    RUS: Собирает кольцевой буфер SimplePage с ключом кэша и указанием максимального размера.
+    """
     return RingBuffer.factory(SIMPLE_PAGE_BUFFER_CACHE_KEY,
                               max_size=SIMPLE_PAGE_BUFFER_CACHE_SIZE)
 
 
 def clear_simple_page_buffer():
+    """
+    RUS: Очищает буфер, удаляя по указанным ключам.
+    """
     buf = get_simple_page_buffer()
     keys = buf.get_all()
     buf.clear()
@@ -46,6 +52,10 @@ def clear_simple_page_buffer():
 
 # Monkey path: save cache_key for invalidation
 def learn_cache_key(request, response, timeout, key_prefix, cache):
+    """
+    RUS: Сохраняет ключ кэша для инвалидации, удаляет старый кэш по ключу,
+    если он не является акутуальным.
+    """
     cache_key = origin_learn_cache_key(request, response, timeout, key_prefix, cache)
 
     # reduce cache
@@ -58,20 +68,30 @@ def learn_cache_key(request, response, timeout, key_prefix, cache):
 
 
 class SimplePageCacheMiddleware(CacheMiddleware):
-
+    """
+    RUS: Узнает, какие заголовки следует учитывать для пути запроса от объекта ответа.
+    Сохраняет ключ кэша (не кэширует заново), если он тождественен оригинальному в следующих случаях:
+    """
     # path `learn_cache_key`, method code equal with origin
     def process_response(self, request, response):
+        """
+        RUS: Возвращает ответ сервера, если пользователь идентифицирован.
+        """
         if request.user.is_authenticated():
             return response
 
         """Sets the cache, if needed."""
         if not self._should_update_cache(request, response):
-            # We don't need to update the cache, just return.
             return response
+        # RUS: Возвращает ответ сервера, если не было обновления кэша.
 
         if response.streaming or response.status_code != 200:
             return response
+        # RUS: Возвращает ответ сервера, если, у атрибута HttpResponse.streaming статус False
+        # или код ответа не равен 200.
 
+        # Не кэширует ответы сервера, которые устанавливают специфичные для пользователя (и, возможно,
+        # чувствительные к безопасности ) cookie в ответ на запрос без cookie
         # Don't cache responses that set a user-specific (and maybe security
         # sensitive) cookie in response to a cookie-less request.
         if not request.COOKIES and response.cookies and has_vary_header(response, 'Cookie'):
@@ -86,6 +106,11 @@ class SimplePageCacheMiddleware(CacheMiddleware):
         elif timeout == 0:
             # max-age was set to 0, don't bother caching.
             return response
+        # Возвращает максимальный возраст из заголовка Cache-Control ответа в виде целого числа (
+        # Пытается получить время хранения кэша из заголовка Cache-Control.
+        # При его отсутствии, время хранения кэша равно значению по умолчанию,
+        # если же установлено равным 0, возвращается некэшированный ответ сервера
+
         patch_response_headers(response, timeout)
         if timeout:
             cache_key = learn_cache_key(request, response, timeout, self.key_prefix, cache=self.cache)
@@ -96,9 +121,13 @@ class SimplePageCacheMiddleware(CacheMiddleware):
             else:
                 self.cache.set(cache_key, response, timeout)
         return response
+        # RUS: Добавляет заголовки (ответ сервера, время хранения кэша) к объекту HttpResponse при кэшиировании.
+        # Если время хранения кэша истекло, добавляется обратный вызов, который будет вызван после рендеринга,
+        # иначе в кэш будут добавлены (ключ кэша, ответ сервера, время хранения кэша).
 
     def process_request(self, request):
         # Don't cache responses that set a user-specific
+        # RUS: Не кэширует ответ сервера от пользователей, прошедших идентификацию.
         if request.user.is_authenticated():
             return None
         else:
@@ -118,6 +147,8 @@ def cache_simple_page(*args, **kwargs):
     Additionally, all headers from the response's Vary header will be taken
     into account on caching -- just like the middleware does.
     """
+    # RUS: Декоратор для представлений, который пытается получить страницу из кэша
+    # и  заполняет кэш, если страницы еще нет в кэше.
     # We also add some asserts to give better error messages in case people are
     # using other ways to call cache_page that no longer work.
     if len(args) != 1 or callable(args[0]):
@@ -137,7 +168,10 @@ def cache_simple_page(*args, **kwargs):
 # Создаем новый тип страницы SimplePage для FluentPages
 #===================================================================================================================
 class SimplePage(FluentContentsPage):
-
+    """
+    RUS: Класс для создания страниц.
+    Опеределяет поля (Макет, SEO-заголовок) и их характеристики.
+    """
     layout = models.ForeignKey(
         PageLayout,
         verbose_name=_('Layout'),
@@ -151,6 +185,9 @@ class SimplePage(FluentContentsPage):
     )
 
     class Meta:
+        """
+        RUS: Метаданные класса.
+        """
         app_label = settings.EDW_APP_LABEL
         verbose_name = _("Simple page")
         verbose_name_plural = _("Simple pages")
@@ -164,20 +201,33 @@ class SimplePage(FluentContentsPage):
 #===================================================================================================================
 @page_type_pool.register
 class SimplePagePlugin(PageTypePlugin):
+    """
+    RUS: Плагин для страницы.
+    """
     model = SimplePage
     model_admin = FluentPageAdmin
     sort_priority = 10
 
     def get_render_template(self, request, simplepage, **kwargs):
+        """
+        RUS: Возвращает шаблон для рендеринга для конкретной страницы или запроса,
+        по умолчанию используется путь template_path из макета объекта.
+        """
         # Allow subclasses to easily override it by specifying `render_template` after all.
         # The default, is to use the template_path from the layout object.
         return self.render_template or simplepage.layout.template_path
 
     @method_decorator(cache_simple_page(getattr(settings, 'SIMPLE_PAGE_CACHE_TIMEOUT', 60*10)))
     def get_response(self, request, page, **kwargs):
+        """
+        RUS: Генерирует вывод страницы.
+        """
         return super(SimplePagePlugin, self).get_response(request, page, **kwargs)
 
     def get_context(self, request, page, **kwargs):
+        """
+        RUS: Возвращает контекст для использования в шаблоне.
+        """
         context = super(SimplePagePlugin, self).get_context(request, page, **kwargs)
         placeholder = page.placeholder_set.filter(slot='main')[0]
         if placeholder:

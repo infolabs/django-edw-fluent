@@ -842,4 +842,7 @@ DEFAULT_ELEMENTS = {
 ELEMENTS = getattr(settings, 'PAGE_BUILDER_PLUGIN_ELEMENTS', DEFAULT_ELEMENTS)
 
 def get_page_builder_elements_by_model(key):
+    """
+    RUS: Возвращает элементы page_builder, если у них есть ключ, состоящий из url, высоты блока и папки с изображением.
+    """
     return ELEMENTS[key] if key in ELEMENTS else {}

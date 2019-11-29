@@ -17,7 +17,7 @@ class BaseTemplateForm(OriginalEntityAdminForm):
     """
     class Meta:
         """
-        Метаданные класса
+        RUS: Метаданные класса.
         """
         fields = '__all__'
         widgets = {
@@ -27,7 +27,7 @@ class BaseTemplateForm(OriginalEntityAdminForm):
 
 class TemplateForm(BaseTemplateForm):
     """
-    Класс формы базового шаблона
+    RUS: Класс формы шаблона.
     """
     messages = {
         'has_view_layout_error': _("The view layout of the publication isn't defined"),
@@ -35,9 +35,9 @@ class TemplateForm(BaseTemplateForm):
 
     def clean(self):
         """
-        Словарь проверенных и нормализованных данных формы шаблона
+        RUS: Словарь проверенных и нормализованных данных формы шаблона.
         Вызывает ошибку валидации формы, если нет
-        списка терминов представлений разметок страниц и терминов в очищенных датах
+        списка терминов представлений разметок страниц и терминов в очищенных данных.
         """
         cleaned_data = super(TemplateForm, self).clean()
 
