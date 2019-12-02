@@ -14,16 +14,24 @@ from edw.models.related.entity_file import BaseEntityFile
 # =========================================================================================================
 @python_2_unicode_compatible
 class EntityImage(BaseEntityImage):
-
+    """
+    RUS: Материализованная связь многие-ко-многим с изображениями.
+    """
     THUMBNAIL_KEY = 0
 
     key = models.IntegerField(verbose_name=_('Key'), blank=True, null=True, db_index=True)
 
     """Materialize many-to-many relation with images"""
     class Meta(BaseEntityImage.Meta):
+        """
+        RUS: Метаданные класса.
+        """
         abstract = False
 
     def __str__(self):
+        """
+        RUS: Строковое представление данных.
+        """
         return "{}".format(self.image)
 
 
@@ -32,11 +40,21 @@ class EntityImage(BaseEntityImage):
 # =========================================================================================================
 @python_2_unicode_compatible
 class EntityFile(BaseEntityFile):
+    """
+    ENG: Materialize many-to-many relation with files.
+    RUS: Материализованная связь многие-ко многим с документами.
+    """
     key = models.IntegerField(verbose_name=_('Key'), blank=True, null=True, db_index=True)
 
     """Materialize"""
     class Meta(BaseEntityFile.Meta):
+        """
+        RUS: Метаданные класса.
+        """
         abstract = False
 
     def __str__(self):
+        """
+        RUS: Строковое представление данных.
+        """
         return "{}".format(self.file)

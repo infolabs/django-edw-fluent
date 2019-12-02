@@ -36,6 +36,8 @@ _publication_root_terms_system_flags_restriction = (
 
 def naive_date_to_utc_date(naive_date):
     # todo: отрефакторить см. edw.utils.dateutils.datetime_to_local
+    # RUS: Преобразовывает наивное время во время UTC.
+    # Конвертирует дату и время в другой часовой пояс.
     return naive_date \
         .replace(tzinfo=timezone.utc) \
         .astimezone(tz=timezone.get_current_timezone()) \
@@ -46,7 +48,10 @@ def naive_date_to_utc_date(naive_date):
 # PublicationBase model
 # =========================================================================================================
 class PublicationBase(EntityModel.materialized):
-
+    """
+    RUS: Базовая модель публикаций.
+    Определяет поля и их значения, компоненты представления, способы сортировки.
+    """
     ORDER_BY_NAME_ASC = 'publication__title'
     ORDER_BY_DATE = '-publication__created_at'
     ORDER_BY_CHRONOLOGICAL = "-publication__chronological"
@@ -122,11 +127,17 @@ class PublicationBase(EntityModel.materialized):
     }
 
     class Meta:
+        """
+        RUS: Метаданные класса.
+        """
         abstract = True
         verbose_name = _("Publication")
         verbose_name_plural = _("Publications")
 
     class RESTMeta:
+        """
+        RUS: Метакласс для определения параметров сериалайзера.
+        """
         include = {
             'detail_url': ('rest_framework.serializers.CharField', {
                 'source': 'get_detail_url',
@@ -176,14 +187,23 @@ class PublicationBase(EntityModel.materialized):
         exclude = ['images', 'files', 'stored_request']
 
     def __str__(self):
+        """
+        RUS: Переопределяет заголовок в строковом формате.
+        """
         return self.title
 
     @property
     def entity_name(self):
+        """
+        RUS: Возвращает переопределенный заголовок.
+        """
         return self.title
 
     @classmethod
     def get_ordering_modes(cls, **kwargs):
+        """
+        RUS: Возвращает отсортированные модели, являющиеся методами класса.
+        """
         full = cls.ORDERING_MODES
 
         context = kwargs.get("context", None)
@@ -208,6 +228,9 @@ class PublicationBase(EntityModel.materialized):
 
     @classmethod
     def get_summary_annotation(cls, request):
+        """
+        RUS: Возвращает аннотированные данные для сводного сериалайзера.
+        """
         return {
             'publication__chronological': (
                 Case(
@@ -222,12 +245,22 @@ class PublicationBase(EntityModel.materialized):
         }
 
     def get_created_at(self):
+        """
+        RUS: Возвращает дату создания публикации, преобразованную во время UTC.
+        """
         return naive_date_to_utc_date(self.created_at)
 
     def get_updated_at(self):
+        """
+        RUS: Возвращает дату обновления публикации, преобразованную во время UTC.
+        """
         return naive_date_to_utc_date(self.updated_at)
 
     def clean(self, *args, **kwargs):
+        """
+        RUS: Меняет шрифт текста в заголовке, подзаголовке, ЛИДе на шрифт Typograph.
+        Ограничивает количество символов в заголовке до 90 знаков.
+        """
         self.title = Typograph.typograph_text(self.title, 'ru')
         self.subtitle = Typograph.typograph_text(self.subtitle, 'ru')
         self.lead = Typograph.typograph_text(self.lead, 'ru')
@@ -237,14 +270,23 @@ class PublicationBase(EntityModel.materialized):
             raise ValidationError(_('The maximum number of characters 90, you have {}').format(len_title))
 
     def get_placeholder(self):
+        """
+        RUS: Возвращает id контента.
+        """
         return self.content.id
 
     @cached_property
     def ordered_images(self):
+        """
+        RUS: Возвращает список всех отсортированных изображений.
+        """
         return list(self.get_ordered_images())
 
     @cached_property
     def breadcrumbs(self):
+        """
+        RUS: Возвращает хлебные крошки, если есть витрина данных и страница к ней.
+        """
         data_mart = self.data_mart
 
         if data_mart:
@@ -255,38 +297,69 @@ class PublicationBase(EntityModel.materialized):
         return None
 
     def get_ordered_images(self):
+        """
+        RUS: Возвращает все отсортированные изображения.
+        """
         return self.images.all().order_by('entityimage__order')
 
     @cached_property
     def blocks_count(self):
+        """
+        RUS: Получает количество текстовых блоков публикации.
+        """
         return self.get_blocks_count()
 
     def get_blocks_count(self):
+        """
+        RUS: В соответствии с количеством и номером текстового блока формирует страницу.
+        """
         return BlockItem.objects.filter(placeholder=self.content).count()
 
     @cached_property
     def gallery(self):
+        """
+        RUS: Получает список галерей.
+        """
         return list(self.get_gallery())
 
     def get_gallery(self):
+        """
+        RUS: Создает галерею из изображений, связанных с данной публикацией и ее блокамии и отсортированных по порядку.
+        """
         return EntityImage.objects.filter(entity=self, key=None).select_related('image').order_by('order')
 
     @cached_property
     def thumbnail(self):
+        """
+        RUS: Возвращает список миниатюр.
+        """
         return list(self.get_thumbnail())
 
     def get_thumbnail(self):
+        """
+        RUS: Получает миниатюру по ключу, отсортированные по порядку.
+        """
         return EntityImage.objects.filter(entity=self, key=EntityImage.THUMBNAIL_KEY).order_by('order')
 
     @cached_property
     def attachments(self):
+        """
+        RUS: Возвращает список вложений.
+        """
         return list(self.get_attachments())
 
     def get_attachments(self):
+        """
+        RUS: Получает миниатюры по ключу, отсортированные по порядку.
+        """
         return EntityFile.objects.filter(entity=self, key=None).order_by('order')
 
     @cached_property
     def thumbnails(self):
+        """
+        RUS: Получает миниатюру по ключу, отсортированные по порядку.
+        Если миниатюра невыбрана, берется первая картинка по умолчанию, которая становится миниатюрой.
+        """
         thumbnails = [x.image for x in
                       EntityImage.objects.filter(entity=self, key=EntityImage.THUMBNAIL_KEY).order_by('order')]
         if thumbnails:
@@ -299,6 +372,10 @@ class PublicationBase(EntityModel.materialized):
                 return self.ordered_images[:1]
 
     def get_short_subtitle(self):
+        """
+        RUS: Подзаголовок берется из заполненного соответствующего поля, при его отсутствии берется из ЛИД.
+        При превышении длины подзаголовок обрезается до нужного количества символов.
+        """
         value = self.subtitle if self.subtitle else self.lead
         return Truncator(
             Truncator(value).words(self.SHORT_SUBTITLE_MAX_WORDS_COUNT,
@@ -307,9 +384,16 @@ class PublicationBase(EntityModel.materialized):
 
     @cached_property
     def short_subtitle(self):
+        """
+        RUS: Возвращает подзаголовок соответствующего размера.
+        """
         return self.get_short_subtitle()
 
     def get_summary_extra(self, context):
+        """
+        ENG: Return extra data for summary serializer.
+        RUS: Возвращает дополнительные данные для сводного сериалайзера.
+        """
         data_mart = context['data_mart']
         extra = {
             'url': self.get_detail_url(data_mart),
@@ -321,6 +405,10 @@ class PublicationBase(EntityModel.materialized):
         return extra
 
     def get_detail_url(self, data_mart=None):
+        """
+        RUS: Возвращает конечный url публикации.
+        Получает адрес страницы публикации.
+        """
         if data_mart is None:
             data_mart = self.data_mart
         if data_mart:
@@ -331,6 +419,9 @@ class PublicationBase(EntityModel.materialized):
 
     @cached_property
     def text_blocks(self):
+        """
+        RUS: Возвращает список текстовых блоков.
+        """
         return list(self.content.contentitems.instance_of(BlockItem))
 
     @classmethod
@@ -346,6 +437,9 @@ class PublicationBase(EntityModel.materialized):
 
     @classmethod
     def get_view_components(cls, **kwargs):
+        """
+        RUS: Возвращает view components (компоненты представлений): плиточное представление, список.
+        """
         full = cls.VIEW_COMPONENTS
         if hasattr(cls, 'VIEW_COMPONENT_MAP'):
             reduced = tuple([c for c in full if c[0] != cls.VIEW_COMPONENT_MAP])
@@ -362,6 +456,10 @@ class PublicationBase(EntityModel.materialized):
 
     @classmethod
     def validate_term_model(cls):
+        """
+        RUS: Валидация модели терминов.
+        Добавляет термины класса объекта в дерево согласно структуре наследования.
+        """
         view_root = get_or_create_view_layouts_root()
         try:  # publication root
             TermModel.objects.get(slug=cls.LAYOUT_TERM_SLUG, parent=view_root)
@@ -378,11 +476,20 @@ class PublicationBase(EntityModel.materialized):
         super(PublicationBase, cls).validate_term_model()
 
     def need_terms_validation_after_save(self, origin, **kwargs):
+        """
+        RUS: Проставляет автоматически термины, связанные с макетом представления публикации,
+        после ее сохранения.
+        """
         do_validate_layout = kwargs["context"]["validate_view_layout"] = True
         return super(PublicationBase, self).need_terms_validation_after_save(
             origin, **kwargs) or do_validate_layout
 
     def validate_terms(self, origin, **kwargs):
+        """
+        RUS: При выборе макета представления и его сохранения, проставляются соответствующие термины и выбирается
+        автоматически соответствующий шаблон.
+        При изменении макета, термины удаляются и заменяются новыми, соответствующими новому макету.
+        """
         context = kwargs["context"]
 
         force_validate_terms = context.get("force_validate_terms", False)
