@@ -13,7 +13,10 @@ from edw_fluent.models.page_builder import get_page_builder_elements_by_model
 # HeaderTemplate
 # =========================================================================================================
 class HeaderTemplate(BaseTemplate):
-
+    """
+    RUS: Класс Шаблон Header.
+    Определяет поля и их значения.
+    """
     template = BuilderTemplateField(
         verbose_name=_('Template'),
         max_length=255,
@@ -23,5 +26,8 @@ class HeaderTemplate(BaseTemplate):
     )
 
     class Meta:
+        """
+        RUS: Метаданные класса HeaderTemplate.
+        """
         verbose_name = _("Header Template")
         verbose_name_plural = _("Header Templates")
