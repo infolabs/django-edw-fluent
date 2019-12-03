@@ -16,6 +16,9 @@ from edw_fluent.plugins.file import appsettings
 
 @python_2_unicode_compatible
 class FileItem(ContentItem):
+    """
+    RUS: Класс экземпляра файла FileItem.
+    """
     file = models.FileField(
         _("file"),
         upload_to=appsettings.FILE_UPLOAD_TO
@@ -40,11 +43,17 @@ class FileItem(ContentItem):
     )
 
     class Meta:
+        """
+        RUS: Метаданные класса FileItem.
+        """
         app_label = settings.EDW_APP_LABEL
         verbose_name = _("File")
         verbose_name_plural = _("Files")
 
     def __str__(self):
+        """
+        RUS: Если нет имени, возвращает в строковом формате базовое имя пути файла.
+        """
         if self.name:
             return self.name
         elif self.file:

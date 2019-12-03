@@ -18,7 +18,9 @@ from edw_fluent.plugins.datamart.models import DataMartItem
 
 
 class DataMartPluginForm(ContentItemForm):
-
+    """
+    RUS: Класс плагина формы витрины данных.
+    """
     datamarts = forms.ModelMultipleChoiceField(
         label=_('Data marts'),
         queryset=DataMartModel.objects.all(),
@@ -47,6 +49,9 @@ class DataMartPluginForm(ContentItemForm):
     )
 
     class Media:
+        """
+        RUS: Статические css-файлы.
+        """
         css = {
             'all': [
                 '/static/css/admin/entity.css',
