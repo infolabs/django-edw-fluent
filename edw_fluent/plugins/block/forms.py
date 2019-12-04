@@ -17,7 +17,9 @@ from edw_fluent.plugins.block.models import BlockItem
 
 
 class BlockPluginForm(ContentItemForm):
-
+    """
+    RUS: Класс плагин для формы контент-блока.
+    """
     subjects = forms.ModelMultipleChoiceField(
         queryset=EntityModel.objects.instance_of(PublicationBase).active(),
         widget=SalmonellaMultiIdWidget(

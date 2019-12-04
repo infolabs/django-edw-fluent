@@ -27,6 +27,9 @@ except:
 # BaseBlockPlugin сделано так для того, чтоб можно было наследоваться от этого блока и перекрывать его
 # ------------------------------------------------------------------------------------------------------
 class BaseBlockPlugin(ContentPlugin):
+    """
+    RUS: Класс плагина BaseBlockPlugin.
+    """
     model = BlockItem
 
     form = BlockPluginForm
@@ -43,12 +46,17 @@ class BaseBlockPlugin(ContentPlugin):
     cache_output = False
 
     class Meta:
+        """
+        RUS: Метаданные класса BaseBlockPlugin.
+        """
         app_label = settings.EDW_APP_LABEL
         verbose_name = _('Block')
         verbose_name_plural = _('Block')
 
     def get_context(self, request, instance, **kwargs):
-
+        """
+        RUS: Возвращает контекст с обновленными данными.
+        """
         if update_hot_tags_on_render:
             instance = update_hot_tags_on_render(instance)
 

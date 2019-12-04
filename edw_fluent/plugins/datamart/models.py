@@ -17,6 +17,9 @@ db_table_name_pattern = '{}_{}'.format(settings.EDW_APP_LABEL, '{}')
 
 @python_2_unicode_compatible
 class DataMartItem(ContentItem):
+    """
+    RUS: Класс экземпляра витрины данных DataMartItem.
+    """
     datamarts = models.ManyToManyField(
         'DataMart',
         related_name='datamartitem_datamarts',
@@ -56,11 +59,17 @@ class DataMartItem(ContentItem):
     )
 
     class Meta:
+        """
+        RUS: Метаданные класса DataMartItem.
+        """
         app_label = settings.EDW_APP_LABEL
         verbose_name = _('Data mart item')
         verbose_name_plural = _('Data mart items')
 
     def __str__(self):
+        """
+        RUS: Строковое представление данных.
+        """
         result = ('{} #{}').format(self.__class__, self.id)
         # for datamart in self.datamarts.all():
         #     result = result + datamart.name + ' '
