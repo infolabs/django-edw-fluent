@@ -17,6 +17,9 @@ from edw_fluent.models.page_builder import get_page_builder_elements_by_model
 
 @python_2_unicode_compatible
 class TemplateItem(ContentItem):
+    """
+    RUS: Класс экземпляра шаблона TemplateItem.
+    """
     template = BuilderTemplateField(
         verbose_name=_('Template'),
         max_length=255,
@@ -26,9 +29,15 @@ class TemplateItem(ContentItem):
     )
 
     class Meta:
+        """
+        RUS: Метаданные класса TemplateItem.
+        """
         app_label = settings.EDW_APP_LABEL
         verbose_name = _('Template')
         verbose_name_plural = _('Templates')
 
     def __str__(self):
+        """
+        RUS: Переопределяет заголовок в строковом формате вида (Шаблон:)
+        """
         return "{}: {}".format(self._meta.verbose_name, self.template)
