@@ -65,3 +65,7 @@ class TemplatePlugin(ContentPlugin):
             return template.render(context)
         else:
             return mark_safe(self.render_error(_('Template is not defined')))
+
+    def get_cached_output(self, placeholder_name, instance):
+        # Берем флаг кеширования из инстанции
+        return super(TemplatePlugin, self).get_cached_output(placeholder_name, instance) if instance.templateitem.is_cache_output else None
