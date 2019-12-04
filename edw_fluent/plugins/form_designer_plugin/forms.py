@@ -16,6 +16,9 @@ from edw_fluent.plugins.form_designer_plugin.models import FormDesignerItem
 
 
 class FormDefinitionForm(ContentItemForm):
+    """
+    RUS: Класс Форма по созданию формы FormDefinitionForm
+    """
     form_definition = forms.ModelChoiceField(
         label=_('Form'),
         queryset=FormDefinition.objects.all(),

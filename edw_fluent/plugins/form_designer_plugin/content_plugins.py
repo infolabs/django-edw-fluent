@@ -14,6 +14,7 @@ from edw_fluent.plugins.form_designer_plugin.forms import FormDefinitionForm
 class FormDesignerPlugin(ContentPlugin):
     """
     Plugin for rendering Form designer form
+    RUS: Класс плагин Дизайнера форм FormDesignerPlugin
     """
     model = FormDesignerItem
 
@@ -22,6 +23,10 @@ class FormDesignerPlugin(ContentPlugin):
     cache_output = False
 
     def get_render_template(self, request, instance, **kwargs):
+        """
+        RUS: Возвращает выбранный из списка шаблон формы для рендеринга,
+        если он не выбран - используется шаблон формы по умолчанию.
+        """
         if instance.form_definition.form_template_name:
             self.render_template = instance.form_definition.form_template_name
         else:
@@ -33,6 +38,9 @@ class FormDesignerPlugin(ContentPlugin):
         """
         Return the context to use in the template defined by ``render_template`` (or :func:`get_render_template`).
         By default, it returns the model instance as ``instance`` field in the template.
+        RUS: Возвращает контекст для использования в шаблоне, определенном параметром "render_template"
+        (или функцией get_render_template).
+        По умолчанию возвращает модель сущности как поле "сущность"в шаблоне.
         """
         context = {'instance': instance}
 
