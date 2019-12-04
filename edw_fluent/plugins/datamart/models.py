@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from fluent_contents.models import ContentItem
+
 from django.db import models
 from django.conf import settings
-
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 
-from fluent_contents.models import ContentItem
-
 from page_builder.fields import BuilderTemplateField
-
 
 from edw_fluent.models.page_builder import get_page_builder_elements_by_model
 
