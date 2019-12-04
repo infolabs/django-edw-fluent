@@ -7,6 +7,11 @@ from edw_fluent.plugins.block.models import BlockItem
 
 @receiver(post_save, sender=BlockItem)
 def hottag_filter_after_save(sender, instance, **kwargs):
+    """
+    RUS: Функция получатель сигнала.
+    Выполняется после применения фильтра для контекстной перелинковки.
+    Сохраняет текст в фильтре.
+    """
     if kwargs.get('created', False):
         if hasattr(instance, 'text'):
             try:

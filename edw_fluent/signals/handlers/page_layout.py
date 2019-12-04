@@ -22,17 +22,23 @@ from edw_fluent.models.page_layout import (
 # Event handlers
 #==============================================================================
 def invalidate_term_before_save(sender, instance, **kwargs):
+    """
+    RUS: Очищает ключ кеша макета отображения после сохранения терминов.
+    """
     validate_terms(instance)
     setattr(sender, VIEW_LAYOUT_CACHE_KEY, None)
 
 
 def invalidate_term_before_delete(sender, instance, **kwargs):
+    """
+    RUS: Очищает ключ кеша макета отображения перед удалением терминов.
+    """
     layout = get_views_layouts().get(instance.key, None)
     if layout is not None:
         layout.hard_delete()
     setattr(sender, VIEW_LAYOUT_CACHE_KEY, None)
 
-
+# отправляет сигналы обработчику PageLayout (макету страницы) перед сохраненим и перед удалением терминов.
 pre_save.connect(
     invalidate_term_before_save,
     sender=PageLayout,
