@@ -14,12 +14,21 @@ from fluent_contents.models.db import ContentItem
 
 @python_2_unicode_compatible
 class FormDesignerItem(ContentItem):
+    """
+    RUS: Класс экземпляра Дизайнера форм FormDesignerItem
+    """
     form_definition = models.ForeignKey(FormDefinition, verbose_name=_('Form'))
 
     def __str__(self):
+        """
+        RUS: Строковое представление параметра Формы.
+        """
         return self.form_definition.__str__()
 
     class Meta:
+        """
+        RUS: Метаданные класса FormDesignerItem.
+        """
         app_label = settings.EDW_APP_LABEL
         verbose_name = _("Form plugin")
         verbose_name_plural = _("Form plugins")

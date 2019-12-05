@@ -12,11 +12,17 @@ from edw_fluent.plugins.file.models import FileItem
 
 @plugin_pool.register
 class FilePlugin(ContentPlugin):
+    """
+    RUS: Класс плагин файла FilePlugin.
+    """
     model = FileItem
     category = _('Media')
     render_template = 'edw_fluent/plugins/file.html'
 
     def get_context(self, request, instance, **kwargs):
+        """
+        RUS: Возвращает контекст с обновленными расширенными данными в зависимости от количества текстовых блоков.
+        """
         context = super(FilePlugin, self).get_context(request, instance, **kwargs)
 
         type_id = instance.polymorphic_ctype_id

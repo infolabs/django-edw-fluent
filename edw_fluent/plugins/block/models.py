@@ -21,7 +21,10 @@ from edw_fluent.utils import remove_unprintable
 
 @python_2_unicode_compatible
 class BlockItem(ContentItem):
-
+    """
+    RUS: Класс экземпляра блока (BlockItem).
+    Определяет поля и их значения.
+    """
     SHORT_SUBTITLE_MAX_WORDS_COUNT = 12
     SHORT_SUBTITLE_MAX_CHARS_COUNT = 120
     SHORT_SUBTITLE_TRUNCATE = '...'
@@ -32,17 +35,28 @@ class BlockItem(ContentItem):
                                       db_table='{}_block_subjects'.format(settings.EDW_APP_LABEL))
 
     class Meta:
+        """
+        RUS: Метаданные класса BlockItem.
+        """
         app_label = settings.EDW_APP_LABEL
         verbose_name = _('Block')
         verbose_name_plural = _('Blocks')
 
     def __str__(self):
+        """
+        RUS: При превышении длины подзаголовок обрезается до нужного количества символов.
+        Строковое представление данных.
+        """
         return Truncator(
             Truncator(strip_tags(self.text)).words(
                 self.SHORT_SUBTITLE_MAX_WORDS_COUNT, truncate=self.SHORT_SUBTITLE_TRUNCATE)
         ).chars(self.SHORT_SUBTITLE_MAX_CHARS_COUNT, truncate=self.SHORT_SUBTITLE_TRUNCATE)
 
     def full_clean(self, *args, **kwargs):
+        """
+        RUS: Проверка данных текста формы.
+        Текст должен быть проверен типографом и удалить непечатные символы.
+        """
         # This is called by the form when all values are assigned.
         # The pre filters are applied here, so any errors also appear as ValidationError.
         super(BlockItem, self).full_clean(*args, **kwargs)

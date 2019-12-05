@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-25 12:10+0300\n"
-"PO-Revision-Date: 2019-10-25 12:10+0300\n"
+"POT-Creation-Date: 2019-12-04 09:39+0000\n"
+"PO-Revision-Date: 2019-12-04 12:45+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -20,33 +20,33 @@ msgstr ""
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 "X-Generator: Poedit 2.2.1\n"
 
-#: admin/forms/file.py:14 admin/forms/image.py:15
+#: admin/forms/file.py:16 admin/forms/image.py:17
 msgid "Default"
 msgstr "По умолчанию"
 
-#: admin/forms/file.py:17 admin/forms/image.py:19
+#: admin/forms/file.py:19 admin/forms/image.py:21
 msgid "Info block"
 msgstr "Инфоблок"
 
-#: admin/forms/image.py:16
+#: admin/forms/image.py:18
 msgid "Thumbnail"
 msgstr "Миниатюра"
 
-#: admin/forms/image.py:21 templates/admin/filer/widgets/admin_file.html:26
+#: admin/forms/image.py:23 templates/admin/filer/widgets/admin_file.html:26
 msgid "Author"
 msgstr "Автор"
 
-#: admin/forms/image.py:23 models/publication.py:76
+#: admin/forms/image.py:25 models/publication.py:82
 #: plugins/hottag/models.py:17
 #: templates/admin/filer/widgets/admin_file.html:32
 msgid "Title"
 msgstr "Заголовок"
 
-#: admin/forms/template.py:26
+#: admin/forms/template.py:33
 msgid "The view layout of the publication isn't defined"
 msgstr "Не задан шаблон"
 
-#: admin/publication.py:62
+#: admin/publication.py:74
 msgid "Content blocks"
 msgstr "Основное содержимое"
 
@@ -54,168 +54,168 @@ msgstr "Основное содержимое"
 msgid "EDW fluent"
 msgstr "Управление страницами"
 
-#: models/page.py:143
+#: models/page.py:177
 msgid "Layout"
 msgstr "Макет"
 
-#: models/page.py:147
+#: models/page.py:181
 msgid "SEO title"
 msgstr "SEO-заголовок"
 
-#: models/page.py:155
+#: models/page.py:192
 msgid "Simple page"
 msgstr "Страница"
 
-#: models/page.py:156
+#: models/page.py:193
 msgid "Simple pages"
 msgstr "Страницы"
 
-#: models/page.py:158
+#: models/page.py:195
 msgid "Can change Page layout"
 msgstr "Может изменить макет страницы"
 
-#: models/page_layout.py:48
+#: models/page_layout.py:45
 msgid "View"
 msgstr "Представление"
 
-#: models/page_layout.py:96
+#: models/page_layout.py:91
 msgid "Page layout"
 msgstr "Страница"
 
-#: models/publication.py:55
+#: models/publication.py:61
 msgid "By date"
 msgstr "По дате"
 
-#: models/publication.py:56
+#: models/publication.py:62
 msgid "By chronology"
 msgstr "По хронологии"
 
-#: models/publication.py:57
+#: models/publication.py:63
 msgid "By recommendation"
 msgstr "Рекомендации"
 
-#: models/publication.py:58 models/template/base.py:18
+#: models/publication.py:64 models/template/base.py:21
 msgid "Alphabetical"
 msgstr "По алфавиту"
 
-#: models/publication.py:65
+#: models/publication.py:71
 msgid "Publication tile"
 msgstr "Плитка"
 
-#: models/publication.py:66
+#: models/publication.py:72
 msgid "Publication list"
 msgstr "Список"
 
-#: models/publication.py:82
+#: models/publication.py:88
 msgid "Subtitle"
 msgstr "Подзаголовок"
 
-#: models/publication.py:89
+#: models/publication.py:95
 msgid "Lead"
 msgstr "ЛИД"
 
-#: models/publication.py:94
+#: models/publication.py:100
 msgid "Statistic"
 msgstr "Просмотры"
 
-#: models/publication.py:99
+#: models/publication.py:105
 msgid "Is main publication"
 msgstr "Рекомендуем"
 
-#: models/publication.py:104
+#: models/publication.py:110
 msgid "Content"
 msgstr "Контент"
 
-#: models/publication.py:113
+#: models/publication.py:119
 msgid "Unpublish at"
 msgstr "Дата снятия с публикации"
 
-#: models/publication.py:117
+#: models/publication.py:123
 msgid "Publication draft"
 msgstr "Черновик"
 
-#: models/publication.py:118
+#: models/publication.py:124
 msgid "Publication on editing"
 msgstr "На редактировании"
 
-#: models/publication.py:119
+#: models/publication.py:125
 msgid "Publication on approval"
 msgstr "На утверждении"
 
-#: models/publication.py:120
+#: models/publication.py:126
 msgid "Published"
 msgstr "Опубликовано"
 
-#: models/publication.py:125 models/publication.py:371
+#: models/publication.py:134 models/publication.py:470
 #: plugins/hottag/models.py:22
 msgid "Publication"
 msgstr "Публикация"
 
-#: models/publication.py:126
+#: models/publication.py:135
 msgid "Publications"
 msgstr "Публикации"
 
-#: models/publication.py:236
+#: models/publication.py:270
 msgid "The maximum number of characters 90, you have {}"
 msgstr "Максимальное количество символов 90, у вас {}"
 
-#: models/related.py:20 models/related.py:35
+#: models/related.py:22 models/related.py:47
 msgid "Key"
 msgstr "Ключ"
 
-#: models/template/base.py:23
+#: models/template/base.py:26
 msgid "Name"
 msgstr "Название"
 
-#: models/template/base.py:30
+#: models/template/base.py:33
 msgid "On indexation"
 msgstr "На индексации"
 
-#: models/template/base.py:37 models/template/content_block.py:22
-#: models/template/footer.py:18 models/template/header.py:18
-#: plugins/datamart/models.py:41 plugins/template/models.py:21
-#: plugins/template/models.py:30
+#: models/template/base.py:43 models/template/content_block.py:25
+#: models/template/footer.py:21 models/template/header.py:21
+#: plugins/datamart/models.py:39 plugins/template/models.py:19
+#: plugins/template/models.py:33
 msgid "Template"
 msgstr "Шаблон"
 
-#: models/template/base.py:38 plugins/template/models.py:31
+#: models/template/base.py:44 plugins/template/models.py:34
 msgid "Templates"
 msgstr "Шаблоны"
 
-#: models/template/content_block.py:26
+#: models/template/content_block.py:29
 msgid ""
 "Some help text about content block template... `index`, `top`, `bottom`..."
 msgstr ""
 
-#: models/template/content_block.py:30
+#: models/template/content_block.py:36
 msgid "Content Block Template"
 msgstr "Шаблон контент-блока"
 
-#: models/template/content_block.py:31
+#: models/template/content_block.py:37
 msgid "Content Block Templates"
 msgstr "Шаблоны контент-блоков"
 
-#: models/template/footer.py:22
+#: models/template/footer.py:25
 msgid "Some help text about footer template... `index`, `top`, `bottom`"
 msgstr ""
 
-#: models/template/footer.py:26
+#: models/template/footer.py:32
 msgid "Footer Template"
 msgstr "Шаблон подвала"
 
-#: models/template/footer.py:27
+#: models/template/footer.py:33
 msgid "Footer Templates"
 msgstr "Шаблоны подвала"
 
-#: models/template/header.py:22
+#: models/template/header.py:25
 msgid "Some help text about header template... `index`, `top`, `bottom`"
 msgstr ""
 
-#: models/template/header.py:26
+#: models/template/header.py:32
 msgid "Header Template"
 msgstr "Шаблон шапки"
 
-#: models/template/header.py:27
+#: models/template/header.py:33
 msgid "Header Templates"
 msgstr "Шаблоны шапки"
 
@@ -227,8 +227,8 @@ msgstr "Связанные с этим блоком объекты"
 msgid "text"
 msgstr "Текст"
 
-#: plugins/block/models.py:36 plugins/block/pluginbase.py:43
-#: plugins/block/pluginbase.py:44 plugins/template/content_plugins.py:28
+#: plugins/block/models.py:36 plugins/block/pluginbase.py:47
+#: plugins/block/pluginbase.py:48 plugins/template/content_plugins.py:28
 #: plugins/template/content_plugins.py:29
 msgid "Block"
 msgstr "Текст"
@@ -253,19 +253,19 @@ msgstr "Субъекты"
 msgid "Terms"
 msgstr "Термины"
 
-#: plugins/datamart/models.py:49
+#: plugins/datamart/models.py:47
 msgid "In template calculate flag"
 msgstr "Не использывать для шаблонов"
 
-#: plugins/datamart/models.py:50
+#: plugins/datamart/models.py:48
 msgid "Do not use when calculating a template"
 msgstr "Не учитывать эту витрину данных при поиске шаблона для страницы"
 
-#: plugins/datamart/models.py:55
+#: plugins/datamart/models.py:53
 msgid "Сache datamart plugin"
 msgstr "Кешировать плагин"
 
-#: plugins/datamart/models.py:56
+#: plugins/datamart/models.py:54
 msgid "Cache datamart plugin on render output"
 msgstr ""
 "Кешировать плагин витрины данных для рендера страницы. Увеличивает скорость "
@@ -273,11 +273,11 @@ msgstr ""
 "Снимите этот флаг для витрин данных актуальное обновление данных которых на "
 "сайте критично."
 
-#: plugins/datamart/models.py:62
+#: plugins/datamart/models.py:60
 msgid "Data mart item"
 msgstr "Витрина данных"
 
-#: plugins/datamart/models.py:63
+#: plugins/datamart/models.py:61
 msgid "Data mart items"
 msgstr "Витрины данных"
 
@@ -338,21 +338,22 @@ msgstr "Форма"
 msgid "Form plugins"
 msgstr "Формы"
 
-#: plugins/hottag/admin.py:22
+#: plugins/hottag/admin.py:24
 msgid "Content block"
 msgstr "Блок контента"
 
 #: plugins/hottag/management/commands/update_hot_tags.py:14
 msgid "Update HotTag "
-msgstr ""
+msgstr "Обновление HotTag"
 
 #: plugins/hottag/management/commands/update_hot_tags.py:23
 msgid "Count of days left for update"
-msgstr ""
+msgstr "Количество дней между обновлениями"
 
 #: plugins/hottag/management/commands/update_hot_tags.py:33
 msgid "Update not empty publications for best match"
 msgstr ""
+"Обновление публикаций с не пустыми hot-тегами для лучшего соответствия"
 
 #: plugins/hottag/models.py:18
 msgid "Content type"
@@ -374,13 +375,28 @@ msgstr "Линк"
 msgid "Hot tags"
 msgstr "Контекстная перелинковка"
 
-#: plugins/hottag/models.py:31
-msgid "Tag: {}"
-msgstr "Метка: {}"
+#: plugins/hottag/models.py:32
+msgid "`{}` → `{}`"
+msgstr "`{}` → `{}`"
+
+#: plugins/hottag/models.py:33
+msgid "`{}` → "
+msgstr "`{}` → "
 
 #: plugins/template/content_plugins.py:57
 msgid "Template is not defined"
 msgstr "Шаблон не задан"
+
+#: plugins/template/models.py:26
+msgid "Сache template plugin"
+msgstr "Кешировать плагин"
+
+#: plugins/template/models.py:27
+msgid "Cache template plugin on render output"
+msgstr ""
+"Кешировать плагин для рендера страницы. Увеличивает скорость отдачи "
+"страницы с плагином, но может приводить к неактуальным данным. Снимите этот "
+"флаг для шаблонов актуальное обновление данных которых на сайте критично."
 
 #: templates/admin/filer/widgets/admin_file.html:9
 #: templates/admin/filer/widgets/admin_file.html:55
@@ -411,6 +427,9 @@ msgstr "Выбрать файл"
 #: templates/admin/filer/widgets/admin_file.html:65
 msgid "Properties"
 msgstr "Свойства"
+
+#~ msgid "Tag: {}"
+#~ msgstr "Метка: {}"
 
 #, fuzzy
 #~| msgid "Title"

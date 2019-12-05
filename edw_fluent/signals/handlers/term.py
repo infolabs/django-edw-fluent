@@ -18,18 +18,27 @@ from edw_fluent.models.page import clear_simple_page_buffer
 # TermModel event handlers
 #==============================================================================
 def invalidate_term_after_save(sender, instance, **kwargs):
-    # Clear simple page buffer
+    """
+    Clear simple page buffer
+    RUS: Очищает буфер simple_page_buffer после сохранения терминов.
+    """
     clear_simple_page_buffer()
 
 
 def invalidate_term_before_delete(sender, instance, **kwargs):
+    """
+    RUS: Очищает буфер simple_page_buffer перед удалением терминов.
+    """
     invalidate_term_after_save(sender, instance, **kwargs)
 
 
 def invalidate_term_after_move(sender, instance, target, position, prev_parent, **kwargs):
+    """
+    RUS: Очищает буфер simple_page_buffer после сохранения перемещенных терминов.
+    """
     invalidate_term_after_save(sender, instance, **kwargs)
 
-
+# RUS: Обработчик событий отправляет сигналы после сохранения, перед удалением и после перемещения терминов.
 Model = TermModel.materialized
 
 post_save.connect(invalidate_term_after_save, sender=Model,
