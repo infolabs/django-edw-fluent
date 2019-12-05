@@ -4,16 +4,16 @@ from __future__ import unicode_literals, print_function
 import os
 import copy
 
+from sekizai.helpers import get_varname as sekizai_get_varname
+from classytags.core import Tag, Options
+from classytags.arguments import MultiKeywordArgument, Argument
+from classytags.helpers import InclusionTag
+from fluent_contents.models.db import Placeholder
+
 from django import template as django_template
 from django.core.cache import cache
 from django.db.models.query import QuerySet
 from django.conf import settings
-
-from classytags.core import Tag, Options
-from classytags.arguments import MultiKeywordArgument, Argument
-from classytags.helpers import InclusionTag
-
-from fluent_contents.models.db import Placeholder
 
 from edw.models.entity import EntityModel
 from edw.models.term import TermModel
@@ -128,9 +128,12 @@ class BaseRenderTemplateTag(Tag):
             alias, kwargs.get('layout', PAGE_LAYOUT_ROOT_TERM_SLUG), kwargs.get('terms_ids'))
 
         if template is not None:
+            sekizai_varname = sekizai_get_varname()
             ctx = copy.copy(context)
+            request = ctx.get("request")
             ctx.update({
-                "params": kwargs
+                "params": kwargs,
+                sekizai_varname: getattr(request, sekizai_varname)
             })
             template_string = template.template.read_template(alias)
             t = django_template.Template(template_string)
