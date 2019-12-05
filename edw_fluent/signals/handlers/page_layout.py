@@ -38,7 +38,7 @@ def invalidate_term_before_delete(sender, instance, **kwargs):
         layout.hard_delete()
     setattr(sender, VIEW_LAYOUT_CACHE_KEY, None)
 
-# отправляет сигналы обработчику PageLayout (макету страницы) перед сохраненим и перед удалением терминов.
+# отправляет сигналы обработчику PageLayout (макету страницы) после сохранения и перед удалением терминов.
 pre_save.connect(
     invalidate_term_before_save,
     sender=PageLayout,

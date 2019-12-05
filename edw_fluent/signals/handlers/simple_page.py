@@ -29,7 +29,7 @@ def invalidate_simple_page_before_delete(sender, instance, **kwargs):
 
 
 Model = SimplePage
-# отправляет сигналы обработчику SimplePage перед сохраненим и удалением страницы.
+# отправляет сигналы обработчику SimplePage после сохранения и перед удалением страницы.
 post_save.connect(invalidate_simple_page_after_save, sender=Model,
                   dispatch_uid=make_dispatch_uid(
                       post_save,

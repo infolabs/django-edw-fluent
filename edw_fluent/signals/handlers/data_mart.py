@@ -29,7 +29,7 @@ def invalidate_data_mart_before_delete(sender, instance, **kwargs):
     """
     invalidate_data_mart_after_save(sender, instance, **kwargs)
 
-# RUS: Обработчик событий отправляет сигналы до и после удаления витрины данных.
+# RUS: Обработчик событий отправляет сигналы после сохранения и перед удалением витрины данных.
 Model = DataMartModel.materialized
 for clazz in itertools.chain([Model], Model.get_all_subclasses()):
     pre_delete.connect(invalidate_data_mart_before_delete, clazz,

@@ -29,7 +29,7 @@ def invalidate_entity_before_delete(sender, instance, **kwargs):
     """
     invalidate_entity_after_save(sender, instance, **kwargs)
 
-# RUS: Обработчик событий отправляет сигналы до и после удаления сущности.
+# RUS: Обработчик событий отправляет сигналы после сохранения и перед удалением сущности.
 Model = EntityModel.materialized
 for clazz in itertools.chain([Model], Model.get_all_subclasses()):
     pre_delete.connect(invalidate_entity_before_delete, clazz,
