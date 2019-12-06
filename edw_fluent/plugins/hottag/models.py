@@ -14,6 +14,9 @@ from edw_fluent.plugins.hottag.utils import turncat
 
 @python_2_unicode_compatible
 class HotTag(models.Model):
+    """
+    RUS: Класс HotTag. Определяет поля и их значения для панели администратора.
+    """
     title = models.CharField(_('Title'), max_length=255, blank=False)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, verbose_name=_('Content type'))
     object_id = models.PositiveIntegerField(verbose_name=_('ID'))
@@ -23,11 +26,17 @@ class HotTag(models.Model):
     created_at = models.DateTimeField(auto_now=True, verbose_name=_('Created at'))
 
     class Meta:
+        """
+        RUS: Метаданные класса.
+        """
         app_label = settings.EDW_APP_LABEL
         verbose_name = _('Hot tag')
         verbose_name_plural = _('Hot tags')
 
     def __str__(self):
+        """
+        RUS: Строковое представление заголовка в обрезанном виде при превышении длины.
+        """
         if self.target_publication:
             return _("`{}` → `{}`").format(turncat(self.title), self.target_publication.title)
         return _("`{}` → ").format(turncat(self.title))
