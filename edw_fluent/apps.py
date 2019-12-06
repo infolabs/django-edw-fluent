@@ -6,6 +6,9 @@ from django.apps import AppConfig
 
 
 class EdwFluentConfig(AppConfig):
+    """
+    RUS: Класс для настройки конфигурации django-edw-fluent.
+    """
     name = 'edw_fluent'
     verbose_name = _("EDW fluent")
 

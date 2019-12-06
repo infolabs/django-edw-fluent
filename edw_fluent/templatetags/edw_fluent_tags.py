@@ -34,7 +34,9 @@ register = django_template.Library()
 # Template selector tags
 #==============================================================================
 class BaseRenderTemplateTag(Tag):
-
+    """
+    RUS: Класс базового рендера шаблонных тегов.
+    """
     TEMPLATE_BUFFER_CACHE_KEY = 'tpl_bf'
     TEMPLATE_BUFFER_CACHE_SIZE = getattr(settings, 'TEMPLATE_BUFFER_CACHE_SIZE', 500)
     TEMPLATE_CACHE_KEY_PATTERN = 'tpl_i:{layout}:{alias_hash}:{terms_hash}'
@@ -55,6 +57,7 @@ class BaseRenderTemplateTag(Tag):
         Get the list of templates for this Tag.
         This must be an iterable, and may be a queryset.
         Defaults to using `self.queryset`.
+        RUS: Получает список шаблонов для этого тега.
         """
         assert self.template_model is not None, (
             "'%s' should either include a `template_model` attribute, "
@@ -73,6 +76,8 @@ class BaseRenderTemplateTag(Tag):
     def get_template(self, alias, layout=None, terms=None):
         """
         Returns the template.
+        RUS: Добавляет в термины id термина макета
+        Возвращает шаблон.
         """
         queryset = self.get_template_queryset().filter(
             **{"{}___index__icontains".format(self.template_model._meta.object_name): alias})
@@ -92,17 +97,26 @@ class BaseRenderTemplateTag(Tag):
 
     @staticmethod
     def get_template_buffer():
+        """
+        RUS: Собирает кольцевой буфер с ключом кэша и указанием максимального размера.
+        """
         return RingBuffer.factory(BaseRenderTemplateTag.TEMPLATE_BUFFER_CACHE_KEY,
                                   max_size=BaseRenderTemplateTag.TEMPLATE_BUFFER_CACHE_SIZE)
 
     @staticmethod
     def clear_template_buffer():
+        """
+        RUS: Очищает буфер, удаляя по указанным ключам.
+        """
         buf = BaseRenderTemplateTag.get_template_buffer()
         keys = buf.get_all()
         buf.clear()
         cache.delete_many(keys)
 
     def get_cached_template(self, alias, layout=None, terms=None):
+        """
+        RUS: Возвращает шаблон с ключом кэша, если есть старый, - то он удаляется и перезаписывается.
+        """
         key = BaseRenderTemplateTag.TEMPLATE_CACHE_KEY_PATTERN.format(**{
             "layout": layout if layout else '',
             "alias_hash": create_hash(
@@ -121,7 +135,9 @@ class BaseRenderTemplateTag(Tag):
         return template
 
     def render_tag(self, context, kwargs, varname):
-
+        """
+        RUS: Отображает в шаблоне контекст, если есть шаблон.
+        """
         alias = kwargs.get('alias', 'index')
 
         template = self.get_cached_template(
@@ -146,6 +162,9 @@ class BaseRenderTemplateTag(Tag):
 
 
 class RenderHeader(BaseRenderTemplateTag):
+    """
+    RUS: Создает и регистрирует шаблонный тег RenderHeader.
+    """
     name = 'render_header'
     template_model = HeaderTemplate
 
@@ -154,6 +173,9 @@ register.tag(RenderHeader)
 
 
 class RenderFooter(BaseRenderTemplateTag):
+    """
+    RUS: Создает и регистрирует шаблонный тег RenderFooter.
+    """
     name = 'render_footer'
     template_model = FooterTemplate
 
@@ -162,10 +184,16 @@ register.tag(RenderFooter)
 
 
 class RenderContentBlock(BaseRenderTemplateTag):
+    """
+    RUS: Класс шаблонного тега RenderContentBlock.
+    """
     name = 'render_content_block'
     template_model = ContentBlockTemplate
 
     def render_tag(self, context, kwargs, varname):
+        """
+        RUS: Создает и регистрирует шаблонный тег RenderContentBlock.
+        """
         kwargs['layout'] = PublicationBase.LAYOUT_TERM_SLUG
         return super(RenderContentBlock, self).render_tag(context, kwargs, varname)
 
@@ -179,6 +207,7 @@ register.tag(RenderContentBlock)
 class RenderPlaceholderField(InclusionTag):
     """
     Inclusion tag for static placeholder.
+    RUS: Класс тега для статического заполнителя.
     """
 
     template = 'edw_fluent/partials/_renderplaceholder.html'
@@ -189,7 +218,9 @@ class RenderPlaceholderField(InclusionTag):
     )
 
     def get_context(self, context, placeholder_id):
-
+        """
+        RUS: Возвращает контекст, дополненный id заполнителя.
+        """
         placeholder_object = Placeholder.objects.get(id=placeholder_id)
         context.update({
             'placeholder_object': placeholder_object
@@ -204,6 +235,9 @@ register.tag(RenderPlaceholderField)
 # Get default datamarts page
 #==============================================================================
 class GetDataMartPage(Tag):
+    """
+    RUS: Класс страницы витрины данных GetDataMartPage.
+    """
     name = 'get_data_mart_page'
 
     options = Options(
@@ -213,6 +247,9 @@ class GetDataMartPage(Tag):
     )
 
     def render_tag(self, context, datamart_id, varname):
+        """
+        RUS: Возвращает данные страницы витрины данных, если был передан id витрины данных.
+        """
         detail_page = get_data_mart_page(datamart_id)
         if varname:
             context[varname] = detail_page
@@ -225,6 +262,9 @@ register.tag(GetDataMartPage)
 
 @register.filter
 def filename(value):
+    """
+    RUS: Возвращает базовое имя пути файла.
+    """
     try:
         fn = os.path.basename(value.file.name)
     except IOError:
