@@ -12,10 +12,20 @@ from edw_fluent.models.publication import PublicationBase
 # PublicationViewSet
 # =========================================================================================================
 class PublicationViewSet(EntityViewSet):
+    """
+    RUS: Класс для отображения публикаций.
+    """
     def retrieve(self, request, *args, **kwargs):
+        """
+        RUS: Извлекает публикации после применения сериалайзера.
+        """
         return super(PublicationViewSet, self).retrieve(request, *args, **kwargs)
 
     def finalize_response(self, request, response, *args, **kwargs):
+        """
+        RUS: Вспомогательная функция после отработки сериалайзера устанавливает cookie,
+        перенаправляет на сайт по указанному адресу.
+        """
         if self.action == 'retrieve':
             pk = response.data.get('id', None)
             if pk is not None:
