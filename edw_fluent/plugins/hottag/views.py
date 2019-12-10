@@ -9,7 +9,10 @@ from edw_fluent.plugins.hottag.utils import turncat, search_tag
 
 
 def hottagsearch(request):
-
+    """
+    RUS: Ищет публикацию по тегу, если полученный результат является экземпляром Entity,
+    кодирует полученные данные в строку Python.
+    """
     search_text = request.GET.get('q', '')
     publication_id = request.GET.get('pid', None)
     result = search_tag(search_text, publication_id)

@@ -3,6 +3,9 @@ from __future__ import unicode_literals
 
 
 def remove_unprintable(text):
+    """
+    RUS: Удаляет непечатаемый текст.
+    """
     # Alphabetical characters (base latin, extend latin, cyrilic)
     ranges = range(32, 1280)
     # General punctuation, Superscript and subscript characters, Currency Symbols
