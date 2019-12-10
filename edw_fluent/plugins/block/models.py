@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import re
+from future.utils import python_2_unicode_compatible
+
+from chakert import Typograph
+from fluent_contents.extensions import PluginHtmlField
+from fluent_contents.models import ContentItem
+from fluent_contents.utils.filters import apply_filters
 
 from django.db import models
 from django.conf import settings
 from django.utils.html import strip_tags
 from django.utils.text import Truncator
 from django.utils.translation import ugettext_lazy as _
-
-from future.utils import python_2_unicode_compatible
-
-from chakert import Typograph
-
-from fluent_contents.extensions import PluginHtmlField
-from fluent_contents.models import ContentItem
-from fluent_contents.utils.filters import apply_filters
 
 from edw_fluent.utils import remove_unprintable
 
@@ -55,3 +54,16 @@ class BlockItem(ContentItem):
         if self.text_final == self.text:
             # No need to store duplicate content:
             self.text_final = None
+
+    def get_stripped_text(self, with_dots_in_headings=False):
+        text = self.text
+
+        if with_dots_in_headings:
+            pattern = re.compile(ur'(\w)(</h[1-6]>)', re.UNICODE)
+            text = re.sub(
+                pattern,
+                lambda match: '. '.join(list(match.groups())),
+                text,
+            )
+
+        return strip_tags(text)
