@@ -28,7 +28,8 @@ setup(
         'django-edw',
         'django-page-builder',
         'django-fluent-pages==1.1.1',
-        'django-fluent-contents==1.2'
+        'django-fluent-contents==1.2',
+        'django-constance==1.3.3'
     ],
     dependency_links=[
         'https://github.com/SmartTeleMax/chakert/tarball/master#egg=chakert-0.1.2'

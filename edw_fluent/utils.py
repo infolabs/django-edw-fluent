@@ -1,17 +1,35 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import json
+from constance import config
+
+
+DEFAULT_SYMBOL_RANGES = [
+    [32, 1280],    # Alphabetical characters (base latin, extend latin, cyrilic)
+    [8192, 8399],  # General punctuation, superscript and subscript characters, currency Symbols
+    [8448, 8591],  # Letter-like characters, numeric forms
+]
+
 
 def remove_unprintable(text):
     """
     RUS: Удаляет непечатаемый текст.
     """
-    # Alphabetical characters (base latin, extend latin, cyrilic)
-    ranges = range(32, 1280)
-    # General punctuation, Superscript and subscript characters, Currency Symbols
-    ranges += range(8192, 8399)
-    # Letter-like characters, Numeric forms
-    ranges += range(8448, 8591)
+    symbol_ranges = DEFAULT_SYMBOL_RANGES
+    config_ranges = getattr(config, 'PRINTABLE_SYMBOL_RANGES', None)
+    if config_ranges is not None:
+        try:
+            config_ranges = json.loads('[' + config_ranges + ']')
+        except ValueError as e:
+            raise ValueError("PRINTABLE_SYMBOL_RANGES setting is incorrect: %s" % e)
+        else:
+            symbol_ranges = config_ranges
+
+    ranges = []
+    for r in symbol_ranges:
+        ranges += range(*r)
+
     allowed_chars = ''.join(map(unichr, ranges))
     return filter(lambda x: x in allowed_chars, text)
 
