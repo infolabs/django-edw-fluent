@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from constance import config
+
+from sekizai.helpers import get_varname as sekizai_get_varname
+
 from fluent_contents.extensions import ContentPlugin, plugin_pool
 
 from form_designer import settings
@@ -38,11 +42,16 @@ class FormDesignerPlugin(ContentPlugin):
         """
         Return the context to use in the template defined by ``render_template`` (or :func:`get_render_template`).
         By default, it returns the model instance as ``instance`` field in the template.
-        RUS: Возвращает контекст для использования в шаблоне, определенном параметром "render_template"
-        (или функцией get_render_template).
-        По умолчанию возвращает модель сущности как поле "сущность"в шаблоне.
+        RUS: Возвращает контекст для шаблонов плагина "дизайнер форм".
         """
-        context = {'instance': instance}
+
+        sekizai_varname = sekizai_get_varname()
+
+        context = {
+            'instance': instance,
+            'config': config,
+            sekizai_varname: getattr(request, sekizai_varname),
+        }
 
         return process_form(request, instance.form_definition, context, disable_redirection=True)
 
