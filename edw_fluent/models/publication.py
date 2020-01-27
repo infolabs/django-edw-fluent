@@ -228,8 +228,10 @@ class PublicationBase(EntityModel.materialized):
 
     def clean(self, *args, **kwargs):
         self.title = Typograph.typograph_text(self.title, 'ru')
-        self.subtitle = Typograph.typograph_text(self.subtitle, 'ru')
-        self.lead = Typograph.typograph_text(self.lead, 'ru')
+        if self.subtitle:
+            self.subtitle = Typograph.typograph_text(self.subtitle, 'ru')
+        if self.lead:
+            self.lead = Typograph.typograph_text(self.lead, 'ru')
 
         len_title = len(self.title)
         if len_title > 90:
