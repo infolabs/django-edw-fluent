@@ -13,6 +13,9 @@ from haystack.query import SearchQuerySet
 TAGS_CACHE_TIME = 3600
 
 def search_tag(search_text, publication_id=None):
+    """
+    RUS: Ищет тег (строку) по выбранному тексту в текстовом блоке публикации, у которой есть id.
+    """
     if search_text:
         sqs = SearchQuerySet().exclude(id=publication_id).auto_query(search_text, "text")
         return sqs.best_match() if sqs else None
@@ -20,14 +23,22 @@ def search_tag(search_text, publication_id=None):
 
 
 def turncat(title, w_count=5, c_count=50, end_ch='...'):
-
+    """
+    RUS: Обрезает заголовок, если он превышает 50 символов.
+    """
     return Truncator(
         Truncator(strip_tags(title)).words(w_count, truncate=end_ch)
     ).chars(c_count, truncate=end_ch)
 
 
 def update_hot_tags_on_render(text_block):
-
+    """
+    RUS: Обновляет hot_tags.
+    Извлекает из кеша список hot_tag с первичным ключом по полю text_block.
+    С помощью цикла извлекается отдельный hot_tag, у которого обновляется заголовок и id.
+    Ищет ссылку hot_tag'а по url'у публикации с тегом, если есть публикация с тегом,
+    и найдена ссылка, - hot_tag получает имя 'a', иначе - удаляется.
+    """
     tags = cache.get("hot_tag_list_%s" % text_block.pk)
     if not tags:
         from edw_fluent.plugins.hottag.models import HotTag

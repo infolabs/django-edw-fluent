@@ -25,10 +25,15 @@ from edw_fluent.admin.forms.file import PublicationFileInlineForm
 # PublicationImageInline
 #===========================================================================================
 class PublicationImageInline(EntityImageInline):
-
+    """
+    Определяет форму загрузчика изображений в публикациях
+    """
     form = PublicationImageInlineForm
 
     def get_formset(self, request, obj=None, **kwargs):
+        """
+        Возвращает набор форм загрузчика изображений в публикациях
+        """
         self.form.publication = obj
         return super(PublicationImageInline, self).get_formset(request, obj, **kwargs)
 
@@ -37,10 +42,15 @@ class PublicationImageInline(EntityImageInline):
 # PublicationFileInline
 #===========================================================================================
 class PublicationFileInline(EntityFileInline):
-
+    """
+    Определяет форму загрузчика файлов в публикациях
+    """
     form = PublicationFileInlineForm
 
     def get_formset(self, request, obj=None, **kwargs):
+        """
+        Возвращает набор форм загрузчика файлов в публикациях
+        """
         self.form.publication = obj
         return super(PublicationFileInline, self).get_formset(request, obj, **kwargs)
 
@@ -49,7 +59,9 @@ class PublicationFileInline(EntityFileInline):
 # PublicationAdmin
 #===========================================================================================
 class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
-
+    """
+    Базовая административная форма создания/редактирования публикаций
+    """
     base_form = EntityAdminForm
 
     save_on_top = True
@@ -66,6 +78,9 @@ class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
     )
 
     class Media:
+        """
+        Подключаемые стили CSS
+        """
         css = {
             'all': [
                 '/static/css/admin/entity.css',
@@ -84,16 +99,25 @@ class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
     ]
 
     def view_on_site(self, obj):
+        """
+        Формирует url публикации при просмотре на сайте
+        """
         return obj.get_detail_url()
 
     publication_id_for_formfield = None
 
     def get_form(self, request, obj=None, **kwargs):
+        """
+        Добавляет в форму модель администратора
+        """
         if obj:
             self.publication_id_for_formfield = obj.id
         return super(BasePublicationAdmin, self).get_form(request, obj, **kwargs)
 
     def save_related(self, request, form, formsets, change):
+        """
+        Сохраняет связанные модели объектов, определяет placeholder и создает текстовый блок
+        """
         super(BasePublicationAdmin, self).save_related(request, form, formsets, change)
 
         entity_id = int(form.instance.id)

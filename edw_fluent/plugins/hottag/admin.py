@@ -10,7 +10,9 @@ from edw_fluent.plugins.hottag.models import HotTag
 
 
 class HotTagAdmin(SalmonellaMixin, admin.ModelAdmin):
-
+    """
+    RUS: Класс администратора HotTagAdmin.
+    """
     model = HotTag
 
     list_display = ('title', 'content_type', 'object_id', 'content_block', 'target_publication', 'created_at')

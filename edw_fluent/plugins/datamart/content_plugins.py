@@ -17,6 +17,9 @@ from edw_fluent.plugins.datamart.forms import DataMartPluginForm
 
 @plugin_pool.register
 class DataMartPlugin(ContentPlugin):
+    """
+    RUS: Класс плагина витрины данных.
+    """
     cache_output = not settings.DEBUG
 
     model = DataMartItem
@@ -24,10 +27,16 @@ class DataMartPlugin(ContentPlugin):
     render_template = "edw_fluent/plugins/datamart.html"
 
     class Meta:
+        """
+        RUS: Метаданные класса DataMartPlugin.
+        """
         verbose_name = _('Data mart')
         verbose_name_plural = _('Data marts')
 
     def get_context(self, request, instance, **kwargs):
+        """
+        RUS: Возвращает контекст с обновленными расширенными данными в зависимости от количества текстовых блоков.
+        """
         context = super(DataMartPlugin, self).get_context(request, instance, **kwargs)
         datamarts = instance.datamarts.active()
         terms_ids = list(instance.terms.active().values_list('id', flat=True))
@@ -64,6 +73,9 @@ class DataMartPlugin(ContentPlugin):
         return context
 
     def render(self, request, instance, **kwargs):
+        """
+        RUS: Отображает шаблон с контекстом на странице.
+        """
         template_str = instance.template.read_template() if instance.template else None
         if template_str:
             template = django_template.Template(template_str)

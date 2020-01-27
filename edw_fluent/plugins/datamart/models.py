@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from fluent_contents.models import ContentItem
+
 from django.db import models
 from django.conf import settings
-
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 
-from fluent_contents.models import ContentItem
-
 from page_builder.fields import BuilderTemplateField
-
 
 from edw_fluent.models.page_builder import get_page_builder_elements_by_model
 
@@ -19,6 +17,9 @@ db_table_name_pattern = '{}_{}'.format(settings.EDW_APP_LABEL, '{}')
 
 @python_2_unicode_compatible
 class DataMartItem(ContentItem):
+    """
+    RUS: Класс экземпляра витрины данных DataMartItem.
+    """
     datamarts = models.ManyToManyField(
         'DataMart',
         related_name='datamartitem_datamarts',
@@ -58,11 +59,17 @@ class DataMartItem(ContentItem):
     )
 
     class Meta:
+        """
+        RUS: Метаданные класса DataMartItem.
+        """
         app_label = settings.EDW_APP_LABEL
         verbose_name = _('Data mart item')
         verbose_name_plural = _('Data mart items')
 
     def __str__(self):
+        """
+        RUS: Строковое представление данных.
+        """
         result = ('{} #{}').format(self.__class__, self.id)
         # for datamart in self.datamarts.all():
         #     result = result + datamart.name + ' '

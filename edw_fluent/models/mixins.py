@@ -8,6 +8,9 @@ from edw_fluent.plugins.datamart.models import DataMartItem
 class DataMartFluentMixin(object):
 
     def get_detail_page(self):
+        """
+        RUS: Для просмотра содержимого конкретной страницы
+        """
         placeholders = DataMartItem.objects.filter(
             datamarts__in=[self.pk]
         ).values_list(

@@ -17,7 +17,10 @@ from edw_fluent.models.publication import PublicationBase
 # ContentBlockTemplate
 # =========================================================================================================
 class ContentBlockTemplate(BaseTemplate):
-
+    """
+    RUS: Класс Шаблон контент-блока.
+    Определяет поля и их значения (Имя, На индексации), способ сортировки.
+    """
     template = BuilderTemplateField(
         verbose_name=_('Template'),
         max_length=255,
@@ -27,15 +30,27 @@ class ContentBlockTemplate(BaseTemplate):
     )
 
     class Meta:
+        """
+        RUS: Метаданные класса ContentBlockTemplate.
+        """
         verbose_name = _("Content Block Template")
         verbose_name_plural = _("Content Block Templates")
 
     def need_terms_validation_after_save(self, origin, **kwargs):
+        """
+        RUS: Проставляет автоматически термины, связанные с шаблоном контент-блока,
+        после ее сохранения.
+        """
         do_validate = kwargs["context"]["validate_view_layout"] = True
         return super(ContentBlockTemplate, self).need_terms_validation_after_save(
             origin, **kwargs) or do_validate
 
     def validate_terms(self, origin, **kwargs):
+        """
+        RUS: При выборе шаблона контент-блока и его сохранения, проставляются соответствующие термины и выбирается
+        автоматически соответствующий шаблон.
+        При изменении шаблона контент-блока, термины удаляются и заменяются новыми, соответствующими новому шаблону.
+        """
         context = kwargs["context"]
         if context.get("force_validate_terms", False) or context.get("validate_view_layout", False):
             views_layouts = get_views_layouts()

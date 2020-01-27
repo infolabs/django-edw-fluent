@@ -14,16 +14,22 @@ from edw_fluent.models.page import SimplePage, clear_simple_page_buffer
 # SimplePage event handlers
 #==============================================================================
 def invalidate_simple_page_after_save(sender, instance, **kwargs):
-    # Clear simple page buffer
+    """
+    Clear simple page buffer
+    RUS: Очищает буфер simple_page_buffer после сохранения страницы.
+    """
     clear_simple_page_buffer()
 
 
 def invalidate_simple_page_before_delete(sender, instance, **kwargs):
+    """
+    RUS: Очищает буфер simple_page_buffer перед удалением страницы.
+    """
     invalidate_simple_page_after_save(sender, instance, **kwargs)
 
 
 Model = SimplePage
-
+# отправляет сигналы обработчику SimplePage после сохранения и перед удалением страницы.
 post_save.connect(invalidate_simple_page_after_save, sender=Model,
                   dispatch_uid=make_dispatch_uid(
                       post_save,

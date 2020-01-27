@@ -12,8 +12,13 @@ from edw_fluent.models.page_layout import get_views_layouts
 
 
 class BaseTemplateForm(OriginalEntityAdminForm):
-
+    """
+    Класс формы базового шаблона
+    """
     class Meta:
+        """
+        RUS: Метаданные класса.
+        """
         fields = '__all__'
         widgets = {
           'template': PageBuilderWidget,
@@ -21,12 +26,19 @@ class BaseTemplateForm(OriginalEntityAdminForm):
 
 
 class TemplateForm(BaseTemplateForm):
-
+    """
+    RUS: Класс формы шаблона.
+    """
     messages = {
         'has_view_layout_error': _("The view layout of the publication isn't defined"),
     }
 
     def clean(self):
+        """
+        RUS: Словарь проверенных и нормализованных данных формы шаблона.
+        Вызывает ошибку валидации формы, если нет
+        списка терминов представлений разметок страниц и терминов в очищенных данных.
+        """
         cleaned_data = super(TemplateForm, self).clean()
 
         # view layout

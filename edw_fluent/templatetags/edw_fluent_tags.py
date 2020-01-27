@@ -4,16 +4,16 @@ from __future__ import unicode_literals, print_function
 import os
 import copy
 
+from sekizai.helpers import get_varname as sekizai_get_varname
+from classytags.core import Tag, Options
+from classytags.arguments import MultiKeywordArgument, Argument
+from classytags.helpers import InclusionTag
+from fluent_contents.models.db import Placeholder
+
 from django import template as django_template
 from django.core.cache import cache
 from django.db.models.query import QuerySet
 from django.conf import settings
-
-from classytags.core import Tag, Options
-from classytags.arguments import MultiKeywordArgument, Argument
-from classytags.helpers import InclusionTag
-
-from fluent_contents.models.db import Placeholder
 
 from edw.models.entity import EntityModel
 from edw.models.term import TermModel
@@ -34,7 +34,9 @@ register = django_template.Library()
 # Template selector tags
 #==============================================================================
 class BaseRenderTemplateTag(Tag):
-
+    """
+    RUS: Класс базового рендера шаблонных тегов.
+    """
     TEMPLATE_BUFFER_CACHE_KEY = 'tpl_bf'
     TEMPLATE_BUFFER_CACHE_SIZE = getattr(settings, 'TEMPLATE_BUFFER_CACHE_SIZE', 500)
     TEMPLATE_CACHE_KEY_PATTERN = 'tpl_i:{layout}:{alias_hash}:{terms_hash}'
@@ -55,6 +57,7 @@ class BaseRenderTemplateTag(Tag):
         Get the list of templates for this Tag.
         This must be an iterable, and may be a queryset.
         Defaults to using `self.queryset`.
+        RUS: Получает список шаблонов для этого тега.
         """
         assert self.template_model is not None, (
             "'%s' should either include a `template_model` attribute, "
@@ -73,6 +76,8 @@ class BaseRenderTemplateTag(Tag):
     def get_template(self, alias, layout=None, terms=None):
         """
         Returns the template.
+        RUS: Добавляет в термины id термина макета
+        Возвращает шаблон.
         """
         queryset = self.get_template_queryset().filter(
             **{"{}___index__icontains".format(self.template_model._meta.object_name): alias})
@@ -92,17 +97,26 @@ class BaseRenderTemplateTag(Tag):
 
     @staticmethod
     def get_template_buffer():
+        """
+        RUS: Собирает кольцевой буфер с ключом кэша и указанием максимального размера.
+        """
         return RingBuffer.factory(BaseRenderTemplateTag.TEMPLATE_BUFFER_CACHE_KEY,
                                   max_size=BaseRenderTemplateTag.TEMPLATE_BUFFER_CACHE_SIZE)
 
     @staticmethod
     def clear_template_buffer():
+        """
+        RUS: Очищает буфер, удаляя по указанным ключам.
+        """
         buf = BaseRenderTemplateTag.get_template_buffer()
         keys = buf.get_all()
         buf.clear()
         cache.delete_many(keys)
 
     def get_cached_template(self, alias, layout=None, terms=None):
+        """
+        RUS: Возвращает шаблон с ключом кэша, если есть старый, - то он удаляется и перезаписывается.
+        """
         key = BaseRenderTemplateTag.TEMPLATE_CACHE_KEY_PATTERN.format(**{
             "layout": layout if layout else '',
             "alias_hash": create_hash(
@@ -121,16 +135,21 @@ class BaseRenderTemplateTag(Tag):
         return template
 
     def render_tag(self, context, kwargs, varname):
-
+        """
+        RUS: Отображает в шаблоне контекст, если есть шаблон.
+        """
         alias = kwargs.get('alias', 'index')
 
         template = self.get_cached_template(
             alias, kwargs.get('layout', PAGE_LAYOUT_ROOT_TERM_SLUG), kwargs.get('terms_ids'))
 
         if template is not None:
+            sekizai_varname = sekizai_get_varname()
             ctx = copy.copy(context)
+            request = ctx.get("request")
             ctx.update({
-                "params": kwargs
+                "params": kwargs,
+                sekizai_varname: getattr(request, sekizai_varname)
             })
             template_string = template.template.read_template(alias)
             t = django_template.Template(template_string)
@@ -146,6 +165,9 @@ class BaseRenderTemplateTag(Tag):
 
 
 class RenderHeader(BaseRenderTemplateTag):
+    """
+    RUS: Создает и регистрирует шаблонный тег RenderHeader.
+    """
     name = 'render_header'
     template_model = HeaderTemplate
 
@@ -154,6 +176,9 @@ register.tag(RenderHeader)
 
 
 class RenderFooter(BaseRenderTemplateTag):
+    """
+    RUS: Создает и регистрирует шаблонный тег RenderFooter.
+    """
     name = 'render_footer'
     template_model = FooterTemplate
 
@@ -162,10 +187,16 @@ register.tag(RenderFooter)
 
 
 class RenderContentBlock(BaseRenderTemplateTag):
+    """
+    RUS: Класс шаблонного тега RenderContentBlock.
+    """
     name = 'render_content_block'
     template_model = ContentBlockTemplate
 
     def render_tag(self, context, kwargs, varname):
+        """
+        RUS: Создает и регистрирует шаблонный тег RenderContentBlock.
+        """
         kwargs['layout'] = PublicationBase.LAYOUT_TERM_SLUG
         return super(RenderContentBlock, self).render_tag(context, kwargs, varname)
 
@@ -179,6 +210,7 @@ register.tag(RenderContentBlock)
 class RenderPlaceholderField(InclusionTag):
     """
     Inclusion tag for static placeholder.
+    RUS: Класс тега для статического заполнителя.
     """
 
     template = 'edw_fluent/partials/_renderplaceholder.html'
@@ -189,7 +221,9 @@ class RenderPlaceholderField(InclusionTag):
     )
 
     def get_context(self, context, placeholder_id):
-
+        """
+        RUS: Возвращает контекст, дополненный id заполнителя.
+        """
         placeholder_object = Placeholder.objects.get(id=placeholder_id)
         context.update({
             'placeholder_object': placeholder_object
@@ -204,6 +238,9 @@ register.tag(RenderPlaceholderField)
 # Get default datamarts page
 #==============================================================================
 class GetDataMartPage(Tag):
+    """
+    RUS: Класс страницы витрины данных GetDataMartPage.
+    """
     name = 'get_data_mart_page'
 
     options = Options(
@@ -213,6 +250,9 @@ class GetDataMartPage(Tag):
     )
 
     def render_tag(self, context, datamart_id, varname):
+        """
+        RUS: Возвращает данные страницы витрины данных, если был передан id витрины данных.
+        """
         detail_page = get_data_mart_page(datamart_id)
         if varname:
             context[varname] = detail_page
@@ -225,6 +265,9 @@ register.tag(GetDataMartPage)
 
 @register.filter
 def filename(value):
+    """
+    RUS: Возвращает базовое имя пути файла.
+    """
     try:
         fn = os.path.basename(value.file.name)
     except IOError:

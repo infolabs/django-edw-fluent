@@ -19,16 +19,26 @@ from edw_fluent.plugins.template.models import TemplateItem
 
 @plugin_pool.register
 class TemplatePlugin(ContentPlugin):
+    """
+    RUS: Класс плагина шаблона TemplatePlugin.
+    """
     cache_output = not settings.DEBUG
 
     model = TemplateItem
 
     class Meta:
+        """
+        RUS: Метаданные класса TemplatePlugin.
+        """
         app_label = settings.EDW_APP_LABEL
         verbose_name = _('Block')
         verbose_name_plural = _('Block')
 
     def render(self, request, instance, **kwargs):
+        """
+        RUS: Возвращает результат обработки html шаблонов,
+        если страница была создана и сохранена, был добавлен шаблон и обновлен контекст.
+        """
         template_str = instance.template.read_template()
 
         sekizai_varname = sekizai_get_varname()
@@ -55,3 +65,7 @@ class TemplatePlugin(ContentPlugin):
             return template.render(context)
         else:
             return mark_safe(self.render_error(_('Template is not defined')))
+
+    def get_cached_output(self, placeholder_name, instance):
+        # Берем флаг кеширования из инстанции
+        return super(TemplatePlugin, self).get_cached_output(placeholder_name, instance) if instance.templateitem.is_cache_output else None

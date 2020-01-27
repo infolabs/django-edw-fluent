@@ -10,6 +10,11 @@ from edw_fluent.plugins.hottag.tasks.update_hot_tags import update_hot_tags
 
 
 class Command(NoArgsCommand):
+    """
+    RUS: Класс не принимает аргументов в командной строке.
+    help - текст помощи, который будет отображён при выполнении команды.
+    option_list - список параметров, который будут использоваться при обновлении hot_tags.
+    """
     help = _(
         "Update HotTag "
     )
@@ -35,6 +40,10 @@ class Command(NoArgsCommand):
     )
 
     def handle_noargs(self, **options):
+        """
+        RUS: Функция для реализации класса Command.
+        Не принимает аргументов.
+        """
         delta_days = options.get('delta_days')
         full_update = options.get('full_update')
         res = update_hot_tags(delta_days, full_update)
