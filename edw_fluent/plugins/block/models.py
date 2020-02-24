@@ -9,6 +9,7 @@ from fluent_contents.extensions import PluginHtmlField
 from fluent_contents.models import ContentItem
 from fluent_contents.utils.filters import apply_filters
 
+from django.utils import six
 from django.db import models
 from django.conf import settings
 from django.utils.html import strip_tags
@@ -73,7 +74,10 @@ class BlockItem(ContentItem):
         text = self.text
 
         if with_dots_in_headings:
-            pattern = re.compile(ur'(\w)(</h[1-6]>)', re.UNICODE)
+            expr = r'(\w)(</h[1-6]>)'
+            if six.PY2:
+                expr = expr.decode('raw_unicode_escape')
+            pattern = re.compile(expr, re.UNICODE)
             text = re.sub(
                 pattern,
                 lambda match: '. '.join(list(match.groups())),

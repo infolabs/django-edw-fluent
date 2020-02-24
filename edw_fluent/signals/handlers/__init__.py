@@ -14,4 +14,4 @@ try:
 except (AttributeError, ProgrammingError) as e:
     # initial migrations hack
     print("*** INITIAL MIGRATIONS HACK ***")
-    print e.args
+    print(e.args)
