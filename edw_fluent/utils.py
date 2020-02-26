@@ -12,6 +12,20 @@ DEFAULT_SYMBOL_RANGES = [
 ]
 
 
+# Python 3
+
+try:
+    long_type = long
+except NameError:
+    long_type = int
+
+
+try:
+    chr_type = unichr
+except NameError:
+    chr_type = chr
+
+
 def remove_unprintable(text):
     """
     RUS: Удаляет непечатаемый текст.
@@ -30,10 +44,6 @@ def remove_unprintable(text):
     for r in symbol_ranges:
         ranges += range(*r)
 
-    try:
-        chr_type = unichr
-    except NameError:
-        chr_type = chr
     allowed_chars = ''.join(map(chr_type, ranges))
     return filter(lambda x: x in allowed_chars, text)
 
@@ -46,10 +56,6 @@ def get_data_mart_page(datamart_id):
     """
     if datamart_id is not None:
         from edw.models.data_mart import DataMartModel
-        try:
-            long_type = long
-        except NameError:
-            long_type = int
         id_attr = "id" if isinstance(datamart_id, (int, long_type)) else "slug"
         try:
             data_mart = DataMartModel.objects.get(**{id_attr: datamart_id})
