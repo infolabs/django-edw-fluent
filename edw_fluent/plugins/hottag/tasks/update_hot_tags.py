@@ -14,6 +14,12 @@ from edw_fluent.plugins.hottag.models import HotTag
 from edw_fluent.plugins.hottag.utils import search_tag
 
 
+try:
+    uni_type = unicode
+except NameError:
+    uni_type = str
+
+
 @shared_task(name='update_hot_tags')
 def update_hot_tags(delta_days=0, full_update="false"):
     """
@@ -105,7 +111,7 @@ def update_hot_tags(delta_days=0, full_update="false"):
                     hot_tag.name = 'span'
 
                 try:
-                    text_plugin.text = unicode(soup)
+                    text_plugin.text = uni_type(soup)
                     text_plugin.save()
                 except:
                     update_errors_count = update_errors_count + 1

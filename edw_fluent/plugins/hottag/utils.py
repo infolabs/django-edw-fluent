@@ -9,6 +9,11 @@ from django.utils.html import strip_tags
 
 from haystack.query import SearchQuerySet
 
+try:
+    uni_type = unicode
+except NameError:
+    uni_type = str
+
 
 TAGS_CACHE_TIME = 3600
 
@@ -83,7 +88,7 @@ def update_hot_tags_on_render(text_block):
 
         if tags:
             try:
-                text_block.text = unicode(soup)
+                text_block.text = uni_type(soup)
             except:
                 pass
 

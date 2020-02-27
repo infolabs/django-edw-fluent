@@ -498,7 +498,7 @@ class PublicationBase(EntityModel.materialized):
 
         if force_validate_terms or context.get("validate_view_layout", False):
             views_layouts = get_views_layouts()
-            to_remove = [v for k, v in views_layouts.items() if k != PublicationBase.LAYOUT_TERM_SLUG]
+            to_remove = [v for k, v in list(views_layouts.items()) if k != PublicationBase.LAYOUT_TERM_SLUG]
             self.terms.remove(*to_remove)
             to_add = views_layouts.get(PublicationBase.LAYOUT_TERM_SLUG, None)
             if to_add is not None:

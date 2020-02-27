@@ -7,6 +7,11 @@ from .utils import search_tag
 from edw_fluent.plugins.hottag.models import HotTag
 from edw_fluent.plugins.hottag.utils import turncat
 
+try:
+    uni_type = unicode
+except NameError:
+    uni_type = str
+
 
 def hottag_filter(textitem, html):
     """
@@ -73,7 +78,7 @@ def hottag_filter(textitem, html):
                 try:
                     tag['href'] = tag_obj.target_publication.get_detail_url()
                 except:
-                    if tag.has_key('href'):
+                    if 'href' in list(tag.keys()):
                         del tag['href']
 
                 if tag.has_key('href'):
@@ -81,18 +86,18 @@ def hottag_filter(textitem, html):
                 else:
                     tag.name = 'span'
             else:
-                if tag.has_key('data-edw-model-id'):
+                if 'data-edw-model-id' in list(tag.keys()):
                     del tag['data-edw-model-id']
-                if tag.has_key('title'):
+                if 'title' in list(tag.keys()):
                     del tag['title']
-                if tag.has_key('href'):
+                if 'href' in list(tag.keys()):
                     del tag['href']
                 tag.name = 'span'
 
             # del tags from db if they were deleted in text
             HotTag.objects.filter(object_id=textitem.pk).exclude(pk__in=founded_hot_tags_ids).delete()
 
-        res = unicode(soup) if soup and hot_tags else html
+        res = uni_type(soup) if soup and hot_tags else html
     else:
         # make filter after conten item created
         res = html

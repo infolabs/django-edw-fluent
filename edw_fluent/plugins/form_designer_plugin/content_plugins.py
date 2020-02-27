@@ -14,6 +14,12 @@ from edw_fluent.plugins.form_designer_plugin.models import FormDesignerItem
 from edw_fluent.plugins.form_designer_plugin.forms import FormDefinitionForm
 
 
+try:
+    uni_type = unicode
+except NameError:
+    uni_type = str
+
+
 @plugin_pool.register
 class FormDesignerPlugin(ContentPlugin):
     """
@@ -61,7 +67,7 @@ class FormDesignerPlugin(ContentPlugin):
 
         render_template = self.get_render_template(request, instance, **kwargs)
         if not render_template:
-            return unicode(_(u"{No rendering defined for class '%s'}" % self.__class__.__name__))
+            return uni_type(_(u"{No rendering defined for class '%s'}" % self.__class__.__name__))
 
         context = self.get_context(request, instance, **kwargs)
 
