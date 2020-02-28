@@ -12,8 +12,6 @@ var fluent_layouts = {
   var app_root = location.href.indexOf('/fluent_pages/') + 14;
   var initial_layout_id = null;
 
-  console.log("APP", fluent_layouts.api_url)
-
   $.fn.ready( onReady );
 
 
