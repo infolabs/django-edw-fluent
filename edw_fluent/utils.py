@@ -45,7 +45,7 @@ def remove_unprintable(text):
         ranges += range(*r)
 
     allowed_chars = ''.join(map(chr_type, ranges))
-    return filter(lambda x: x in allowed_chars, text)
+    return ''.join(filter(lambda x: x in allowed_chars, text))
 
 
 def get_data_mart_page(datamart_id):
