@@ -44,7 +44,7 @@ class DataMartPluginForm(ContentItemForm):
         label = _('Terms'),
         queryset=TermModel.objects.all().exclude(
         system_flags=BaseTerm.system_flags.external_tagging_restriction),
-        widget = TermTreeWidget(external_tagging_restriction=True, fix_it=False),
+        widget = TermTreeWidget(external_tagging_restriction=False, fix_it=False),
         required=False
     )
 

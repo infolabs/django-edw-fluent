@@ -23,4 +23,4 @@ class SimplePageAdmin(FluentPageAdmin):
 
     change_form_template = [
         "edw_fluent/admin/change_form.html",
-    ]
+    ] if six.PY3 else []
