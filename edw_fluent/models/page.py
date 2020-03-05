@@ -7,23 +7,20 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.core.cache import cache
 from django.middleware.cache import CacheMiddleware
-from django.utils.decorators import (
-    method_decorator, decorator_from_middleware_with_args,
-)
+from django.utils.decorators import decorator_from_middleware_with_args
+
 from django.utils.cache import (
     get_max_age, has_vary_header, learn_cache_key as origin_learn_cache_key,
     patch_response_headers,
 )
 
 from fluent_pages.models import PageLayout
-from fluent_pages.pagetypes.fluentpage.admin import FluentPageAdmin
 from fluent_pages.integration.fluent_contents.models import FluentContentsPage
-from fluent_pages.extensions import PageTypePlugin, page_type_pool
 
 from edw.utils.circular_buffer_in_cache import RingBuffer
 
-from edw_fluent.plugins.datamart.models import DataMartItem
 
+db_table_name_pattern = '{}_{}'.format(settings.EDW_APP_LABEL, '{}')
 
 # =========================================================================================================
 # Catch Simple Page cache key
@@ -184,6 +181,12 @@ class SimplePage(FluentContentsPage):
         blank=True,
     )
 
+    terms = models.ManyToManyField(
+        'Term',
+        related_name='page_terms',
+        db_table=db_table_name_pattern.format('page_terms')
+    )
+
     class Meta:
         """
         RUS: Метаданные класса.
@@ -194,55 +197,3 @@ class SimplePage(FluentContentsPage):
         permissions = (
             ('change_page_layout', _("Can change Page layout")),
         )
-
-
-#===================================================================================================================
-# Добавляем в пул страниц FluentPages модель SimplePage
-#===================================================================================================================
-@page_type_pool.register
-class SimplePagePlugin(PageTypePlugin):
-    """
-    RUS: Плагин для страницы.
-    """
-    model = SimplePage
-    model_admin = FluentPageAdmin
-    sort_priority = 10
-
-    def get_render_template(self, request, simplepage, **kwargs):
-        """
-        RUS: Возвращает шаблон для рендеринга для конкретной страницы или запроса,
-        по умолчанию используется путь template_path из макета объекта.
-        """
-        # Allow subclasses to easily override it by specifying `render_template` after all.
-        # The default, is to use the template_path from the layout object.
-        return self.render_template or simplepage.layout.template_path
-
-    @method_decorator(cache_simple_page(getattr(settings, 'SIMPLE_PAGE_CACHE_TIMEOUT', 60*10)))
-    def get_response(self, request, page, **kwargs):
-        """
-        RUS: Генерирует вывод страницы.
-        """
-        return super(SimplePagePlugin, self).get_response(request, page, **kwargs)
-
-    def get_context(self, request, page, **kwargs):
-        """
-        RUS: Возвращает контекст для использования в шаблоне.
-        """
-        context = super(SimplePagePlugin, self).get_context(request, page, **kwargs)
-        placeholder = page.placeholder_set.filter(slot='main')[0]
-        if placeholder:
-            datamart_items = DataMartItem.objects.filter(placeholder_id=placeholder.id)
-            terms = set()
-            for datamart_item in datamart_items:
-                if not datamart_item.not_use_for_template_calculate:
-                    datamarts_terms = datamart_item.datamarts.distinct().values_list('terms__id', flat=True)
-                    datamart_item_terms = datamart_item.terms.values_list('id', flat=True)
-                    terms.update(datamarts_terms)
-                    terms.update(datamart_item_terms)
-            context.update(
-                {
-                    'terms_ids': list(terms)
-                }
-            )
-
-        return context

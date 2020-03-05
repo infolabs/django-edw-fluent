@@ -71,7 +71,7 @@
 
             {{ hidden_input }}
             <script id="{{id}}_javascript">
-                django.jQuery(document).ready(function(){
+                django.jQuery(document).ready(function($){
                     var plus = django.jQuery('#add_{{ id }}');
                     $.each($('.field-image_author'), function () {
                         $(this).detach();
