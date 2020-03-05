@@ -10,7 +10,7 @@ from fluent_contents.extensions import ContentItemForm
 from salmonella.widgets import SalmonellaMultiIdWidget
 
 from edw.admin.term.widgets import TermTreeWidget
-from edw.models.term import BaseTerm, TermModel
+from edw.models.term import TermModel
 from edw.models.entity import EntityModel
 from edw.models.data_mart import DataMartModel
 
@@ -42,8 +42,7 @@ class DataMartPluginForm(ContentItemForm):
 
     terms = forms.ModelMultipleChoiceField(
         label = _('Terms'),
-        queryset=TermModel.objects.all().exclude(
-        system_flags=BaseTerm.system_flags.external_tagging_restriction),
+        queryset=TermModel.objects.all(),
         widget = TermTreeWidget(external_tagging_restriction=False, fix_it=False),
         required=False
     )
