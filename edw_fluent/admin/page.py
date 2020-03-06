@@ -84,10 +84,16 @@ class SimplePagePlugin(FluentContentsPagePlugin):
             datamart_items = DataMartItem.objects.filter(placeholder_id=placeholder.id)
             for datamart_item in datamart_items:
                 if not datamart_item.not_use_for_template_calculate:
-                    datamarts_terms = datamart_item.datamarts.distinct().values_list('terms__id', flat=True)
+                    # .exclude(terms__id__isnull=True) нужно для того чтоб на выходе получался список из id терминов
+                    # витрины данных, если этого не сделать, а в витрине данных нет терминов, то на выходе получится
+                    # список вида [None], что недопустимо при формировании терминов страницы для контекста рендара
+                    datamarts_terms = datamart_item.datamarts.distinct() \
+                        .exclude(terms__id__isnull=True).values_list('terms__id', flat=True)
                     datamart_item_terms = datamart_item.terms.values_list('id', flat=True)
-                    terms_ids_set.update(datamarts_terms)
-                    terms_ids_set.update(datamart_item_terms)
+                    if datamarts_terms:
+                        terms_ids_set.update(datamarts_terms)
+                    if datamart_item_terms:
+                        terms_ids_set.update(datamart_item_terms)
         context.update(
             {
                 'terms_ids': list(terms_ids_set) if terms_ids_set else None
