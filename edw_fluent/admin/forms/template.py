@@ -42,5 +42,5 @@ class TemplateForm(BaseTemplateForm):
         cleaned_data = super(TemplateForm, self).clean()
 
         # view layout
-        if not (set([v.id for (k, v) in list(get_views_layouts().items())]) & set([x.id for x in cleaned_data.get("terms")])):
+        if not (set([v.id for (k, v) in get_views_layouts().items()]) & set([x.id for x in cleaned_data.get("terms")])):
             raise forms.ValidationError(self.messages['has_view_layout_error'])

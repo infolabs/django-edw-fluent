@@ -60,7 +60,7 @@ def hottag_filter(textitem, html):
                 result = search_tag(tag_obj.title, pid)
 
                 if result and result.object:
-                   tag_obj.target_publication = result.object
+                    tag_obj.target_publication = result.object
                 else:
                     # clear
                     tag_obj.target_publication = None
@@ -71,14 +71,14 @@ def hottag_filter(textitem, html):
             tag['data-edw-id'] = tag_obj.pk
             tag['data-edw-tag'] = tag_obj.title
 
+            tag_keys_list = list(tag.keys())
             if tag_obj.target_publication:
                 tag['data-edw-model-id'] = tag_obj.target_publication.pk
                 tag['title'] = turncat(tag_obj.target_publication.entity_name)
-
                 try:
                     tag['href'] = tag_obj.target_publication.get_detail_url()
                 except:
-                    if 'href' in list(tag.keys()):
+                    if 'href' in tag_keys_list:
                         del tag['href']
 
                 if tag.has_key('href'):
@@ -86,11 +86,11 @@ def hottag_filter(textitem, html):
                 else:
                     tag.name = 'span'
             else:
-                if 'data-edw-model-id' in list(tag.keys()):
+                if 'data-edw-model-id' in tag_keys_list:
                     del tag['data-edw-model-id']
-                if 'title' in list(tag.keys()):
+                if 'title' in tag_keys_list:
                     del tag['title']
-                if 'href' in list(tag.keys()):
+                if 'href' in tag_keys_list:
                     del tag['href']
                 tag.name = 'span'
 
