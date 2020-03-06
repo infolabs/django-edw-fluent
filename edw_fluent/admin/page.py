@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from fluent_pages.pagetypes.fluentpage.admin import FluentPageAdmin
-from fluent_pages.extensions import PageTypePlugin, page_type_pool
+from fluent_pages.integration.fluent_contents.page_type_plugins import FluentContentsPagePlugin
+from fluent_pages.extensions import page_type_pool
 
 from django.conf import settings
 from django.contrib import admin
@@ -19,9 +20,7 @@ from edw_fluent.plugins.datamart.models import DataMartItem
 @admin.register(SimplePage)
 class SimplePageAdmin(FluentPageAdmin):
 
-    form = SimplePageAdminForm
-
-    exclude = FluentPageAdmin.exclude + ('terms', )
+    base_form = SimplePageAdminForm
 
     @property
     def media(self):
@@ -45,7 +44,7 @@ class SimplePageAdmin(FluentPageAdmin):
 # Добавляем для админки в пул страниц FluentPages модель SimplePage
 #===================================================================================================================
 @page_type_pool.register
-class SimplePagePlugin(PageTypePlugin):
+class SimplePagePlugin(FluentContentsPagePlugin):
     """
     RUS: Плагин для страницы.
     """
@@ -76,20 +75,24 @@ class SimplePagePlugin(PageTypePlugin):
         RUS: Возвращает контекст для использования в шаблоне.
         """
         context = super(SimplePagePlugin, self).get_context(request, page, **kwargs)
+        terms_ids_set = set()
+        page_terms = page.terms.values_list('id', flat=True)
+        if page_terms:
+            terms_ids_set.update(page_terms)
         placeholder = page.placeholder_set.filter(slot='main')[0]
         if placeholder:
             datamart_items = DataMartItem.objects.filter(placeholder_id=placeholder.id)
-            terms = set()
             for datamart_item in datamart_items:
                 if not datamart_item.not_use_for_template_calculate:
                     datamarts_terms = datamart_item.datamarts.distinct().values_list('terms__id', flat=True)
                     datamart_item_terms = datamart_item.terms.values_list('id', flat=True)
-                    terms.update(datamarts_terms)
-                    terms.update(datamart_item_terms)
+                    terms_ids_set.update(datamarts_terms)
+                    terms_ids_set.update(datamart_item_terms)
+        if terms_ids_set:
             context.update(
                 {
-                    'terms_ids': list(terms)
+                    'terms_ids': list(terms_ids_set)
                 }
             )
-
+        print('context', context)
         return context

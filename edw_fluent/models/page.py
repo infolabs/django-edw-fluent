@@ -1,21 +1,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from fluent_pages.pagetypes.fluentpage.models import AbstractFluentPage
 
 from django.db import models
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
 from django.core.cache import cache
 from django.middleware.cache import CacheMiddleware
+from django.utils.translation import ugettext_lazy as _
 from django.utils.decorators import decorator_from_middleware_with_args
-
 from django.utils.cache import (
     get_max_age, has_vary_header, learn_cache_key as origin_learn_cache_key,
     patch_response_headers,
 )
-
-from fluent_pages.models import PageLayout
-from fluent_pages.integration.fluent_contents.models import FluentContentsPage
 
 from edw.utils.circular_buffer_in_cache import RingBuffer
 
@@ -164,16 +161,12 @@ def cache_simple_page(*args, **kwargs):
 #===================================================================================================================
 # Создаем новый тип страницы SimplePage для FluentPages
 #===================================================================================================================
-class SimplePage(FluentContentsPage):
+class SimplePage(AbstractFluentPage):
     """
     RUS: Класс для создания страниц.
     Опеределяет поля (Макет, SEO-заголовок) и их характеристики.
     """
-    layout = models.ForeignKey(
-        PageLayout,
-        verbose_name=_('Layout'),
-        null=True,
-    )
+
     seo_title = models.CharField(
         verbose_name=_('SEO title'),
         max_length=255,

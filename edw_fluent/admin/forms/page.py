@@ -18,6 +18,3 @@ class SimplePageAdminForm(FluentPageAdminForm):
         widget = TermTreeWidget(external_tagging_restriction=False, fix_it=False),
         required=False
     )
-
-    def clean_terms(self):
-        return self.instance.clean_terms(self.cleaned_data['terms'])
