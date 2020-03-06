@@ -88,11 +88,9 @@ class SimplePagePlugin(FluentContentsPagePlugin):
                     datamart_item_terms = datamart_item.terms.values_list('id', flat=True)
                     terms_ids_set.update(datamarts_terms)
                     terms_ids_set.update(datamart_item_terms)
-        if terms_ids_set:
-            context.update(
-                {
-                    'terms_ids': list(terms_ids_set)
-                }
-            )
-        print('context', context)
+        context.update(
+            {
+                'terms_ids': list(terms_ids_set) if terms_ids_set else None
+            }
+        )
         return context
