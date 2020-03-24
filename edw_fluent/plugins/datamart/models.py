@@ -53,7 +53,7 @@ class DataMartItem(ContentItem):
     )
 
     is_cache_output = models.BooleanField(
-        verbose_name=_('Сache datamart plugin'),
+        verbose_name=_('Cache datamart plugin'),
         help_text=_('Cache datamart plugin on render output'),
         default=True
     )

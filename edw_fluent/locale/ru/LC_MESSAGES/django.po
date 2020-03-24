@@ -262,7 +262,7 @@ msgid "Do not use when calculating a template"
 msgstr "Не учитывать эту витрину данных при поиске шаблона для страницы"
 
 #: plugins/datamart/models.py:53
-msgid "Сache datamart plugin"
+msgid "Cache datamart plugin"
 msgstr "Кешировать плагин"
 
 #: plugins/datamart/models.py:54
@@ -388,7 +388,7 @@ msgid "Template is not defined"
 msgstr "Шаблон не задан"
 
 #: plugins/template/models.py:26
-msgid "Сache template plugin"
+msgid "Cache template plugin"
 msgstr "Кешировать плагин"
 
 #: plugins/template/models.py:27

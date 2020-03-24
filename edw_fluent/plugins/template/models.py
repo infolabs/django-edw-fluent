@@ -26,7 +26,7 @@ class TemplateItem(ContentItem):
         elements=get_page_builder_elements_by_model('TemplateItem'),
     )
     is_cache_output = models.BooleanField(
-        verbose_name=_('Сache template plugin'),
+        verbose_name=_('Cache template plugin'),
         help_text=_('Cache template plugin on render output'),
         default=True
     )
