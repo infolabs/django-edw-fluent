@@ -263,6 +263,41 @@ class GetDataMartPage(Tag):
 register.tag(GetDataMartPage)
 
 
+#==============================================================================
+# Get data mart url
+#==============================================================================
+class DataMartUrl(Tag):
+
+    name = 'get_data_mart_url'
+
+    options = Options(
+        Argument('datamart_id', resolve=True),
+        'as',
+        Argument('varname', required=False, resolve=False)
+    )
+
+    def render_tag(self, context, datamart_id, varname):
+        """
+        :param context: контекст рендена
+        :param datamart_id: id или slug витрины данных
+        :param varname: переменная для возарата результата
+        :return: возвращает адррес страницы с размещенной на ней заданной витриной данных, если таких
+        несколько - вернется первая попавшаяся
+        """
+        detail_page = get_data_mart_page(datamart_id)
+        if detail_page:
+            detail_url = detail_page.url
+        else:
+            detail_url = None
+        if varname:
+            context[varname] = detail_url
+            return ''
+        else:
+            return detail_url
+
+register.tag(DataMartUrl)
+
+
 @register.filter
 def filename(value):
     """

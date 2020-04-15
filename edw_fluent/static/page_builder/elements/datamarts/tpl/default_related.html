@@ -21,37 +21,45 @@
     <![endif]-->
 </head>
 <body class="bodyPaddingLess">
-
     <div id="page" class="page">
 
         <!-- {% if 0 %} -->
         <div class="bg-color3 padding-top-40 padding-bottom-40">
             <div class="container text-center">
-                <img class="img-responsive" src="/static/page_builder/elements/datamarts/images/default_related_with_title.jpg">
+                <img class="img-responsive" src="/static/page_builder/elements/datamarts/images/default_related.jpg">
             </div>
         </div>
         <!-- {% endif %} -->
 
-        <div class="container ex-data-mart-container">
-            <div class="row padding-top-20 padding-bottom-20 datamart-plugin plugin-4">
 
-                <!-- {% if 0 %} --><div class="hidden"><!-- {% endif %} -->
+        <div class="container ex-data-mart-container">
+            <!-- {% if 0 %} -->
+                <div class="hidden">
+            <!-- {% endif %} -->
                 <div class="col-md-12">
-                    {% load edw_tags %}
-                    <div class="ex-data-mart ex-catalog-grid-4-col"
-                        data-selected-entry-point-id="{{ data_marts.0.id }}"
-                        data-data-mart-pk="{{ data_marts.0.id }}"
-                        data-entry-points='{{ data_entry_points }}'
-                    >
+                    {% load edw_tags edw_fluent_tags %}
+                    {% get_data_mart_url data_marts.0.id as href %}
+                    <!--{% compactjson as data_entry_points %}
+                    {
+                        "{{ data_marts.0.id }}": {
+                            "url": "{{ href }}",
+                            "template_name": "related",
+                            "request_params": [{% if terms_ids %}"terms={{ terms_ids }}",{% endif %}{% if subj_ids %}"subj_ids={{ subj_ids }}",{% endif %}"limit=4"]
+                        }
+                    }
+                    {% endcompactjson %}-->
+
+                    <div class="ex-data-mart border-color3 color2 ex-catalog-grid-4-col"
+                         data-selected-entry-point-id="{{ data_marts.0.id }}"
+                         data-data-mart-pk="{{ data_marts.0.id }}"
+                         data-entry-points="{{ data_entry_points }}">
                     </div>
                 </div>
-
-                <!-- {% if 0 %} --></div><!-- /.hidden --><!-- {% endif %} -->
-
-            </div>
+            <!-- {% if 0 %} -->
+                </div><!-- /.hidden -->
+            <!-- {% endif %} -->
         </div>
 
     </div><!-- /#page -->
-
 </body>
 </html>
