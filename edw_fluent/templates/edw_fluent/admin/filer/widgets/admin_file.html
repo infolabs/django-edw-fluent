@@ -84,6 +84,11 @@
                     }
                     // Delete this javascript once loaded to avoid the "add new" link duplicates it
                     django.jQuery('#{{id}}_javascript').remove();
+
+                    // Django 1.11, Filer 1.1.0 Fix
+                    django.jQuery('.js-file-selector > a[id^="lookup_id_entity"]').remove();
+                    django.jQuery('.js-file-selector > strong').remove();
+
                 });
             </script>
         </span>
