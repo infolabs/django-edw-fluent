@@ -44,7 +44,7 @@ msgstr "Заголовок"
 
 #: admin/forms/template.py:33
 msgid "The view layout of the publication isn't defined"
-msgstr "Не задан шаблон"
+msgstr "Не указано представление"
 
 #: admin/publication.py:74
 msgid "Content blocks"
