@@ -1,4 +1,4 @@
-{% load i18n filer_admin_tags staticfiles edw_tags %}
+{% load i18n filer_admin_tags static edw_tags %}
 
 {% spaceless %}
     {% with fieldset_pattern=id|slice:"9:"|split:"_" %}
@@ -7,7 +7,7 @@
             <div class="dz-thumbnail"><img class="quiet" data-dz-thumbnail></div>
             <span data-dz-name class="dz-name"></span>
             <img class="filerClearer" src="{% static admin_icon_delete %}" width="10" height="10" alt="{% trans 'Clear' %}" title="{% trans 'Clear' %}"
-                 data-dz-remove data-no-icon-file="{% static 'filer/icons/nofile_48x48.png' %}">
+                 data-dz-remove data-no-icon-file="{% static 'filer/icons/nofile_128x128.png' %}">
             <div class="dz-progress js-filer-dropzone-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
         </span>
     </div>
@@ -54,6 +54,7 @@
             <img class="filerClearer {% if not object %}hidden{% endif %}" src="{% static admin_icon_delete %}"
                  width="10" height="10" alt="{% trans 'Clear' %}" title="{% trans 'Clear' %}"
                  data-no-icon-file="{% static 'filer/icons/nofile_48x48.png' %}">
+
             <a href="{{ lookup_url }}" class="js-related-lookup related-lookup {% if object %}related-lookup-change{% endif %} lookup" id="{{ id }}_lookup"
                title="{% trans 'Lookup' %}">
                 <span class="choose-file"><span class="fa fa-picture-o"></span>{% trans 'Choose File' %}</span>
@@ -69,8 +70,8 @@
 
             <br>
 
-            {{ hidden_input }}
-            <script id="{{id}}_javascript">
+            <div class="hidden">{{ hidden_input }}</div>
+            <script type="text/javascript" id="{{id}}_javascript">
                 django.jQuery(document).ready(function($){
                     var plus = django.jQuery('#add_{{ id }}');
                     $.each($('.field-image_author'), function () {
@@ -95,4 +96,3 @@
     </div>
     {% endwith %}
 {% endspaceless %}
-
