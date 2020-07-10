@@ -3,6 +3,7 @@ from __future__ import unicode_literals, print_function
 
 import os
 import copy
+from datetime import datetime, date as datetime_date
 
 from sekizai.helpers import get_varname as sekizai_get_varname
 from classytags.core import Tag, Options
@@ -14,11 +15,15 @@ from django import template as django_template
 from django.core.cache import cache
 from django.db.models.query import QuerySet
 from django.conf import settings
+from django.utils.timezone import is_naive
+from django.utils import formats, dateformat
 
 from edw.models.entity import EntityModel
 from edw.models.term import TermModel
 from edw.utils.circular_buffer_in_cache import RingBuffer, empty
 from edw.utils.hash_helpers import hash_unsorted_list, create_hash
+from edw.templatetags.edw_tags.common import from_iso8601
+from edw.utils.dateutils import datetime_to_local
 
 from edw_fluent.models.template.header import HeaderTemplate
 from edw_fluent.models.template.footer import FooterTemplate
@@ -308,3 +313,32 @@ def filename(value):
     except IOError:
         fn = None
     return fn
+
+
+@register.filter(expects_localtime=True, is_safe=False)
+def publication_date_time(value):
+    """
+    Alternative implementation to the built-in `date` template filter which also accepts the
+    date string in iso-8601 as passed in by the REST serializers.
+    """
+    if value in (None, ''):
+        return ''
+
+    if not (isinstance(value, datetime) or isinstance(value, datetime_date)):
+        value = from_iso8601(value)
+
+    if is_naive(value):
+        value = datetime_to_local(value)
+
+    time_str = formats.time_format(value, 'H:i')
+
+    format_pattern = '<span class="time">{}</span><span class="date">&nbsp;&mdash;&nbsp;{}</span>'
+
+    if value.date() == datetime.now().date():
+        result = (format_pattern).format(time_str, _('Today'))
+    elif value.year == datetime.today().year:
+        result = (format_pattern).format(time_str, dateformat.format(value, 'd E'))
+    else:
+        result = (format_pattern).format(time_str, dateformat.format(value, 'd E Y'))
+
+    return result

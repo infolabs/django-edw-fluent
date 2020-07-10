@@ -1,0 +1,29 @@
+{% load edw_tags edw_fluent_tags i18n %}
+{% if publication.related_by_tags|length %}
+    <div class="col-md-3 col-md-offset-1 col-sm-12">
+        {% with addendum_s=subjects|yesno:"1,0" addendum_i=images|yesno:"4,0" %}
+            {% with addendum=addendum_s|add:addendum_i %}
+                {% with readalsomaxitems=text|striptags|length|divide:400|add:addendum|maximal:3|stringformat:"i" %}
+                    {% if text|striptags|length != 0 %}
+                    {% for pub in publication.related_by_tags|slice:readalsomaxitems %}
+                        {% if forloop.first %}
+                            <div class="panel panel-default read-more">
+                                <div class="panel-heading">
+                                    <span>{% trans "Read also" %}</span>
+                                </div>
+                                <div class="panel-body">
+                        {% endif %}
+                                    <span class="title"><a href="{% url 'publication_detail' pk=pub.id %}" title="{{ pub.entity_name }}">{{ pub.entity_name }}</a></span><br>
+                                    <span class="date_time">{{ pub.created_at|publication_date_time|safe }}</span>
+                                    {% if not forloop.last %}<hr>{% endif %}
+                        {% if forloop.last %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            {% endwith %}
+        {% endwith %}
+    </div>
+{% endif %}

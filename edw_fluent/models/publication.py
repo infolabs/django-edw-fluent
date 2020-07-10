@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 import datetime
 from operator import or_
+from functools import reduce
+
 
 from django.conf import settings
 from django.db import models
@@ -461,7 +463,7 @@ class PublicationBase(EntityModel.materialized):
         if not hasattr(self, '_Publication__related_publications_cache'):
             tags = self.get_tags()
             if tags:
-                self.__related_publications_cache = self.__class__.objects \
+                self.__related_publications_cache = EntityModel.objects \
                     .active() \
                     .exclude(pk__in=exclude_ids) \
                     .filter(reduce(
