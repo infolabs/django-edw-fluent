@@ -5,8 +5,9 @@ import json
 from constance import config
 
 
+# https://unicode-table.com
 DEFAULT_SYMBOL_RANGES = [
-    [32, 1280],    # Alphabetical characters (base latin, extend latin, cyrilic)
+    [32, 1280],    # Alphabetical characters (base latin, extend latin, cyrillic)
     [8192, 8399],  # General punctuation, superscript and subscript characters, currency Symbols
     [8448, 8591],  # Letter-like characters, numeric forms
 ]

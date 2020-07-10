@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-09 22:17+0000\n"
-"PO-Revision-Date: 2020-07-10 12:36+0300\n"
+"PO-Revision-Date: 2020-07-10 12:41+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -120,7 +120,7 @@ msgstr "Тэги"
 
 #: models/publication.py:106
 msgid "Use semicolon as tag divider"
-msgstr ""
+msgstr "Используйте точку с запятой для разделения тэгов"
 
 #: models/publication.py:112
 msgid "Statistic"
