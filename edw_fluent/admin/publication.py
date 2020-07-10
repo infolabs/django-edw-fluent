@@ -69,7 +69,7 @@ class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
     base_fieldsets = (
         (None, {
             'fields':
-                ('title', 'subtitle', 'lead', 'pinned', 'terms', 'statistic', 'created_at', 'unpublish_at', 'active'),
+                ('title', 'subtitle', 'lead', 'tags', 'pinned', 'terms', 'statistic', 'created_at', 'unpublish_at', 'active'),
         }),
         (_('Content blocks'), {
             'fields':

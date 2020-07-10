@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Publication</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-Equiv="Cache-Control" Content="cache">
+    <meta http-Equiv="Pragma" Content="cache">
+    <meta http-Equiv="Expires" Content="1000">
+
+    <!-- Loading Elements Styles -->
+    <link type="text/css" href="/static/css/styles.min.css" rel="stylesheet">
+    <!-- Loading Font Styles -->
+    <link type="text/css" href="/static/page_builder/css/iconfont-style.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    <div id="page" class="page">
+
+        <div class="container {% if params.status == 'last' or params.status == 'single' %}padding-bottom-40{% endif %}">
+            <div class="row">
+
+                <!-- {% if 0 %} --><br>
+                <div class="col-md-7 col-md-offset-1 col-sm-12">
+                    <p>На&nbsp;рассмотрение делегатов конференции были представлены два кандидата, которые получили наибольшую поддержку&nbsp;— это действующий губернатор области, член Высшего Совета Партии Евгений Савченко и&nbsp;секретарь регионального отделения «Единой России», замгубернатора Наталия Полуянова. В&nbsp;рамках тайного голосования кандидатуру Евгения Савченко поддержали 154 делегата из&nbsp;162.</p> <p>«Я уверен, что решение Конференции поддержит весь партийный актив региона, и, конечно, каждый избиратель 10&nbsp;сентября&nbsp;– в&nbsp;день голосования»,&nbsp;— поздравил с&nbsp;выдвижением главу региона Сергей Неверов.</p> <p>По&nbsp;словам самого Савченко, менять курс развития региона он не&nbsp;намерен, а&nbsp;основной задачей сегодня является благополучие Белгородской области. «Ваше доверие я расцениваю как поддержку выбранного социально-экономического курса. Одержав победу, мы сделаем все, чтобы пятилетка с&nbsp;2017 по&nbsp;2022&nbsp;годы была самой плодотворной и&nbsp;эффективной, пятилеткой качества, развития экономики и&nbsp;построения солидарного общества».</p> <p>Напомним, выборы губернатора в&nbsp;Белгородской области пройдут в&nbsp;единый день голосования 10&nbsp;сентября 2017&nbsp;года. С&nbsp;кандидатами определились также КПРФ, которую на&nbsp;выборах представит депутат облдумы Станислав Панов, от&nbsp;ЛДПР&nbsp;— руководитель партии в&nbsp;Белгородской области Константин Климашевский, от&nbsp;«Справедливой России»&nbsp;— представитель партии в&nbsp;облдуме Юрий Осетров.&nbsp;</p>
+                </div>
+                <div class="col-md-3 col-md-offset-1 col-sm-12">
+                    <div class="panel panel-default read-more">
+                        <div class="panel-heading">
+                            <span>Читайте также</span>
+                        </div>
+                        <div class="panel-body">
+                            <span class="title"><a href="#" title="Роспотребнадзор по инициативе белгородского губернатора узаконит борьбу с неприятными запахами">Роспотребнадзор по инициативе белгородского губернатора узаконит борьбу с неприятными запахами</a></span>
+                            <span class="date_time">14:50&nbsp;&mdash;&nbsp;11 июля</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- {% endif %} -->
+
+                <!-- {% if 0 %} -->
+                <div class="hidden">
+                <!-- {% endif %} -->
+
+                    {% load i18n sekizai_tags page_builder %}
+                    {% addtoblock "js" %}
+                    {% chr 60 %}script{% chr 62 %}
+                        $(document).ready(function() {
+                            var publicationCarousel = $(".publication-carousel .owl-carousel");
+                            publicationCarousel.owlCarousel({
+                                nav: true,
+                                loop: true,
+                                items: 1,
+                                navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+                                onInitialized: function() {
+                                    publicationCarousel.addClass('loaded');
+                                },
+                            });
+                        })
+                    {% chr 60 %}/script{% chr 62 %}
+                    {% endaddtoblock %}
+
+                    <div class="col-md-8 col-sm-12 theme-default">
+                        {{ text|safe }}
+                        {% if images %}
+                            {% load thumbnail %}
+                            {% if images|length != 1 %}
+                                <!-- carousel: start -->
+                                <div class="publication-carousel">
+                                    <div class="owl-carousel-wrap">
+                                        <div class="owl-carousel owl-theme">
+
+                                            {% for i in images %}
+                                                {% thumbnail i.image.file 650x486 crop=False upscale as im %}
+                                                <div class="item">
+                                                    <img src="{{ im.url }}" title="{% if i.image.default_caption %}{{ i.image.default_caption }}{% endif %}{% if i.image.default_caption and i.image.author %} / {% endif %}{% if i.image.author %}Фото: {{ i.image.author }}{% endif %}" data-descr="{% if i.image.description %}{{ i.image.description }}{% endif %}" alt="{% if i.image.default_caption %}{{ i.image.default_caption }}{% else %}{{ publication.title }} - Изображение {{ forloop.counter }}{% endif %}" data-selector="img" style="outline: none; cursor: inherit;">
+                                                </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                    <div class="owl-outline-text">
+                                        <small></small>
+                                    </div>
+                                </div>
+                                <!-- carousel: end -->
+                            {% else %}
+                                {% thumbnail images.0.image 650x486 crop=False upscale as im %}
+                                <div class="publication-image">
+                                    <img class="img-responsive" src="{{ im.url }}" title="{% if images.0.image.default_caption %}{{ images.0.image.default_caption }}{% endif %}{% if images.0.image.default_caption and images.0.image.author %} / {% endif %}{% if images.0.image.author %}Фото: {{ images.0.image.author }}{% endif %}" data-descr="{% if images.0.image.description %}{{ images.0.image.description }}{% endif %}" alt="{% if images.0.image.default_caption %}{{ images.0.image.default_caption }}{% else %}{{ publication.title }} - Изображение {{ forloop.counter }}{% endif %}" data-selector="img" style="outline: none; cursor: inherit;">
+                                    {% if images.0.image.default_caption or images.0.image.author %}<small>{% if images.0.image.default_caption %}{{ images.0.image.default_caption }}{% endif %}{% if images.0.image.default_caption and images.0.image.author %} / {% endif %}{% if images.0.image.author %}Фото: {{ images.0.image.author|safe }}{% endif %}</small>{% endif %}
+                                </div>
+                            {% endif %}
+                        {% endif %}
+
+                        {% if files %}
+                            <div class="padding-top-20 padding-bottom-20">
+                                <div class="alert alert-success">
+                                    {% for file in files %}
+                                        <div class="file-block">
+                                            <span class="file">
+                                                <a href="{{ file.file.url }}">
+                                                    <i class="fa fa-file-text"></i>&nbsp;
+                                                    {% if file.file.name %}
+                                                        {{ file.file.name }}
+                                                    {% elif file.file.description %}
+                                                        {{ file.file.description }}
+                                                    {% else %}
+                                                        {% trans 'Download file' %}
+                                                    {% endif %}
+                                                </a>
+                                            </span>
+                                            <span class="size">{{ file.file.size|filesizeformat }}</span>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if params.status == 'last' or params.status == 'single' %}
+                            {% include 'edw_fluent/partials/_descriptions.html' %}
+                            {% if publication.attachments %}
+                                <div class="padding-top-20 padding-bottom-20">
+                                    <div class="alert alert-success">
+                                        {% for attachment in publication.attachments %}
+                                            <div class="file-block">
+                                                <span class="file"><a href="{{ attachment.file }}"><i class="fa fa-file-text"></i>&nbsp;{% if attachment.name %}{{ attachment.name }}{% else %}{% if attachment.description %}{{ attachment.description }}{% else %}Скачать файл{% endif %}{% endif %}</a></span>
+                                                <span class="size">{{ attachment.file_size|filesizeformat }}</span>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                <!-- {% if 0 %} -->
+                </div>
+                <!-- {% endif %} -->
+            </div>
+
+        </div>
+
+    </div><!-- /#page -->
+</body>
+</html>

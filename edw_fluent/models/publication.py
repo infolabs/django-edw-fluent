@@ -2,9 +2,11 @@
 from __future__ import unicode_literals
 
 import datetime
+from operator import or_
 
+from django.conf import settings
 from django.db import models
-from django.db.models import ExpressionWrapper, F, Case, When
+from django.db.models import ExpressionWrapper, F, Q, Case, When
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.utils import timezone
@@ -84,6 +86,7 @@ class PublicationBase(EntityModel.materialized):
         blank=False,
         null=False,
     )
+
     subtitle = models.CharField(
         verbose_name=_("Subtitle"),
         max_length=255,
@@ -91,20 +94,31 @@ class PublicationBase(EntityModel.materialized):
         null=True,
         default=''
     )
+
     lead = models.TextField(
         verbose_name=_("Lead"),
         blank=False,
         null=False
     )
+
+    tags = models.CharField(
+        verbose_name=_('tags'),
+        help_text=_('Use semicolon as tag divider'),
+        max_length=255,
+        blank=True
+    )
+
     statistic = models.IntegerField(
         verbose_name=_("Statistic"),
         blank=False,
         default='0'
     )
+
     pinned = models.BooleanField(
         verbose_name=_("Is main publication"),
         default=False
     )
+
     content = PlaceholderField(
         "content",
         verbose_name=_("Content")
@@ -419,12 +433,45 @@ class PublicationBase(EntityModel.materialized):
         else:
             return reverse('publication_detail', args=[self.pk])
 
+    def get_tags(self):
+        if self.tags and self.tags.strip():
+            tags = [tag.strip() for tag in self.tags.split(';')]
+            tags = [tag for tag in tags if tag]
+            return tags
+        else:
+            return []
+
     @cached_property
     def text_blocks(self):
         """
         RUS: Возвращает список текстовых блоков.
         """
         return list(self.content.contentitems.instance_of(BlockItem))
+
+    def get_related_by_tags_publications(self, count=getattr(settings, 'RELATED_BY_TAGS_COUNT', 3), exclude_blockitem=True):
+        """
+        Вернуть публикации, имеющие общие тэги с текущей публикацией
+        """
+        exclude_ids = list(
+            self.content.contentitems.instance_of(BlockItem).exclude(
+                blockitem__subjects__isnull=True).values_list('blockitem__subjects__id', flat=True)
+        ) if exclude_blockitem else []
+
+        exclude_ids.append(self.id)
+        if not hasattr(self, '_Publication__related_publications_cache'):
+            tags = self.get_tags()
+            if tags:
+                self.__related_publications_cache = self.__class__.objects \
+                    .active() \
+                    .exclude(pk__in=exclude_ids) \
+                    .filter(reduce(
+                        or_, [Q(publication__tags__icontains=tag) for tag in tags]
+                    )) \
+                    .order_by('-created_at')[:count]
+            else:
+                self.__related_publications_cache = self.__class__.objects.none()
+
+        return self.__related_publications_cache
 
     @classmethod
     def _get_root_term(cls, cache_key, slug):

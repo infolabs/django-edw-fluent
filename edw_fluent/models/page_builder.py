@@ -25,6 +25,18 @@ DEFAULT_ELEMENTS = {
         ]
     },
     'TemplateItem': {
+        "Block": [
+            {
+                "url": "elements/blocks/tpl/default-top-block.html",
+                "height": 462,
+                "thumbnail": "elements/blocks/thumbs/default-top-block.jpg"
+            },
+            {
+                "url": "elements/blocks/tpl/default-index-block.html",
+                "height": 462,
+                "thumbnail": "elements/blocks/thumbs/default-index-block.jpg"
+            }
+        ],
         "Text Grid": [
             {
                 "url": "elements/text/tpl/text-1col.html",
