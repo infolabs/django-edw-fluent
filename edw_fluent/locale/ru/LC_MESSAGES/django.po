@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-04 09:39+0000\n"
-"PO-Revision-Date: 2019-12-04 12:45+0300\n"
+"POT-Creation-Date: 2020-07-09 22:17+0000\n"
+"PO-Revision-Date: 2020-07-10 12:36+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.3\n"
 
 #: admin/forms/file.py:16 admin/forms/image.py:17
 msgid "Default"
@@ -32,15 +32,19 @@ msgstr "Инфоблок"
 msgid "Thumbnail"
 msgstr "Миниатюра"
 
-#: admin/forms/image.py:23 templates/admin/filer/widgets/admin_file.html:26
+#: admin/forms/image.py:23
+#: templates/edw_fluent/admin/filer/widgets/admin_file.html:26
 msgid "Author"
 msgstr "Автор"
 
-#: admin/forms/image.py:25 models/publication.py:82
-#: plugins/hottag/models.py:17
-#: templates/admin/filer/widgets/admin_file.html:32
+#: admin/forms/image.py:25 models/publication.py:84 plugins/hottag/models.py:20
+#: templates/edw_fluent/admin/filer/widgets/admin_file.html:32
 msgid "Title"
 msgstr "Заголовок"
+
+#: admin/forms/page.py:16 plugins/datamart/forms.py:44
+msgid "Terms"
+msgstr "Термины"
 
 #: admin/forms/template.py:33
 msgid "The view layout of the publication isn't defined"
@@ -50,27 +54,23 @@ msgstr "Не указано представление"
 msgid "Content blocks"
 msgstr "Основное содержимое"
 
-#: apps.py:10
+#: apps.py:13
 msgid "EDW fluent"
 msgstr "Управление страницами"
 
-#: models/page.py:177
-msgid "Layout"
-msgstr "Макет"
-
-#: models/page.py:181
+#: models/page.py:171
 msgid "SEO title"
 msgstr "SEO-заголовок"
 
-#: models/page.py:192
+#: models/page.py:188
 msgid "Simple page"
 msgstr "Страница"
 
-#: models/page.py:193
+#: models/page.py:189
 msgid "Simple pages"
 msgstr "Страницы"
 
-#: models/page.py:195
+#: models/page.py:191
 msgid "Can change Page layout"
 msgstr "Может изменить макет страницы"
 
@@ -82,80 +82,88 @@ msgstr "Представление"
 msgid "Page layout"
 msgstr "Страница"
 
-#: models/publication.py:61
+#: models/publication.py:63
 msgid "By date"
 msgstr "По дате"
 
-#: models/publication.py:62
+#: models/publication.py:64
 msgid "By chronology"
 msgstr "По хронологии"
 
-#: models/publication.py:63
+#: models/publication.py:65
 msgid "By recommendation"
 msgstr "Рекомендации"
 
-#: models/publication.py:64 models/template/base.py:21
+#: models/publication.py:66 models/template/base.py:21
 msgid "Alphabetical"
 msgstr "По алфавиту"
 
-#: models/publication.py:71
+#: models/publication.py:73
 msgid "Publication tile"
 msgstr "Плитка"
 
-#: models/publication.py:72
+#: models/publication.py:74
 msgid "Publication list"
 msgstr "Список"
 
-#: models/publication.py:88
+#: models/publication.py:91
 msgid "Subtitle"
 msgstr "Подзаголовок"
 
-#: models/publication.py:95
+#: models/publication.py:99
 msgid "Lead"
 msgstr "ЛИД"
 
-#: models/publication.py:100
+#: models/publication.py:105
+msgid "tags"
+msgstr "Тэги"
+
+#: models/publication.py:106
+msgid "Use semicolon as tag divider"
+msgstr ""
+
+#: models/publication.py:112
 msgid "Statistic"
 msgstr "Просмотры"
 
-#: models/publication.py:105
+#: models/publication.py:118
 msgid "Is main publication"
 msgstr "Рекомендуем"
 
-#: models/publication.py:110
+#: models/publication.py:124
 msgid "Content"
 msgstr "Контент"
 
-#: models/publication.py:119
+#: models/publication.py:133
 msgid "Unpublish at"
 msgstr "Дата снятия с публикации"
 
-#: models/publication.py:123
+#: models/publication.py:137
 msgid "Publication draft"
 msgstr "Черновик"
 
-#: models/publication.py:124
+#: models/publication.py:138
 msgid "Publication on editing"
 msgstr "На редактировании"
 
-#: models/publication.py:125
+#: models/publication.py:139
 msgid "Publication on approval"
 msgstr "На утверждении"
 
-#: models/publication.py:126
+#: models/publication.py:140
 msgid "Published"
 msgstr "Опубликовано"
 
-#: models/publication.py:134 models/publication.py:470
-#: plugins/hottag/models.py:22
+#: models/publication.py:148 models/publication.py:519
+#: plugins/hottag/models.py:25
 msgid "Publication"
 msgstr "Публикация"
 
-#: models/publication.py:135
+#: models/publication.py:149
 msgid "Publications"
 msgstr "Публикации"
 
-#: models/publication.py:270
+#: models/publication.py:286
 msgid "The maximum number of characters 90, you have {}"
 msgstr "Максимальное количество символов 90, у вас {}"
 
@@ -173,12 +181,12 @@ msgstr "На индексации"
 
 #: models/template/base.py:43 models/template/content_block.py:25
 #: models/template/footer.py:21 models/template/header.py:21
-#: plugins/datamart/models.py:39 plugins/template/models.py:19
-#: plugins/template/models.py:33
+#: plugins/datamart/models.py:42 plugins/template/models.py:22
+#: plugins/template/models.py:39
 msgid "Template"
 msgstr "Шаблон"
 
-#: models/template/base.py:44 plugins/template/models.py:34
+#: models/template/base.py:44 plugins/template/models.py:40
 msgid "Templates"
 msgstr "Шаблоны"
 
@@ -219,53 +227,49 @@ msgstr "Шаблон шапки"
 msgid "Header Templates"
 msgstr "Шаблоны шапки"
 
-#: plugins/block/forms.py:28
+#: plugins/block/forms.py:30
 msgid "Related entity for this block"
 msgstr "Связанные с этим блоком объекты"
 
-#: plugins/block/models.py:29
+#: plugins/block/models.py:32
 msgid "text"
 msgstr "Текст"
 
-#: plugins/block/models.py:36 plugins/block/pluginbase.py:47
-#: plugins/block/pluginbase.py:48 plugins/template/content_plugins.py:28
-#: plugins/template/content_plugins.py:29
+#: plugins/block/models.py:42 plugins/block/pluginbase.py:53
+#: plugins/block/pluginbase.py:54 plugins/template/content_plugins.py:34
+#: plugins/template/content_plugins.py:35
 msgid "Block"
 msgstr "Текст"
 
-#: plugins/block/models.py:37
+#: plugins/block/models.py:43
 msgid "Blocks"
 msgstr "Блоки"
 
-#: plugins/datamart/content_plugins.py:27
+#: plugins/datamart/content_plugins.py:33
 msgid "Data mart"
 msgstr "Витрина данных"
 
-#: plugins/datamart/content_plugins.py:28 plugins/datamart/forms.py:23
+#: plugins/datamart/content_plugins.py:34 plugins/datamart/forms.py:25
 msgid "Data marts"
 msgstr "Витрины данных"
 
-#: plugins/datamart/forms.py:32
+#: plugins/datamart/forms.py:34
 msgid "Subjects"
 msgstr "Субъекты"
 
-#: plugins/datamart/forms.py:42
-msgid "Terms"
-msgstr "Термины"
-
-#: plugins/datamart/models.py:47
+#: plugins/datamart/models.py:50
 msgid "In template calculate flag"
 msgstr "Не использывать для шаблонов"
 
-#: plugins/datamart/models.py:48
+#: plugins/datamart/models.py:51
 msgid "Do not use when calculating a template"
 msgstr "Не учитывать эту витрину данных при поиске шаблона для страницы"
 
-#: plugins/datamart/models.py:53
+#: plugins/datamart/models.py:56
 msgid "Cache datamart plugin"
 msgstr "Кешировать плагин"
 
-#: plugins/datamart/models.py:54
+#: plugins/datamart/models.py:57
 msgid "Cache datamart plugin on render output"
 msgstr ""
 "Кешировать плагин витрины данных для рендера страницы. Увеличивает скорость "
@@ -273,51 +277,51 @@ msgstr ""
 "Снимите этот флаг для витрин данных актуальное обновление данных которых на "
 "сайте критично."
 
-#: plugins/datamart/models.py:60
+#: plugins/datamart/models.py:66
 msgid "Data mart item"
 msgstr "Витрина данных"
 
-#: plugins/datamart/models.py:61
+#: plugins/datamart/models.py:67
 msgid "Data mart items"
 msgstr "Витрины данных"
 
-#: plugins/file/content_plugins.py:16
+#: plugins/file/content_plugins.py:19
 msgid "Media"
 msgstr "Медиа"
 
-#: plugins/file/models.py:20
+#: plugins/file/models.py:23
 msgid "file"
 msgstr "файл"
 
-#: plugins/file/models.py:24
+#: plugins/file/models.py:27
 msgid "name"
 msgstr "Название"
 
-#: plugins/file/models.py:30
+#: plugins/file/models.py:33
 msgid "target"
 msgstr "Открывать в"
 
-#: plugins/file/models.py:34
+#: plugins/file/models.py:37
 msgid "same window"
 msgstr "том же окне"
 
-#: plugins/file/models.py:35
+#: plugins/file/models.py:38
 msgid "new window"
 msgstr "новом окне"
 
-#: plugins/file/models.py:36
+#: plugins/file/models.py:39
 msgid "parent window"
 msgstr "родительском окне"
 
-#: plugins/file/models.py:37
+#: plugins/file/models.py:40
 msgid "topmost frame"
 msgstr "самом верхнем окне"
 
-#: plugins/file/models.py:44
+#: plugins/file/models.py:50
 msgid "File"
 msgstr "Файл"
 
-#: plugins/file/models.py:45
+#: plugins/file/models.py:51
 msgid "Files"
 msgstr "Файлы"
 
@@ -325,108 +329,114 @@ msgstr "Файлы"
 msgid "File does not exist"
 msgstr "Файл не существует"
 
-#: plugins/form_designer_plugin/forms.py:20
-#: plugins/form_designer_plugin/models.py:17
+#: plugins/form_designer_plugin/forms.py:23
+#: plugins/form_designer_plugin/models.py:20
 msgid "Form"
 msgstr "Форма"
 
-#: plugins/form_designer_plugin/models.py:24
+#: plugins/form_designer_plugin/models.py:33
 msgid "Form plugin"
 msgstr "Форма"
 
-#: plugins/form_designer_plugin/models.py:25
+#: plugins/form_designer_plugin/models.py:34
 msgid "Form plugins"
 msgstr "Формы"
 
-#: plugins/hottag/admin.py:24
+#: plugins/hottag/admin.py:26
 msgid "Content block"
 msgstr "Блок контента"
 
-#: plugins/hottag/management/commands/update_hot_tags.py:14
+#: plugins/hottag/management/commands/update_hot_tags.py:19
 msgid "Update HotTag "
 msgstr "Обновление HotTag"
 
-#: plugins/hottag/management/commands/update_hot_tags.py:23
+#: plugins/hottag/management/commands/update_hot_tags.py:28
 msgid "Count of days left for update"
 msgstr "Количество дней между обновлениями"
 
-#: plugins/hottag/management/commands/update_hot_tags.py:33
+#: plugins/hottag/management/commands/update_hot_tags.py:38
 msgid "Update not empty publications for best match"
-msgstr ""
-"Обновление публикаций с не пустыми hot-тегами для лучшего соответствия"
+msgstr "Обновление публикаций с не пустыми hot-тегами для лучшего соответствия"
 
-#: plugins/hottag/models.py:18
+#: plugins/hottag/models.py:21
 msgid "Content type"
 msgstr "Тип содержимого"
 
-#: plugins/hottag/models.py:19
+#: plugins/hottag/models.py:22
 msgid "ID"
 msgstr "ID"
 
-#: plugins/hottag/models.py:23
+#: plugins/hottag/models.py:26
 msgid "Created at"
 msgstr "Дата создания"
 
-#: plugins/hottag/models.py:27
+#: plugins/hottag/models.py:33
 msgid "Hot tag"
 msgstr "Линк"
 
-#: plugins/hottag/models.py:28
+#: plugins/hottag/models.py:34
 msgid "Hot tags"
 msgstr "Контекстная перелинковка"
 
-#: plugins/hottag/models.py:32
+#: plugins/hottag/models.py:41
 msgid "`{}` → `{}`"
 msgstr "`{}` → `{}`"
 
-#: plugins/hottag/models.py:33
+#: plugins/hottag/models.py:42
 msgid "`{}` → "
 msgstr "`{}` → "
 
-#: plugins/template/content_plugins.py:57
+#: plugins/template/content_plugins.py:67
 msgid "Template is not defined"
 msgstr "Шаблон не задан"
 
-#: plugins/template/models.py:26
+#: plugins/template/models.py:29
 msgid "Cache template plugin"
 msgstr "Кешировать плагин"
 
-#: plugins/template/models.py:27
+#: plugins/template/models.py:30
 msgid "Cache template plugin on render output"
 msgstr ""
-"Кешировать плагин для рендера страницы. Увеличивает скорость отдачи "
-"страницы с плагином, но может приводить к неактуальным данным. Снимите этот "
-"флаг для шаблонов актуальное обновление данных которых на сайте критично."
+"Кешировать плагин для рендера страницы. Увеличивает скорость отдачи страницы "
+"с плагином, но может приводить к неактуальным данным. Снимите этот флаг для "
+"шаблонов актуальное обновление данных которых на сайте критично."
 
-#: templates/admin/filer/widgets/admin_file.html:9
-#: templates/admin/filer/widgets/admin_file.html:55
+#: static/page_builder/elements/blocks/tpl/default-index-block.html:115
+msgid "Download file"
+msgstr ""
+
+#: templates/edw_fluent/admin/filer/widgets/admin_file.html:9
+#: templates/edw_fluent/admin/filer/widgets/admin_file.html:55
 msgid "Clear"
 msgstr "Очистить"
 
-#: templates/admin/filer/widgets/admin_file.html:18
+#: templates/edw_fluent/admin/filer/widgets/admin_file.html:18
 msgid "or drop your file here"
 msgstr "или \"скиньте\" ваш файл сюда"
 
-#: templates/admin/filer/widgets/admin_file.html:46
-#: templates/admin/filer/widgets/admin_file.html:47
+#: templates/edw_fluent/admin/filer/widgets/admin_file.html:46
+#: templates/edw_fluent/admin/filer/widgets/admin_file.html:47
 msgid "file missing"
 msgstr "файл не выбран"
 
-#: templates/admin/filer/widgets/admin_file.html:50
+#: templates/edw_fluent/admin/filer/widgets/admin_file.html:50
 msgid "no file selected"
 msgstr "файл не выбран"
 
-#: templates/admin/filer/widgets/admin_file.html:58
+#: templates/edw_fluent/admin/filer/widgets/admin_file.html:59
 msgid "Lookup"
 msgstr "Выбрать"
 
-#: templates/admin/filer/widgets/admin_file.html:59
+#: templates/edw_fluent/admin/filer/widgets/admin_file.html:60
 msgid "Choose File"
 msgstr "Выбрать файл"
 
-#: templates/admin/filer/widgets/admin_file.html:65
+#: templates/edw_fluent/admin/filer/widgets/admin_file.html:66
 msgid "Properties"
 msgstr "Свойства"
+
+#~ msgid "Layout"
+#~ msgstr "Макет"
 
 #~ msgid "Tag: {}"
 #~ msgstr "Метка: {}"
