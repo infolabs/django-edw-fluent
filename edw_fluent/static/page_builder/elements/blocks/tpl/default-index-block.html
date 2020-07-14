@@ -139,6 +139,9 @@
                             {% endif %}
                         {% endif %}
                     </div>
+                    {% if params.status == 'first' or params.status == 'single' %}
+                        {% include 'edw_fluent/partials/_readalso.html' %}
+                    {% endif %}
                 <!-- {% if 0 %} -->
                 </div>
                 <!-- {% endif %} -->
