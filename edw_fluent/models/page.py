@@ -166,6 +166,9 @@ class SimplePage(AbstractFluentPage):
     RUS: Класс для создания страниц.
     Опеределяет поля (Макет, SEO-заголовок) и их характеристики.
     """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.meta_image.field.upload_to = getattr(settings, 'SIMPLE_PAGE_UPLOAD_TO', 'fluent_pages/')
 
     seo_title = models.CharField(
         verbose_name=_('SEO title'),
