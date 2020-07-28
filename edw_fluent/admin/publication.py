@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from fluent_contents.admin import PlaceholderFieldAdmin
 from fluent_contents.models import Placeholder
+from fluent_contents.plugins.rawhtml.models import RawHtmlItem
 
 from edw.admin.entity import (
     EntityCharacteristicOrMarkInline,
@@ -16,9 +17,9 @@ from edw.admin.entity.entity_file import EntityFileInline
 from edw.admin.entity import EntityChildModelAdmin
 
 from edw_fluent.plugins.block.models import BlockItem
-
 from edw_fluent.admin.forms.image import PublicationImageInlineForm
 from edw_fluent.admin.forms.file import PublicationFileInlineForm
+from edw_fluent.utils import remove_emoji
 
 
 #===========================================================================================
@@ -69,7 +70,8 @@ class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
     base_fieldsets = (
         (None, {
             'fields':
-                ('title', 'subtitle', 'lead', 'tags', 'pinned', 'terms', 'statistic', 'created_at', 'unpublish_at', 'active'),
+                ('title', 'subtitle', 'lead', 'tags', 'pinned', 'terms',
+                 'statistic', 'created_at', 'unpublish_at', 'active'),
         }),
         (_('Content blocks'), {
             'fields':
@@ -118,6 +120,16 @@ class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
         """
         Сохраняет связанные модели объектов, определяет placeholder и создает текстовый блок
         """
+
+        # remove emoji from html items
+        for fs in formsets:
+            for f in fs:
+                if not f.is_valid():
+                    continue
+                obj = f.save(commit=False)
+                if isinstance(obj, RawHtmlItem):
+                    obj.html = remove_emoji(obj.html)
+
         super(BasePublicationAdmin, self).save_related(request, form, formsets, change)
 
         entity_id = int(form.instance.id)
