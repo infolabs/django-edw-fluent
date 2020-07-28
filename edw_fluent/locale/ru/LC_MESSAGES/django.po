@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-10 00:37+0000\n"
-"PO-Revision-Date: 2020-07-10 14:44+0300\n"
+"POT-Creation-Date: 2020-07-24 10:04+0000\n"
+"PO-Revision-Date: 2020-07-24 13:05+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -37,7 +37,7 @@ msgstr "Миниатюра"
 msgid "Author"
 msgstr "Автор"
 
-#: admin/forms/image.py:25 models/publication.py:86 plugins/hottag/models.py:20
+#: admin/forms/image.py:25 models/publication.py:87 plugins/hottag/models.py:20
 #: templates/edw_fluent/admin/filer/widgets/admin_file.html:32
 msgid "Title"
 msgstr "Заголовок"
@@ -58,19 +58,19 @@ msgstr "Основное содержимое"
 msgid "EDW fluent"
 msgstr "Управление страницами"
 
-#: models/page.py:171
+#: models/page.py:174
 msgid "SEO title"
 msgstr "SEO-заголовок"
 
-#: models/page.py:188
+#: models/page.py:191
 msgid "Simple page"
 msgstr "Страница"
 
-#: models/page.py:189
+#: models/page.py:192
 msgid "Simple pages"
 msgstr "Страницы"
 
-#: models/page.py:191
+#: models/page.py:194
 msgid "Can change Page layout"
 msgstr "Может изменить макет страницы"
 
@@ -82,88 +82,72 @@ msgstr "Представление"
 msgid "Page layout"
 msgstr "Страница"
 
-#: models/publication.py:65
+#: models/publication.py:66
 msgid "By date"
 msgstr "По дате"
 
-#: models/publication.py:66
+#: models/publication.py:67
 msgid "By chronology"
 msgstr "По хронологии"
 
-#: models/publication.py:67
+#: models/publication.py:68
 msgid "By recommendation"
 msgstr "Рекомендации"
 
-#: models/publication.py:68 models/template/base.py:21
+#: models/publication.py:69 models/template/base.py:21
 msgid "Alphabetical"
 msgstr "По алфавиту"
 
-#: models/publication.py:75
+#: models/publication.py:76
 msgid "Publication tile"
 msgstr "Плитка"
 
-#: models/publication.py:76
+#: models/publication.py:77
 msgid "Publication list"
 msgstr "Список"
 
-#: models/publication.py:93
+#: models/publication.py:94
 msgid "Subtitle"
 msgstr "Подзаголовок"
 
-#: models/publication.py:101
+#: models/publication.py:102
 msgid "Lead"
 msgstr "ЛИД"
 
-#: models/publication.py:107
+#: models/publication.py:108
 msgid "tags"
 msgstr "Тэги"
 
-#: models/publication.py:108
+#: models/publication.py:109
 msgid "Use semicolon as tag divider"
 msgstr "Используйте точку с запятой для разделения тэгов"
 
-#: models/publication.py:114
+#: models/publication.py:115
 msgid "Statistic"
 msgstr "Просмотры"
 
-#: models/publication.py:120
+#: models/publication.py:121
 msgid "Is main publication"
 msgstr "Рекомендуем"
 
-#: models/publication.py:126
+#: models/publication.py:127
 msgid "Content"
 msgstr "Контент"
 
-#: models/publication.py:135
+#: models/publication.py:136
 msgid "Unpublish at"
 msgstr "Дата снятия с публикации"
 
-#: models/publication.py:139
-msgid "Publication draft"
-msgstr "Черновик"
-
-#: models/publication.py:140
-msgid "Publication on editing"
-msgstr "На редактировании"
-
-#: models/publication.py:141
-msgid "Publication on approval"
-msgstr "На утверждении"
-
-#: models/publication.py:142
-msgid "Published"
-msgstr "Опубликовано"
-
-#: models/publication.py:150 models/publication.py:521
+#: models/publication.py:144 models/publication.py:514
 #: plugins/hottag/models.py:25
 msgid "Publication"
 msgstr "Публикация"
 
-#: models/publication.py:151
+#: models/publication.py:145
 msgid "Publications"
 msgstr "Публикации"
 
-#: models/publication.py:288
+#: models/publication.py:291
 msgid "The maximum number of characters 90, you have {}"
 msgstr "Максимальное количество символов 90, у вас {}"
 
@@ -403,7 +387,7 @@ msgstr ""
 
 #: static/page_builder/elements/blocks/tpl/default-index-block.html:115
 msgid "Download file"
-msgstr ""
+msgstr "Скачать файл"
 
 #: templates/edw_fluent/admin/filer/widgets/admin_file.html:9
 #: templates/edw_fluent/admin/filer/widgets/admin_file.html:55
@@ -435,13 +419,25 @@ msgstr "Выбрать файл"
 msgid "Properties"
 msgstr "Свойства"
 
-#: templates/edw_fluent/partials/_readalso.html:12
+#: templates/edw_fluent/partials/_readalso.html:13
 msgid "Read also"
 msgstr "Читайте также"
 
 #: templatetags/edw_fluent_tags.py:338
 msgid "Today"
-msgstr ""
+msgstr "Сегодня"
+
+#~ msgid "Publication draft"
+#~ msgstr "Черновик"
+
+#~ msgid "Publication on editing"
+#~ msgstr "На редактировании"
+
+#~ msgid "Publication on approval"
+#~ msgstr "На утверждении"
+
+#~ msgid "Published"
+#~ msgstr "Опубликовано"
 
 #~ msgid "Layout"
 #~ msgstr "Макет"
