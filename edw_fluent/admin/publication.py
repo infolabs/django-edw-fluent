@@ -8,6 +8,7 @@ from fluent_contents.models import Placeholder
 from fluent_contents.plugins.rawhtml.models import RawHtmlItem
 
 from edw.admin.entity import (
+    EntityRelationInline,
     EntityCharacteristicOrMarkInline,
     EntityRelatedDataMartInline,
 )
@@ -95,6 +96,7 @@ class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
 
     inlines = [
         EntityCharacteristicOrMarkInline,
+        EntityRelationInline,
         EntityRelatedDataMartInline,
         PublicationImageInline,
         PublicationFileInline,
