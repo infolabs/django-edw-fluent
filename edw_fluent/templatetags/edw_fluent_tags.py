@@ -93,7 +93,10 @@ class BaseRenderTemplateTag(Tag):
                 terms.append(layout_term.id)
 
         return queryset.semantic_filter(
-            terms, use_cached_decompress=True).get_similar(terms, use_cached_decompress=True, fix_it=True)
+            terms, use_cached_decompress=True, fix_it=False
+        ).get_similar(
+            terms, use_cached_decompress=True, fix_it=False
+        )
 
     @staticmethod
     def get_template_buffer():
