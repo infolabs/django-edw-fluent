@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Publication Top</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-Equiv="Cache-Control" Content="cache">
+    <meta http-Equiv="Pragma" Content="cache">
+    <meta http-Equiv="Expires" Content="1000">
+
+    <!-- Loading Elements Styles -->
+     <link type="text/css" href="/static/css/styles.min.css" rel="stylesheet">
+    <!-- Loading Font Styles -->
+    <link type="text/css" href="/static/page_builder/css/iconfont-style.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    <div id="page" class="page">
+
+        <div class="container padding-top-20 publication">
+
+            <!-- {% if 0 %} -->
+            <div class="row publication">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="date_time">12:13,&nbsp;15 августа 2017</span>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <span class="author"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;Владимир Сергеев</span><span class="publication-statistic padding-left-10"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;10</span>
+                        </div>
+                    </div>
+                    <div class="row publication">
+                        <div class="col-md-12">
+                            <h1>Москва вышла на первое место в Европе по количеству и высоте небоскребов</h1>
+                        </div>
+                    </div>
+                    <div class="media-block">
+                        <div class="topic_image">
+                            <img src="/static/page_builder/elements/blocks/images/building.jpg" class="img-responsive" data-selector="img" style="outline: none; cursor: inherit;">
+                            <span class="title">Международный деловой центр «Москва-Сити»</span>
+                            <span class="divider"></span>
+                            <span class="author">Владимир Сергеев / РИА Новости</span>
+                        </div>
+                    </div>
+                    <p class="lead">Москва занимает первое место в Европе по количеству и высоте небоскребов. Самым высоким жилым зданием оказалась башня «Восток» в составе международного делового центра «Москва-Сити». Об этом говорится в сообщении «Метриум Групп», поступившем в редакцию «Дома» в четверг, 3 июля.</p>
+                </div>
+            </div>
+            <!-- {% endif %} -->
+
+            <!-- {% if 0 %} -->
+            <div class="hidden">
+            <!-- {% endif %} -->
+                {% load edw_tags sekizai_tags page_builder %}
+                {% addtoblock "js" %}
+                {% chr 60 %}script{% chr 62 %}
+                    $(document).ready(function() {
+                        var publicationCarousel = $(".publication-carousel .owl-carousel");
+                        publicationCarousel.owlCarousel({
+                            nav: true,
+                            loop: true,
+                            items: 1,
+                            navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+                            onInitialized: function() {
+                                publicationCarousel.addClass('loaded');
+                            },
+                        });
+                    })
+                {% chr 60 %}/script{% chr 62 %}
+                {% endaddtoblock %}
+
+                {% site_info as site_info %}
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="date_time">{{ publication.created_at|time:"H:i" }},&nbsp;{{ publication.created_at|date:"d E Y" }}</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                {% if publication.author.name %}{% ifnotequal publication.author.name '' %}<span class="author"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;{% if publication.author.url %}<a class="color1" href="{{ publication.author.url }}">{% endif %}{{ publication.author.name }}{% if publication.author.url %}</a>{% endif %}</span>{% endifnotequal %}{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="media-block owl-theme">
+                            {{ publication.media }}
+
+                            <!-- Marks -->
+                            {% if publication.marks %}
+                                <div class="ex-catalog-item publication-marks">
+                                    <ul class="ex-ribbons">
+                                    {% for mark in publication.marks %}
+                                        <li class="ex-wrap-ribbon" data-view-class="{% for cls in mark.view_class %}{{ cls }} {% endfor %}">
+                                            <div class="ex-ribbon">{{ mark.values.0 }}</div>
+                                        </li>
+                                    {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            <!-- /Marks -->
+                            {% if publication.gallery %}
+                                <div class="shared">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
+                                    <div class="dropdown-menu">
+                                        <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,twitter" data-url="{{ site_info.siteconf.url }}{{ publication.detail_url }}"></div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% if publication.subtitle %}<h2>{{ publication.subtitle }}</h2>{% endif %}
+                        {% if publication.lead and publication.lead != publication.title %}<p class="lead">{{ publication.lead }}</p>{% endif %}
+                    </div>
+
+                    <div class="col-md-offset-1 col-md-3 banners padding-bottom-30">
+
+                        <!-- Characteristics -->
+                        {% if publication.characteristics %}
+                            <div class="pub-characteristics hidden-xs hidden-sm">
+                                <dl>
+                                    {% for characteristic in publication.characteristics %}
+                                        <dt data-view-class="{% for viewclass in characteristic.view_class %}{{ viewclass }} {% endfor %}">{{ characteristic.name }}</dt>
+                                        {% if 'is-url' in characteristic.view_class %}
+                                            {% for value in characteristic.values %}
+                                                <dd data-view-class="{% for viewclass in characteristic.view_class %}{{ viewclass }} {% endfor %}">
+                                                    <a href="{{ value }}" target="_blank" rel="nofollow" title="{{ value }}">
+                                                        {{ value }}<i class="fa fa-external-link"></i>
+                                                    </a>
+                                                </dd>
+                                            {% endfor %}
+                                        {% else %}
+                                            {% for value in characteristic.values %}
+                                                <dd data-view-class="{% for viewclass in characteristic.view_class %}{{ viewclass }} {% endfor %}">{{ value }}</dd>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </dl>
+                            </div>
+                        {% endif %}
+                        <!-- /Characteristics -->
+
+                    </div>
+                </div>
+            <!-- {% if 0 %} -->
+            </div>
+            <!-- {% endif %} -->
+        </div>
+
+    </div><!-- /#page -->
+
+</body>
+</html>

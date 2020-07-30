@@ -127,6 +127,7 @@ class SimplePageCacheMiddleware(CacheMiddleware):
         else:
             return super(SimplePageCacheMiddleware, self).process_request(request)
 
+
 def cache_simple_page(*args, **kwargs):
     """
     Decorator for views that tries getting the page from the cache and
@@ -166,6 +167,9 @@ class SimplePage(AbstractFluentPage):
     RUS: Класс для создания страниц.
     Опеределяет поля (Макет, SEO-заголовок) и их характеристики.
     """
+    def save(self, *args, **kwargs):
+        self.meta_image.field.upload_to = getattr(settings, 'SIMPLE_PAGE_UPLOAD_TO', 'fluent_pages/')
+        super(SimplePage, self).save(*args, **kwargs)
 
     seo_title = models.CharField(
         verbose_name=_('SEO title'),

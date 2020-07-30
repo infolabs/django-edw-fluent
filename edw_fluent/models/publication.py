@@ -2,9 +2,13 @@
 from __future__ import unicode_literals
 
 import datetime
+from operator import or_
+from functools import reduce
 
+
+from django.conf import settings
 from django.db import models
-from django.db.models import ExpressionWrapper, F, Case, When
+from django.db.models import ExpressionWrapper, F, Q, Case, When
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.utils import timezone
@@ -18,6 +22,7 @@ from chakert import Typograph
 
 from edw.models.entity import EntityModel
 from edw.models.term import TermModel
+from edw.utils.dateutils import datetime_to_local
 
 from edw_fluent.models.related import EntityImage, EntityFile
 from edw_fluent.models.page_layout import (
@@ -84,6 +89,7 @@ class PublicationBase(EntityModel.materialized):
         blank=False,
         null=False,
     )
+
     subtitle = models.CharField(
         verbose_name=_("Subtitle"),
         max_length=255,
@@ -91,20 +97,31 @@ class PublicationBase(EntityModel.materialized):
         null=True,
         default=''
     )
+
     lead = models.TextField(
         verbose_name=_("Lead"),
         blank=False,
         null=False
     )
+
+    tags = models.CharField(
+        verbose_name=_('tags'),
+        help_text=_('Use semicolon as tag divider'),
+        max_length=255,
+        blank=True
+    )
+
     statistic = models.IntegerField(
         verbose_name=_("Statistic"),
         blank=False,
         default='0'
     )
+
     pinned = models.BooleanField(
         verbose_name=_("Is main publication"),
         default=False
     )
+
     content = PlaceholderField(
         "content",
         verbose_name=_("Content")
@@ -118,13 +135,6 @@ class PublicationBase(EntityModel.materialized):
         null=True,
         verbose_name=_('Unpublish at'),
     )
-
-    TRANSITION_TARGETS = {
-        'draft': _("Publication draft"),
-        'on_editing': _("Publication on editing"),
-        'on_approval': _("Publication on approval"),
-        'published': _("Published")
-    }
 
     class Meta:
         """
@@ -158,7 +168,7 @@ class PublicationBase(EntityModel.materialized):
             'blocks_count': ('rest_framework.serializers.IntegerField', {
                 'read_only': True
             }),
-            'related_by_tags': ('edw.rest.serializers.entity.EntityDetailSerializer', {
+            'related_by_tags': ('edw.rest.serializers.entity.EntitySummarySerializer', {
                 'source': 'get_related_by_tags_publications',
                 'read_only': True,
                 'many': True
@@ -176,7 +186,7 @@ class PublicationBase(EntityModel.materialized):
                 'many': True
             }),
             'created_at': ('rest_framework.serializers.DateTimeField', {
-                'source': 'get_created_at',
+                'source': 'local_created_at',
                 'read_only': True
             }),
             'short_subtitle': ('rest_framework.serializers.CharField', {
@@ -244,11 +254,20 @@ class PublicationBase(EntityModel.materialized):
             ),
         }
 
-    def get_created_at(self):
+    @property
+    def local_created_at(self):
         """
-        RUS: Возвращает дату создания публикации, преобразованную во время UTC.
+        Преобразовывает дату/время создания объекта в формат даты/времени с учетом таймзоны заданой в настройках.
+        В базе данных дата/время сохраняется в формате UTC и при сериализации в результате не будет указано смещение
+        и для использования в шаблонах и внешних системах надо будет каким-то образом задавать смещение времени, для
+        упрощения работы с сериализованными данными это преобразование нужно сделать на этапе сериализации.
+        В конкретных моделях данных надо в сериалайзере использовать данный метод в качестве источника данных (src).
+        Например:
+            2019-11-13T12:15:04.748250Z - сериализованные данные до преобразования
+            2019-11-13T15:15:04+03:00 - сериализованные данные после преобразования
+        :return: дата/время в нужной таймзоне
         """
-        return naive_date_to_utc_date(self.created_at)
+        return datetime_to_local(self.created_at)
 
     def get_updated_at(self):
         """
@@ -396,10 +415,10 @@ class PublicationBase(EntityModel.materialized):
         ENG: Return extra data for summary serializer.
         RUS: Возвращает дополнительные данные для сводного сериалайзера.
         """
-        data_mart = context['data_mart']
+        data_mart = context.get('data_mart', None)
         extra = {
             'url': self.get_detail_url(data_mart),
-            'created_at': self.created_at,
+            'created_at': self.local_created_at,
             'updated_at': self.updated_at,
             'statistic': self.statistic,
             'short_subtitle': self.short_subtitle,
@@ -419,6 +438,14 @@ class PublicationBase(EntityModel.materialized):
         else:
             return reverse('publication_detail', args=[self.pk])
 
+    def get_tags(self):
+        if self.tags and self.tags.strip():
+            tags = [tag.strip() for tag in self.tags.split(';')]
+            tags = [tag for tag in tags if tag]
+            return tags
+        else:
+            return []
+
     @cached_property
     def text_blocks(self):
         """
@@ -426,16 +453,31 @@ class PublicationBase(EntityModel.materialized):
         """
         return list(self.content.contentitems.instance_of(BlockItem))
 
-    @classmethod
-    def _get_root_term(cls, cache_key, slug):
-        """Получить корневой термин по слагу, сохранить его в атрибут класса"""
-        if not hasattr(cls, cache_key):
-            root_term = TermModel.objects.get(
-                slug=slug,
-                parent=None,
-            )
-            setattr(cls, cache_key, root_term)
-        return getattr(cls, cache_key)
+    def get_related_by_tags_publications(self, exclude_blockitem=True):
+        """
+        Вернуть публикации, имеющие общие тэги с текущей публикацией
+        """
+        exclude_ids = list(
+            self.content.contentitems.instance_of(BlockItem).exclude(
+                blockitem__subjects__isnull=True).values_list('blockitem__subjects__id', flat=True)
+        ) if exclude_blockitem else []
+
+        exclude_ids.append(self.id)
+        if not hasattr(self, '_Publication__related_publications_cache'):
+            tags = self.get_tags()
+            if tags:
+                related_by_tags_count = getattr(settings, 'RELATED_BY_TAGS_COUNT', 5)
+                self.__related_publications_cache = EntityModel.objects \
+                    .active() \
+                    .exclude(pk__in=exclude_ids) \
+                    .filter(reduce(
+                        or_, [Q(publication__tags__icontains=tag) for tag in tags]
+                    )) \
+                    .order_by('-created_at')[:related_by_tags_count]
+            else:
+                self.__related_publications_cache = self.__class__.objects.none()
+
+        return self.__related_publications_cache
 
     @classmethod
     def get_view_components(cls, **kwargs):

@@ -32,6 +32,6 @@ setup(
         'django-constance==1.3.3'
     ],
     dependency_links=[
-        'https://github.com/SmartTeleMax/chakert/tarball/master#egg=chakert-0.1.2'
+        'https://github.com/Harut/chakert/tarball/master#egg=chakert-0.2.1'
     ]
 )
