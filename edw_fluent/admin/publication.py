@@ -36,7 +36,7 @@ class PublicationImageInline(EntityImageInline):
         """
         Возвращает набор форм загрузчика изображений в публикациях
         """
-        self.form.publication = obj
+        self.form.entity = obj
         return super(PublicationImageInline, self).get_formset(request, obj, **kwargs)
 
 

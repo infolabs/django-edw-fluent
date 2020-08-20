@@ -29,10 +29,10 @@ class PublicationImageInlineForm(forms.ModelForm):
         Конструктор класса
         """
         super(PublicationImageInlineForm, self).__init__(*args, **kwargs)
-        publication = getattr(self, 'publication', None)
+        entity = getattr(self, 'entity', None)
         available_choices = list(self.AVAILABLE_CHOICES)
-        if publication:
-            for block in publication.content.contentitems.filter(instance_of=BlockItem):
+        if entity and hasattr(entity, 'content'):
+            for block in entity.content.contentitems.filter(instance_of=BlockItem):
                 available_choices.append((int(block.pk), str(block.__str__())))
         self.fields['key'].choices = available_choices
 
