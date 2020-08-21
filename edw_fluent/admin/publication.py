@@ -53,7 +53,7 @@ class PublicationFileInline(EntityFileInline):
         """
         Возвращает набор форм загрузчика файлов в публикациях
         """
-        self.form.publication = obj
+        self.form.entity = obj
         return super(PublicationFileInline, self).get_formset(request, obj, **kwargs)
 
 
