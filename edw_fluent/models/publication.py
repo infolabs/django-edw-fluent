@@ -371,7 +371,7 @@ class PublicationBase(EntityModel.materialized):
 
     def get_attachments(self):
         """
-        RUS: Получает миниатюры по ключу, отсортированные по порядку.
+        RUS: Получает файлы по ключу, отсортированные по порядку.
         """
         return EntityFile.objects.filter(entity=self, key=None).order_by('order')
 
