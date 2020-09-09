@@ -44,6 +44,14 @@ class TagFilter(Filter):
         super(TagFilter, self).__init__(*args, **kwargs)
 
     def filter(self, qs, value):
+        """
+        Примеры:
+        tags=test1,test2,!test3,!test4 - Публикация должна содержать теги test1 и test2,
+        но не должна содержать test3 или test4
+
+        tags!=test1,test2,!test3,!test4 - Публикация должна содержать теги test3 или test4,
+        но не должна содержать test1 и test2
+        """
         if value:
             lookup = '%s__%s' % (self.field_name, self.lookup_expr)
             incl, excl = value

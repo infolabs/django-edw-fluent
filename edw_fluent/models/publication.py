@@ -194,7 +194,15 @@ class PublicationBase(EntityModel.materialized):
                 'read_only': True
             }),
         }
+
         exclude = ['images', 'files', 'stored_request']
+
+        filters = {
+            # Tags: см. пример в описании фильтра
+            'tags': ("edw_fluent.rest.filters.publication.TagFilter", {
+                'name': 'publication__tags'
+            })
+        }
 
     def __str__(self):
         """

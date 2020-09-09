@@ -136,6 +136,8 @@ class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
 
         entity_id = int(form.instance.id)
 
+        # todo: Отрефакторить в метод Publication - pub.get_or_create_placeholder()
+
         placeholders = Placeholder.objects.filter(
             parent_id=entity_id,
         )
