@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from fluent_contents.admin import PlaceholderFieldAdmin
-from fluent_contents.models import Placeholder
 from fluent_contents.plugins.rawhtml.models import RawHtmlItem
 
 from edw.admin.entity import (
@@ -136,23 +135,14 @@ class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
 
         entity_id = int(form.instance.id)
 
-        # todo: Отрефакторить в метод Publication - pub.get_or_create_placeholder()
-
-        placeholders = Placeholder.objects.filter(
-            parent_id=entity_id,
+        placeholder = form.instance.get_or_create_placeholder()
+        blockitems = BlockItem.objects.filter(
+            placeholder_id=placeholder.id,
         )
 
-        if placeholders:
-
-            placeholder = placeholders[0]
-
-            blockitems = BlockItem.objects.filter(
+        if len(blockitems) == 0:
+            BlockItem.objects.create(
                 placeholder_id=placeholder.id,
+                parent_id=entity_id,
+                parent_type_id=placeholder.parent_type_id,
             )
-
-            if len(blockitems) == 0:
-                BlockItem.objects.create(
-                    placeholder_id=placeholder.id,
-                    parent_id=entity_id,
-                    parent_type_id=placeholder.parent_type_id,
-                )

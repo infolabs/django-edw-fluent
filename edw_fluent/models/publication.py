@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import datetime
 from operator import or_
 from functools import reduce
+from fluent_contents.models import Placeholder
 
 
 from django.conf import settings
@@ -505,6 +506,14 @@ class PublicationBase(EntityModel.materialized):
                 return reduced
 
         return full
+
+    def get_or_create_placeholder(self):
+        try:
+            placeholder = Placeholder.objects.get_by_slot(self, "content")
+        except Placeholder.DoesNotExist:
+            placeholder = Placeholder.objects.create_for_object(self, "content")
+
+        return placeholder
 
     @classmethod
     def validate_term_model(cls):
