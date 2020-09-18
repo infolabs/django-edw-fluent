@@ -294,10 +294,10 @@ class PublicationBase(EntityModel.materialized):
             self.subtitle = Typograph.typograph_text(self.subtitle, 'ru')
         if self.lead:
             self.lead = Typograph.typograph_text(self.lead, 'ru')
-
+        max_length  = getattr(settings, 'PUBLICATION_TITLE_MAX_LENGTH', 90)
         len_title = len(self.title)
-        if len_title > 90:
-            raise ValidationError(_('The maximum number of characters 90, you have {}').format(len_title))
+        if len_title > max_length:
+            raise ValidationError(_('The maximum number of characters {}, you have {}').format(max_length, len_title))
 
     def get_placeholder(self):
         """
