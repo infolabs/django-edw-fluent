@@ -136,11 +136,8 @@ class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
         entity_id = int(form.instance.id)
 
         placeholder = form.instance.get_or_create_placeholder()
-        blockitems = BlockItem.objects.filter(
-            placeholder_id=placeholder.id,
-        )
 
-        if len(blockitems) == 0:
+        if not BlockItem.objects.filter(placeholder_id=placeholder.id).exists():
             BlockItem.objects.create(
                 placeholder_id=placeholder.id,
                 parent_id=entity_id,

@@ -25,12 +25,12 @@ from edw.models.entity import EntityModel
 from edw.models.term import TermModel
 from edw.utils.dateutils import datetime_to_local
 
-from edw_fluent.models.related import EntityImage, EntityFile
 from edw_fluent.models.page_layout import (
     get_views_layouts,
     get_layout_slug_by_model_name,
     get_or_create_view_layouts_root
 )
+from edw_fluent.models.mixins import ImagesFilesFluentMixin
 from edw_fluent.plugins.block.models import BlockItem
 
 _publication_root_terms_system_flags_restriction = (
@@ -49,11 +49,10 @@ def naive_date_to_utc_date(naive_date):
         .astimezone(tz=timezone.get_current_timezone()) \
         .replace(tzinfo=timezone.utc)
 
-
 # =========================================================================================================
 # PublicationBase model
 # =========================================================================================================
-class PublicationBase(EntityModel.materialized):
+class PublicationBase(EntityModel.materialized, ImagesFilesFluentMixin):
     """
     RUS: Базовая модель публикаций.
     Определяет поля и их значения, компоненты представления, способы сортировки.
@@ -306,13 +305,6 @@ class PublicationBase(EntityModel.materialized):
         return self.content.id
 
     @cached_property
-    def ordered_images(self):
-        """
-        RUS: Возвращает список всех отсортированных изображений.
-        """
-        return list(self.get_ordered_images())
-
-    @cached_property
     def breadcrumbs(self):
         """
         RUS: Возвращает хлебные крошки, если есть витрина данных и страница к ней.
@@ -326,12 +318,6 @@ class PublicationBase(EntityModel.materialized):
 
         return None
 
-    def get_ordered_images(self):
-        """
-        RUS: Возвращает все отсортированные изображения.
-        """
-        return self.images.all().order_by('entityimage__order')
-
     @cached_property
     def blocks_count(self):
         """
@@ -344,62 +330,6 @@ class PublicationBase(EntityModel.materialized):
         RUS: В соответствии с количеством и номером текстового блока формирует страницу.
         """
         return BlockItem.objects.filter(placeholder=self.content).count()
-
-    @cached_property
-    def gallery(self):
-        """
-        RUS: Получает список галерей.
-        """
-        return list(self.get_gallery())
-
-    def get_gallery(self):
-        """
-        RUS: Создает галерею из изображений, связанных с данной публикацией и ее блокамии и отсортированных по порядку.
-        """
-        return EntityImage.objects.filter(entity=self, key=None).select_related('image').order_by('order')
-
-    @cached_property
-    def thumbnail(self):
-        """
-        RUS: Возвращает список миниатюр.
-        """
-        return list(self.get_thumbnail())
-
-    def get_thumbnail(self):
-        """
-        RUS: Получает миниатюру по ключу, отсортированные по порядку.
-        """
-        return EntityImage.objects.filter(entity=self, key=EntityImage.THUMBNAIL_KEY).order_by('order')
-
-    @cached_property
-    def attachments(self):
-        """
-        RUS: Возвращает список вложений.
-        """
-        return list(self.get_attachments())
-
-    def get_attachments(self):
-        """
-        RUS: Получает файлы по ключу, отсортированные по порядку.
-        """
-        return EntityFile.objects.filter(entity=self, key=None).order_by('order')
-
-    @cached_property
-    def thumbnails(self):
-        """
-        RUS: Получает миниатюру по ключу, отсортированные по порядку.
-        Если миниатюра невыбрана, берется первая картинка по умолчанию, которая становится миниатюрой.
-        """
-        thumbnails = [x.image for x in
-                      EntityImage.objects.filter(entity=self, key=EntityImage.THUMBNAIL_KEY).order_by('order')]
-        if thumbnails:
-            return thumbnails
-        else:
-            thumbnails = [x.image for x in self.gallery]
-            if thumbnails:
-                return thumbnails[:1]
-            else:
-                return self.ordered_images[:1]
 
     def get_short_subtitle(self):
         """
