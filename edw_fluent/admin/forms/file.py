@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 
 from django import forms
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import ugettext_lazy as _
 
 from edw_fluent.plugins.block.models import BlockItem
@@ -25,9 +26,11 @@ class PublicationFileInlineForm(forms.ModelForm):
         super(PublicationFileInlineForm, self).__init__(*args, **kwargs)
         entity = getattr(self, 'entity', None)
         available_choices = list(self.AVAILABLE_CHOICES)
-        if entity and hasattr(entity, 'content'):
+        try:
             for block in entity.content.contentitems.filter(instance_of=BlockItem):
                 available_choices.append((int(block.pk), str(block.__str__())))
+        except ObjectDoesNotExist:
+            pass
         self.fields['key'].choices = available_choices
 
     def clean(self):
