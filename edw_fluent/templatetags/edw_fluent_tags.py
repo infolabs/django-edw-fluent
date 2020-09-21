@@ -17,6 +17,7 @@ from django.db.models.query import QuerySet
 from django.conf import settings
 from django.utils.timezone import is_naive
 from django.utils import formats, dateformat
+from django.utils.translation import ugettext_lazy as _
 
 from edw.models.entity import EntityModel
 from edw.models.term import TermModel
