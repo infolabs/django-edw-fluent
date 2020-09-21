@@ -32,7 +32,8 @@ class PublicationViewSet(EntityViewSet):
                 cookie_name = "_seen_{}".format(pk)
                 if cookie_name not in request.COOKIES:
                     response.set_cookie(cookie_name, '1')
-                    PublicationBase.objects.filter(id=pk).update(statistic=F('statistic') + 1)
+                    self.get_object().get_real_instance().__class__().objects.filter(id=pk).update(
+                        statistic=F('statistic') + 1)
 
             for characteristic in response.data.get('characteristics', []):
                 if characteristic['path'] == 'entity/publication_wrapper/redirect-url':
