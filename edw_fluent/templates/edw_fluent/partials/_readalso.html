@@ -6,22 +6,8 @@
             {% with addendum=addendum_s|add:addendum_i %}
                 {% with readalsomaxitems=text|striptags|length|divide:400|add:addendum|maximal:1|minimal:related_by_tags_count|stringformat:"i" %}
                     {% if text|striptags|length != 0 %}
-                    {% for pub in publication.related_by_tags|slice:readalsomaxitems %}
-                        {% if forloop.first %}
-                            <div class="panel panel-default read-more">
-                                <div class="panel-heading">
-                                    <span>{% trans "Read also" %}</span>
-                                </div>
-                                <div class="panel-body">
-                        {% endif %}
-                                    <span class="title"><a href="{% url 'publication_detail' pk=pub.id %}" title="{{ pub.entity_name }}">{{ pub.entity_name }}</a></span><br>
-                                    <span class="date_time">{{ pub.extra.created_at|publication_date_time|safe }}</span>
-                                    {% if not forloop.last %}<hr>{% endif %}
-                        {% if forloop.last %}
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+                        {% get_entities data_mart_pk='readalso' limit=readalsomaxitems as entities %}
+                        {% include 'nash_region/partials/compact_json/container.html' with className="ex-data-mart read-more" not_id__in=publication.id data_mart_id='readalso' view_component='publication_list' name='Читайте также' template_name="related" limit=4 %}
                     {% endif %}
                 {% endwith %}
             {% endwith %}
