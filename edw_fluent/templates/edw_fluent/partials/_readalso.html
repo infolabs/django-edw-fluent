@@ -6,8 +6,8 @@
             {% with addendum=addendum_s|add:addendum_i %}
                 {% with readalsomaxitems=text|striptags|length|divide:400|add:addendum|maximal:1|minimal:related_by_tags_count|stringformat:"i" %}
                     {% if text|striptags|length != 0 %}
-                        {% get_entities data_mart_pk='readalso' limit=readalsomaxitems as entities %}
-                        {% include 'nash_region/partials/compact_json/container.html' with className="ex-data-mart read-more" not_id__in=publication.id data_mart_id='readalso' view_component='publication_list' name='Читайте также' template_name="related" limit=4 %}
+                        {% get_entities data_mart_pk='readalso' limit=readalsomaxitems tags=publication.tags id!=publication.id as entities %}
+                        {% include 'edw_fluent/partials/compact_json/container.html' with className="ex-data-mart read-more" tags=publication.tags not_id__in=publication.id data_mart_id='readalso' view_component='publication_list' template_name="related" limit=readalsomaxitems only %}
                     {% endif %}
                 {% endwith %}
             {% endwith %}

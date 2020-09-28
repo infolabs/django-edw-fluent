@@ -1,21 +1,77 @@
 import React, { Component } from 'react';
 import ListItemMixin from 'components/BaseEntities/ListItemMixin';
 
+const formatDate = (prevDate) => {
+  const currentYear = new Date().getFullYear(),
+    currentYearIndex = `${prevDate.indexOf(currentYear)} г.`;
+  if (currentYearIndex >= 0) {
+    const newDate = prevDate.slice(0, currentYearIndex);
+    return newDate;
+  }
+  return prevDate;
+}
 
-const getDate = (date, offset = 3) => {
-  let m = new Date(date);
-  m.setHours(m.getHours() + offset);
-  return(`${('0' + m.getUTCDate()).slice(-2)}.${('0' + (m.getUTCMonth() + 1)).slice(-2)}.${m.getUTCFullYear()}`);
+const getDate = (date, isFullDate = false) => {
+  const newDate = new Date(date).toLocaleTimeString('ru', {
+    year: 'numeric',
+    month: isFullDate ? 'short' : '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  }).split(', ');
+
+  return {date: formatDate(newDate[0]), time: newDate[1]};
 };
 
-// Container
+const ReadMore = (props) => {
+  const {items, meta} = props,
+        isFullDate= meta.data_mart.view_class && meta.data_mart.view_class.indexOf('get_full_date') >= 0 ? true : false;
 
+  return (
+    <div className="read-more__container">
+      <>
+        <div className="panel panel-default read-more">
+          <div className="panel-heading">
+            <span>Читайте также</span>
+          </div>
+          <div className="panel-body">
+            {items.map((item, index) => {
+              const createdAt = getDate(item.extra.created_at, isFullDate);
+
+              return (
+                <div className="read-more__item" key={item.id}>
+                  <span className="title"><a href={`${item.id}.html`}>{item.entity_name}</a></span>
+                  <br/>
+                  <span className="date_time">
+                      <span className="time">{createdAt.date}</span>
+                      <span className="date">&nbsp;—&nbsp;{createdAt.time}</span>
+                  </span>
+                  { items.length > 0 && index !== items.length - 1 && <hr/> }
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </>
+    </div>
+  );
+}
+
+
+
+// Container
 export default class PublicationList extends Component {
 
   render() {
     const { items, actions, loading, descriptions, meta } = this.props;
+    const datamart = document.querySelector('.read-more');
+
     let entities_class = "entities list-items";
     entities_class = loading ? entities_class + " ex-state-loading" : entities_class;
+
+    if (datamart) {
+      return <ReadMore items={items} meta={meta}/>
+    }
 
     return (
       <div className={entities_class}>
@@ -56,6 +112,7 @@ class PublicationListItem extends ListItemMixin(Component) {
 
   getItemBlock(url, data, title, descrText, descriptions){
     const characteristics = data.short_characteristics;
+    const createdAt = getDate(data.extra.created_at);
 
     return (
       <div className="col-md-9">
@@ -78,7 +135,7 @@ class PublicationListItem extends ListItemMixin(Component) {
           </ul>
         </div>
         }
-        <p className="date_time"><i className="fa fa-calendar"/>&nbsp;{getDate(data.extra.created_at)}</p>
+        <p className="date_time"><i className="fa fa-calendar"/>&nbsp;{createdAt.date}</p>
         <span className="padding-left-10 sub-statisitic"><i className="fa fa-eye" aria-hidden="true" />&nbsp;{data.extra.statistic}</span>
       </div>
     )
