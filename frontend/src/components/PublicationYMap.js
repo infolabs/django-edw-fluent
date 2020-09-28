@@ -18,12 +18,10 @@ class PublicationYMap extends YMapInner {
   assembleInfo(item, meta, description) {
     const { marks, characteristics, media, header } = this.assembleInfoVars(item, meta, description);
     let exRibbons = this.exRibbons(marks),
-        exTags = this.exTags(marks),
-        messageId = description ? description.id : null;
+        exTags = this.exTags(marks);
 
     const created_at = new Date(item.extra.created_at);
     const statistic = item.extra.statistic;
-    console.log(Object.keys(item.extra).length)
 
     let annotations = {};
     if (item.extra) {
@@ -36,7 +34,6 @@ class PublicationYMap extends YMapInner {
 
       }
     }
-    console.log(annotations);
 
     return (
       <div className="ex-map-info"
