@@ -26,7 +26,7 @@ class PublicationFileInlineForm(forms.ModelForm):
         super(PublicationFileInlineForm, self).__init__(*args, **kwargs)
         entity = getattr(self, 'entity', None)
         available_choices = list(self.AVAILABLE_CHOICES)
-        if entity:
+        if entity and hasattr(entity, 'content'):
             try:
                 for block in entity.content.contentitems.filter(instance_of=BlockItem):
                     available_choices.append((int(block.pk), str(block.__str__())))
