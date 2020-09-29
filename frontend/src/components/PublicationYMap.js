@@ -41,7 +41,7 @@ class PublicationYMap extends YMapInner {
            style={item.extra.group_size && {cursor: 'pointer'}}>
         <div className="ex-map-img" dangerouslySetInnerHTML={{__html: marked(media, {sanitize: false})}} />
         {exRibbons}
-        <div className="ex-map-descr">
+        <div className="ex-map-descr ex-map-descr-padding">
           <h5>{header}</h5>
           <ul className="ex-attrs">
             {characteristics.map(
@@ -53,18 +53,18 @@ class PublicationYMap extends YMapInner {
                 </li>
             )}
           </ul>
-          {Object.keys(annotations).length &&
-            <div className="publication-extra">
-              <hr className="publication-extra__hr"/>
-              <strong><i className="fa fa-calendar" aria-hidden="true"></i></strong>&nbsp;
-              {annotations.created_at.getDate() > 9 ? created_at.getDate() : '0' + created_at.getDate()}.
-              {annotations.created_at.getMonth() + 1 > 9 ? created_at.getMonth() + 1 : '0' + (created_at.getMonth() + 1)}.
-              {annotations.created_at.getFullYear()}
-              <strong className="second"><i className="fa fa-eye" aria-hidden="true"></i></strong>&nbsp;
-              {annotations.statistic}
-            </div>
-          }
           {exTags}
+          {Object.keys(annotations).length &&
+          <div className="publication-extra">
+            <hr className="publication-extra__hr"/>
+            <strong><i className="fa fa-calendar" aria-hidden="true"></i></strong>&nbsp;
+            {annotations.created_at.getDate() > 9 ? created_at.getDate() : '0' + created_at.getDate()}.
+            {annotations.created_at.getMonth() + 1 > 9 ? created_at.getMonth() + 1 : '0' + (created_at.getMonth() + 1)}.
+            {annotations.created_at.getFullYear()}
+            <strong className="second"><i className="fa fa-eye" aria-hidden="true"></i></strong>&nbsp;
+            {annotations.statistic}
+          </div>
+          }
         </div>
       </div>
     );
