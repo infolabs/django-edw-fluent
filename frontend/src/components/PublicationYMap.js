@@ -21,7 +21,7 @@ class PublicationYMap extends YMapInner {
         exTags = this.exTags(marks);
 
     const created_at = new Date(item.extra.created_at);
-    const statistic = item.extra.statistic;
+    const lead = item.extra.short_subtitle;
 
     let annotations = {};
     if (item.extra) {
@@ -31,7 +31,6 @@ class PublicationYMap extends YMapInner {
         } else if (key === 'statistic') {
           annotations[key] = val;
         }
-
       }
     }
 
@@ -43,6 +42,7 @@ class PublicationYMap extends YMapInner {
         {exRibbons}
         <div className="ex-map-descr ex-map-descr-padding">
           <h5>{header}</h5>
+          {lead.length && <p>{lead}</p>}
           <ul className="ex-attrs">
             {characteristics.map(
               (child, i) =>
