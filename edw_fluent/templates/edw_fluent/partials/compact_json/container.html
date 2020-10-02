@@ -1,0 +1,50 @@
+{% load edw_tags %}
+<div class="{{ className }}"
+     data-selected-entry-point-id="{{ data_mart_id }}"
+     data-entry-points='
+        {% compactjson %}
+        {
+            "{{ data_mart_id }}": {
+                "request_params": [
+                    {% block extra_request_params %}
+                    {% endblock extra_request_params %}
+                    {% if terms_ids %}
+                        "terms={{ terms_ids|join:"," }}",
+                    {% endif %}
+                    {% if subj_ids %}
+                        "subj={{ subj_ids|join:"," }}",
+                    {% endif %}
+                    {% if id__in %}
+                        "id__in={{ id__in }}",
+                    {% endif %}
+                    {% if not_id__in %}
+                        "id__in!={{ not_id__in }}",
+                    {% endif %}
+                    {% if view_component %}
+                        "view_component={{ view_component }}",
+                    {% endif %}
+                    {% if tags %}
+                        "tags={{ tags }}",
+                    {% endif %}
+                    {% if geoposition %}
+                        "geoposition={{ geoposition }}",
+                    {% endif %}
+                    {% if limit %}
+                        "limit={{ limit }}"
+                    {% else %}
+                        "limit=12"
+                    {% endif %}
+                ],
+                {% if next_url %}
+                    "next_url": "{{ next_url }}",
+                {% endif %}
+                {% if name %}
+                    "name": "{{ name }}",
+                {% endif %}
+                {% block extra_params %}{% endblock extra_params %}
+                "template_name": "{{ template_name }}"
+            }
+        }
+        {% endcompactjson %}
+    '>
+</div>
