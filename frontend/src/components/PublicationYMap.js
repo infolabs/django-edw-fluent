@@ -42,7 +42,7 @@ class PublicationYMap extends YMapInner {
         {exRibbons}
         <div className="ex-map-descr ex-map-descr-padding">
           <h5>{header}</h5>
-          {lead.length && <p>{lead}</p>}
+          {lead.length && lead.trim !== header.props.children.trim && <p className="ex-map-lead">{lead}</p>}
           <ul className="ex-attrs">
             {characteristics.map(
               (child, i) =>
