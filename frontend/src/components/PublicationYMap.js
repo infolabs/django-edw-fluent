@@ -23,6 +23,8 @@ class PublicationYMap extends YMapInner {
     const created_at = new Date(item.extra.created_at);
     const lead = item.extra.short_subtitle;
 
+    console.log(lead);
+
     let annotations = {};
     if (item.extra) {
       for (const [key, val] of Object.entries(item.extra)) {
@@ -42,7 +44,7 @@ class PublicationYMap extends YMapInner {
         {exRibbons}
         <div className="ex-map-descr ex-map-descr-padding">
           <h5>{header}</h5>
-          {lead.length && lead.trim !== header.props.children.trim && <p className="ex-map-lead">{lead}</p>}
+          {lead.length && lead.trim() !== header.props.children.trim() && <p className="ex-map-lead">{lead}</p>}
           <ul className="ex-attrs">
             {characteristics.map(
               (child, i) =>
