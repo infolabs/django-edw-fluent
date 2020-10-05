@@ -48,8 +48,15 @@ const ReadMore = (props) => {
                   <span className="title"><a href={`${item.id}.html`}>{item.entity_name}</a></span>
                   <br/>
                   <span className="date_time">
-                      <span className="date">{createdAt.date}</span>
-                      <span className="time">&nbsp;—&nbsp;{createdAt.time}</span>
+                    {isFullDate ?
+                      <>
+                        <span className="date">{createdAt.date}</span>
+                        <span className="time">&nbsp;—&nbsp;{createdAt.time}</span>
+                      </> :
+                      <>
+                        <span className="time">{createdAt.time}</span>
+                        <span className="date">&nbsp;—&nbsp;{createdAt.date}</span>
+                      </>}
                   </span>
                   { items.length > 0 && index !== items.length - 1 && <hr/> }
                 </div>
