@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import ListItemMixin from 'components/BaseEntities/ListItemMixin';
 
-const formatDate = (prevDate) => {
+const formatDate = (previousDate, isFullDate = false) => {
+  const currentDate = new Date().toLocaleDateString('ru', {
+    year: 'numeric',
+    month: isFullDate ? 'short' : '2-digit',
+    day: '2-digit',
+  });
   const currentYear = new Date().getFullYear(),
-    currentYearIndex = `${prevDate.indexOf(currentYear)} г.`;
-  if (currentYearIndex >= 0) {
-    const newDate = prevDate.slice(0, currentYearIndex);
-    return newDate;
+        currentYearIndex = previousDate.indexOf(`${isFullDate? `${currentYear} г.`: `.${currentYear}`}`);
+
+  if (currentDate === previousDate) {
+    return 'Сегодня';
+  } else if (currentYearIndex >= 0) {
+    return currentDate.slice(0, currentYearIndex);
   }
-  return prevDate;
+  return previousDate;
 }
 
 const getDate = (date, isFullDate = false) => {
@@ -20,13 +27,12 @@ const getDate = (date, isFullDate = false) => {
     minute: '2-digit'
   }).split(', ');
 
-  return {date: formatDate(newDate[0]), time: newDate[1]};
+  return {date: formatDate(newDate[0], isFullDate), time: newDate[1]};
 };
 
 const ReadMore = (props) => {
   const {items, meta} = props,
-        isFullDate= meta.data_mart.view_class && meta.data_mart.view_class.indexOf('get_full_date') >= 0 ? true : false;
-
+        isFullDate= false;
   return (
     <div className="read-more__container">
       <>
@@ -37,14 +43,13 @@ const ReadMore = (props) => {
           <div className="panel-body">
             {items.map((item, index) => {
               const createdAt = getDate(item.extra.created_at, isFullDate);
-
               return (
                 <div className="read-more__item" key={item.id}>
                   <span className="title"><a href={`${item.id}.html`}>{item.entity_name}</a></span>
                   <br/>
                   <span className="date_time">
-                      <span className="time">{createdAt.date}</span>
-                      <span className="date">&nbsp;—&nbsp;{createdAt.time}</span>
+                      <span className="date">{createdAt.date}</span>
+                      <span className="time">&nbsp;—&nbsp;{createdAt.time}</span>
                   </span>
                   { items.length > 0 && index !== items.length - 1 && <hr/> }
                 </div>
@@ -55,9 +60,7 @@ const ReadMore = (props) => {
       </>
     </div>
   );
-}
-
-
+};
 
 // Container
 export default class PublicationList extends Component {
@@ -112,7 +115,7 @@ class PublicationListItem extends ListItemMixin(Component) {
 
   getItemBlock(url, data, title, descrText, descriptions){
     const characteristics = data.short_characteristics;
-    const createdAt = getDate(data.extra.created_at);
+    const createdAt = new Date(data.extra.created_at).toLocaleDateString();
 
     return (
       <div className="col-md-9">
@@ -135,7 +138,9 @@ class PublicationListItem extends ListItemMixin(Component) {
           </ul>
         </div>
         }
-        <p className="date_time"><i className="fa fa-calendar"/>&nbsp;{createdAt.date}</p>
+        <p className="date_time"><i className="fa fa-calendar"/>&nbsp;
+          {createdAt}
+        </p>
         <span className="padding-left-10 sub-statisitic"><i className="fa fa-eye" aria-hidden="true" />&nbsp;{data.extra.statistic}</span>
       </div>
     )
