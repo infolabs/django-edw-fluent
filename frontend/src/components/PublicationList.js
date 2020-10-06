@@ -1,38 +1,54 @@
 import React, { Component } from 'react';
 import ListItemMixin from 'components/BaseEntities/ListItemMixin';
 
-const formatDate = (previousDate, isFullDate = false) => {
-  const currentDate = new Date().toLocaleDateString('ru', {
-    year: 'numeric',
-    month: isFullDate ? 'short' : '2-digit',
-    day: '2-digit',
-  });
-  const currentYear = new Date().getFullYear(),
-        currentYearIndex = previousDate.indexOf(`${isFullDate? `${currentYear} г.`: `.${currentYear}`}`);
+const formatDate = (date) => {
+  const currentDate = new Date(),
+    currentDateString = currentDate.toLocaleDateString('ru', {
+      year: 'numeric',
+      month: 'long',
+      day: '2-digit'
+    }),
+    articlePublishedDate = new Date(date),
+    articlePublishedDateString = articlePublishedDate.toLocaleDateString('ru', {
+      year: 'numeric',
+      month: 'long',
+      day: '2-digit'
+    }),
+    currentYear = currentDate.getFullYear(),
+    currentYearIndex = articlePublishedDateString.indexOf(currentYear);
 
-  if (currentDate === previousDate) {
-    return 'Сегодня';
+  if (currentDateString === articlePublishedDateString) {
+    return 'Сегодня'
   } else if (currentYearIndex >= 0) {
-    return previousDate.slice(0, currentYearIndex);
+    return articlePublishedDateString.slice(0, currentYearIndex).trim();
   }
-  return previousDate;
+  return articlePublishedDate.toLocaleDateString('ru', {
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit'
+  })
 }
 
 const getDate = (date, isFullDate = false) => {
   const newDate = new Date(date).toLocaleTimeString('ru', {
     year: 'numeric',
-    month: isFullDate ? 'short' : '2-digit',
+    month: 'short',
     day: '2-digit',
     hour: '2-digit',
     minute: '2-digit'
   }).split(', ');
 
-  return {date: formatDate(newDate[0], isFullDate), time: newDate[1]};
+  if (isFullDate) {
+    return {date: newDate[0], time: newDate[1]}
+  }
+
+  return {date: formatDate(date), time: newDate[1]};
 };
 
 const ReadMore = (props) => {
   const {items, meta} = props,
-        isFullDate= meta.data_mart.view_class && meta.data_mart.view_class.indexOf('get_full_date') >= 0 ? true : false;
+        isFullDate = true;
+        // isFullDate= meta.data_mart.view_class && meta.data_mart.view_class.indexOf('get_full_date') >= 0 ? true : false;
   return (
     <div className="read-more__container">
       <>
