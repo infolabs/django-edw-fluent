@@ -13,7 +13,7 @@ const formatDate = (previousDate, isFullDate = false) => {
   if (currentDate === previousDate) {
     return 'Сегодня';
   } else if (currentYearIndex >= 0) {
-    return currentDate.slice(0, currentYearIndex);
+    return previousDate.slice(0, currentYearIndex);
   }
   return previousDate;
 }
@@ -32,7 +32,7 @@ const getDate = (date, isFullDate = false) => {
 
 const ReadMore = (props) => {
   const {items, meta} = props,
-        isFullDate= false;
+        isFullDate= meta.data_mart.view_class && meta.data_mart.view_class.indexOf('get_full_date') >= 0 ? true : false;
   return (
     <div className="read-more__container">
       <>
