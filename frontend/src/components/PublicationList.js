@@ -47,8 +47,7 @@ const getDate = (date, isFullDate = false) => {
 
 const ReadMore = (props) => {
   const {items, meta} = props,
-        isFullDate = true;
-        // isFullDate= meta.data_mart.view_class && meta.data_mart.view_class.indexOf('get_full_date') >= 0 ? true : false;
+        isFullDate= meta.data_mart.view_class && meta.data_mart.view_class.indexOf('get_full_date') >= 0 ? true : false;
   return (
     <div className="read-more__container">
       <>
