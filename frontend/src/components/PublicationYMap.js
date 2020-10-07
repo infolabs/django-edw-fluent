@@ -23,8 +23,6 @@ class PublicationYMap extends YMapInner {
     const created_at = new Date(item.extra.created_at);
     const lead = item.extra.short_subtitle;
 
-    console.log(lead);
-
     let annotations = {};
     if (item.extra) {
       for (const [key, val] of Object.entries(item.extra)) {

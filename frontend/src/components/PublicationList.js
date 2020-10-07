@@ -48,6 +48,7 @@ const getDate = (date, isFullDate = false) => {
 const ReadMore = (props) => {
   const {items, meta} = props,
         isFullDate= meta.data_mart.view_class && meta.data_mart.view_class.indexOf('get_full_date') >= 0 ? true : false;
+
   return (
     <div className="read-more__container">
       <>
@@ -60,8 +61,7 @@ const ReadMore = (props) => {
               const createdAt = getDate(item.extra.created_at, isFullDate);
               return (
                 <div className="read-more__item" key={item.id}>
-                  <span className="title"><a href={`${item.id}.html`}>{item.entity_name}</a></span>
-                  <br/>
+                  <p className="title"><a href={`${item.id}.html`}>{item.entity_name}</a></p>
                   <span className="date_time">
                     {isFullDate ?
                       <>
