@@ -148,7 +148,7 @@ class PublicationListItem extends ListItemMixin(Component) {
             <p>{descrText}</p>
           }
         </a>
-        {descriptions.opened[data.id] && characteristics.length &&
+        {descriptions.opened[data.id] && characteristics.length ?
         <div className="ex-description-wrapper">
           <ul className="ex-attrs">
             {characteristics.map((child, i) => (
@@ -158,7 +158,7 @@ class PublicationListItem extends ListItemMixin(Component) {
               </li>
             ))}
           </ul>
-        </div>
+        </div> : null
         }
         <p className="date_time"><i className="fa fa-calendar"/>&nbsp;
           {createdAt}
