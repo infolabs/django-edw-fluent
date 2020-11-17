@@ -139,8 +139,10 @@
                             {% endif %}
                         {% endif %}
                     </div>
-                    {% if params.status == 'first' or params.status == 'single' %}
-                        {% include 'edw_fluent/partials/_readalso.html' %}
+                    {% if not request.GET.ajax %}
+                        {% if params.status == 'first' or params.status == 'single' %}
+                            {% include 'edw_fluent/partials/_readalso.html' %}
+                        {% endif %}
                     {% endif %}
                 <!-- {% if 0 %} -->
                 </div>
