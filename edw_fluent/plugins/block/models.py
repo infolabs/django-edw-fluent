@@ -73,15 +73,32 @@ class BlockItem(ContentItem):
     def get_stripped_text(self, with_dots_in_headings=False):
         text = self.text
 
-        if with_dots_in_headings:
-            expr = r'(\w)(</h[1-6]>)'
+        def format_str(text_to_format, expr, join_with_str):
             if six.PY2:
                 expr = expr.decode('raw_unicode_escape')
             pattern = re.compile(expr, re.UNICODE)
-            text = re.sub(
+
+            formatted_text = re.sub(
                 pattern,
-                lambda match: '. '.join(list(match.groups())),
-                text,
+                r'\g<1>{}\g<2>'.format(join_with_str),
+                text_to_format,
             )
 
-        return strip_tags(text)
+            return formatted_text
+
+        block_tags_regexp = r'(\w|>)(<\/(?:h[1-6]|p|ul|ol|blockquote)\b[^>]*>)'
+        other_tags_regexp = r'(\w|>)(<\/(?!=:h[1-6]|p|ul|ol|blockquote)[^>]*><\w)'
+
+        text = format_str(text, block_tags_regexp, '. ')
+        text = format_str(text, other_tags_regexp, ' ')
+
+        # deleting excessive spaces
+        stripped_text = strip_tags(text)
+
+        finalized_text = re.sub(
+            r'\s{2,}',
+            ' ',
+            stripped_text,
+        )
+
+        return finalized_text.strip()
