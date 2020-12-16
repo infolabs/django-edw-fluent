@@ -24,6 +24,8 @@
 
     <div id="page" class="page">
 
+
+
         <div class="container {% if params.status == 'last' or params.status == 'single' %}padding-bottom-40{% endif %}">
             <div class="row">
 
@@ -38,7 +40,7 @@
                         </div>
                         <div class="panel-body">
                             <span class="title"><a href="#" title="Роспотребнадзор по инициативе белгородского губернатора узаконит борьбу с неприятными запахами">Роспотребнадзор по инициативе белгородского губернатора узаконит борьбу с неприятными запахами</a></span>
-                            <span class="date_time">14:50&nbsp;&mdash;&nbsp;11 июля</span>
+                            <span class="date_time">14:50&nbsp;—&nbsp;11 июля</span>
                         </div>
                     </div>
                 </div>
@@ -123,6 +125,20 @@
                             </div>
                         {% endif %}
 
+                        {% if comments %}
+                            <h4 class="padding-top-20">Официальный комментарий:</h4>
+                            {% for comment in comments %}
+                                <blockquote class="oficial-comment">
+                                    {% if comment.logo %}
+                                        <img class="logo" src="{% thumbnail comment.logo.file 96x96 crop=crop %}" alt="{{ comment.origin_name }}" style="outline: currentcolor none medium; cursor: inherit;" data-selector="img">
+                                    {% endif %}
+                                    <h6>{{ comment.origin_name }}</h6>
+                                    <p>{{ comment.text }}</p>
+                                    <a class="origin-url" href="{{ comment.origin_url }}" target="_blank" title="Источник">Источник</a>
+                                </blockquote>
+                            {% endfor %}
+                        {% endif %}
+
                         {% if params.status == 'last' or params.status == 'single' %}
                             {% include 'edw_fluent/partials/_descriptions.html' %}
                             {% if publication.attachments %}
@@ -136,6 +152,19 @@
                                         {% endfor %}
                                     </div>
                                 </div>
+                            {% endif %}
+                            {% if publicaton.default_comments %}
+                                <h4 class="padding-top-20">Официальный комментарий:</h4>
+                                {% for comment in default_comments %}
+                                    <blockquote class="oficial-comment">
+                                        {% if comment.logo %}
+                                            <img class="logo" src="{% thumbnail comment.logo.file 96x96 crop=crop %}" alt="{{ comment.origin_name }}" style="outline: currentcolor none medium; cursor: inherit;" data-selector="img">
+                                        {% endif %}
+                                        <h6>{{ comment.origin_name }}</h6>
+                                        <p>{{ comment.text }}</p>
+                                        <a class="origin-url" href="{{ comment.origin_url }}" target="_blank" title="Источник">Источник</a>
+                                    </blockquote>
+                                {% endfor %}
                             {% endif %}
                         {% endif %}
                     </div>
