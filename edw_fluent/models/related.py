@@ -80,7 +80,7 @@ class BaseEntityComment(with_metaclass(deferred.ForeignKeyBuilder, models.Model)
                     'and position of the company representative)'),
         blank=False,
         null=False,
-        max_length = 255
+        max_length=255
     )
     text = models.TextField(
         verbose_name=_('Text'),
@@ -94,7 +94,7 @@ class BaseEntityComment(with_metaclass(deferred.ForeignKeyBuilder, models.Model)
         help_text=_('Comment owner link, refers to materials containing a denial on the media website.'),
         blank=True,
         null=True,
-        max_length = 255
+        max_length=255
     )
     logo = FilerImageField(
         verbose_name=_('Origin logo'),
