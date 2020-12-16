@@ -14,7 +14,7 @@ from fluent_contents.extensions import ContentPlugin
 from edw.rest.serializers.entity import EntityDetailSerializer
 from edw.views.entity import EntityViewSet
 
-from edw_fluent.models.related import EntityImage, EntityFile
+from edw_fluent.models.related import EntityImage, EntityFile, PublicationComment
 from edw_fluent.plugins.block.models import BlockItem
 from edw_fluent.plugins.block.forms import BlockPluginForm
 
@@ -70,12 +70,14 @@ class BaseBlockPlugin(ContentPlugin):
 
         sekizai_varname = sekizai_get_varname()
         context.update({
+            'key': instance.id,
             'publication': publication,
             'position': current_index,
             'text': instance.text,
             'subjects': instance.subjects.all(),
             'images': EntityImage.objects.filter(key=str(instance.id)),
             'files': EntityFile.objects.filter(key=str(instance.id)),
+            'comments': PublicationComment.objects.filter(key=str(instance.id)),
             'config': config,
             sekizai_varname: getattr(request, sekizai_varname),
         })

@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.utils.functional import cached_property
 
 from edw_fluent.models.page import SimplePage
-from edw_fluent.models.related import EntityImage, EntityFile
+from edw_fluent.models.related import EntityImage, EntityFile, PublicationComment
 from edw_fluent.plugins.datamart.models import DataMartItem
 
 
@@ -102,3 +102,31 @@ class ImagesFilesFluentMixin(object):
                 thumbnails = self.ordered_images
             return thumbnails[:1]
 
+
+class CommentsFluentMixin(object):
+
+    @cached_property
+    def ordered_comments(self):
+        """
+        RUS: Возвращает список всех отсортированных по ключу комментариев.
+        """
+        return list(self.get_ordered_comments())
+
+    def get_ordered_comments(self):
+        """
+        RUS: Возвращает все отсортированные комментарии.
+        """
+        return PublicationComment.objects.filter(entity=self).order_by('key')
+
+    @cached_property
+    def default_comments(self):
+        """
+        RUS: Получает список комментариев не привязанных к блокам.
+        """
+        return list(self.get_default_comments())
+
+    def get_default_comments(self):
+        """
+        RUS: Возвращает все не привязанных к блокам комментарии.
+        """
+        return self.get_ordered_comments().filter(key=None)

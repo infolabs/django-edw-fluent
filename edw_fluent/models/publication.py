@@ -12,7 +12,6 @@ from django.db import models
 from django.db.models import ExpressionWrapper, F, Q, Case, When
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
-from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.text import Truncator
 from django.utils.translation import ugettext_lazy as _
@@ -30,7 +29,7 @@ from edw_fluent.models.page_layout import (
     get_layout_slug_by_model_name,
     get_or_create_view_layouts_root
 )
-from edw_fluent.models.mixins import ImagesFilesFluentMixin
+from edw_fluent.models.mixins import ImagesFilesFluentMixin, CommentsFluentMixin
 from edw_fluent.plugins.block.models import BlockItem
 
 _publication_root_terms_system_flags_restriction = (
@@ -39,20 +38,10 @@ _publication_root_terms_system_flags_restriction = (
     | TermModel.system_flags.change_slug_restriction
 )
 
-
-def naive_date_to_utc_date(naive_date):
-    # todo: отрефакторить см. edw.utils.dateutils.datetime_to_local
-    # RUS: Преобразовывает наивное время во время UTC.
-    # Конвертирует дату и время в другой часовой пояс.
-    return naive_date \
-        .replace(tzinfo=timezone.utc) \
-        .astimezone(tz=timezone.get_current_timezone()) \
-        .replace(tzinfo=timezone.utc)
-
 # =========================================================================================================
 # PublicationBase model
 # =========================================================================================================
-class PublicationBase(EntityModel.materialized, ImagesFilesFluentMixin):
+class PublicationBase(EntityModel.materialized, ImagesFilesFluentMixin, CommentsFluentMixin):
     """
     RUS: Базовая модель публикаций.
     Определяет поля и их значения, компоненты представления, способы сортировки.
@@ -185,6 +174,17 @@ class PublicationBase(EntityModel.materialized, ImagesFilesFluentMixin):
                 'read_only': True,
                 'many': True
             }),
+            'default_comments': ('edw_fluent.rest.serializers.comment.PublicationCommentSerializer', {
+                'read_only': True,
+                'many': True
+            }),
+            # todo: здесь сериализуются все комментарии, а не только комментарий по умолчанию. рескомментировать, если
+            #  в будущем понадобится, пока нет смысла, поскольку комментарии привязанные к блокам передаются в рендер блока
+            #  непосредственно в контекст, а для получения этих данных в rss есть метод инстанции get_ordered_comments()
+            # 'ordered_comments': ('edw_fluent.rest.serializers.comment.PublicationCommentSerializer', {
+            #     'read_only': True,
+            #     'many': True
+            # }),
             'created_at': ('rest_framework.serializers.DateTimeField', {
                 'source': 'local_created_at',
                 'read_only': True
@@ -279,9 +279,17 @@ class PublicationBase(EntityModel.materialized, ImagesFilesFluentMixin):
 
     def get_updated_at(self):
         """
-        RUS: Возвращает дату обновления публикации, преобразованную во время UTC.
+        Преобразовывает дату/время обновления объекта в формат даты/времени с учетом таймзоны заданой в настройках.
+        В базе данных дата/время сохраняется в формате UTC и при сериализации в результате не будет указано смещение
+        и для использования в шаблонах и внешних системах надо будет каким-то образом задавать смещение времени, для
+        упрощения работы с сериализованными данными это преобразование нужно сделать на этапе сериализации.
+        В конкретных моделях данных надо в сериалайзере использовать данный метод в качестве источника данных (src).
+        Например:
+            2019-11-13T12:15:04.748250Z - сериализованные данные до преобразования
+            2019-11-13T15:15:04+03:00 - сериализованные данные после преобразования
+        :return: дата/время в нужной таймзоне
         """
-        return naive_date_to_utc_date(self.updated_at)
+        return datetime_to_local(self.updated_at)
 
     def clean(self, *args, **kwargs):
         """

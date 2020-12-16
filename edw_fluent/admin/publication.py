@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+
+from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
 from fluent_contents.admin import PlaceholderFieldAdmin
@@ -16,9 +18,11 @@ from edw.admin.entity.entity_image import EntityImageInline
 from edw.admin.entity.entity_file import EntityFileInline
 from edw.admin.entity import EntityChildModelAdmin
 
+from edw_fluent.models.related import PublicationComment
 from edw_fluent.plugins.block.models import BlockItem
 from edw_fluent.admin.forms.image import PublicationImageInlineForm
 from edw_fluent.admin.forms.file import PublicationFileInlineForm
+from edw_fluent.admin.forms.comment import PublicationCommentInlineForm
 from edw_fluent.utils import remove_emoji
 
 
@@ -54,6 +58,29 @@ class PublicationFileInline(EntityFileInline):
         """
         self.form.entity = obj
         return super(PublicationFileInline, self).get_formset(request, obj, **kwargs)
+
+
+#===========================================================================================
+# PublicationCommentInline
+#===========================================================================================
+class PublicationCommentInline(admin.StackedInline):
+    """
+    Определяет форму загрузчика файлов в публикациях
+    """
+    model = PublicationComment
+    fk_name = 'entity'
+
+    form = PublicationCommentInlineForm
+
+    extra = 0
+    max_num = 1
+
+    def get_formset(self, request, obj=None, **kwargs):
+        """
+        Возвращает набор форм загрузчика файлов в публикациях
+        """
+        self.form.entity = obj
+        return super(PublicationCommentInline, self).get_formset(request, obj, **kwargs)
 
 
 #===========================================================================================
@@ -99,6 +126,7 @@ class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
         EntityRelatedDataMartInline,
         PublicationImageInline,
         PublicationFileInline,
+        PublicationCommentInline
     ]
 
     def view_on_site(self, obj):
