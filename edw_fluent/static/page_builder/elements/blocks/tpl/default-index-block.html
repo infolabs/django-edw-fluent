@@ -126,7 +126,7 @@
                         {% endif %}
 
                         {% if comments %}
-                            <h4 class="padding-top-20">Официальный комментарий:</h4>
+                            <h4>Официальный комментарий:</h4>
                             {% for comment in comments %}
                                 <blockquote class="oficial-comment">
                                     {% if comment.logo %}
@@ -154,11 +154,11 @@
                                 </div>
                             {% endif %}
                             {% if publicaton.default_comments %}
-                                <h4 class="padding-top-20">Официальный комментарий:</h4>
-                                {% for comment in default_comments %}
+                                <h4>Официальный комментарий:</h4>
+                                {% for comment in publication.default_comments %}
                                     <blockquote class="oficial-comment">
                                         {% if comment.logo %}
-                                            <img class="logo" src="{% thumbnail comment.logo.file 96x96 crop=crop %}" alt="{{ comment.origin_name }}" style="outline: currentcolor none medium; cursor: inherit;" data-selector="img">
+                                            <img class="logo" src="{{ comment.logo }}" alt="{{ comment.origin_name }}">
                                         {% endif %}
                                         <h6>{{ comment.origin_name }}</h6>
                                         <p>{{ comment.text }}</p>
