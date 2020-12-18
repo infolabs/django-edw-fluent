@@ -61,7 +61,7 @@ const ReadMore = (props) => {
               const createdAt = getDate(item.extra.created_at, isFullDate);
               return (
                 <div className="read-more__item" key={item.id}>
-                  <p className="title"><a href={`${item.id}.html`}>{item.entity_name}</a></p>
+                  <span className="title"><a href={`${item.id}.html`}>{item.entity_name}</a></span>
                   <span className="date_time">
                     {isFullDate ?
                       <>
