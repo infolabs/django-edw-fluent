@@ -58,23 +58,7 @@
             <!-- {% if 0 %} -->
             <div class="hidden">
             <!-- {% endif %} -->
-                {% load edw_tags sekizai_tags page_builder %}
-                {% addtoblock "js" %}
-                {% chr 60 %}script{% chr 62 %}
-                    $(document).ready(function() {
-                        var publicationCarousel = $(".publication-carousel .owl-carousel");
-                        publicationCarousel.owlCarousel({
-                            nav: true,
-                            loop: true,
-                            items: 1,
-                            navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-                            onInitialized: function() {
-                                publicationCarousel.addClass('loaded');
-                            },
-                        });
-                    })
-                {% chr 60 %}/script{% chr 62 %}
-                {% endaddtoblock %}
+                {% load edw_tags page_builder %}
 
                 <div class="row">
                     <div class="col-md-8">

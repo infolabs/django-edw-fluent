@@ -50,23 +50,7 @@
                 <div class="hidden">
                 <!-- {% endif %} -->
 
-                    {% load i18n sekizai_tags page_builder %}
-                    {% addtoblock "js" %}
-                    {% chr 60 %}script{% chr 62 %}
-                        $(document).ready(function() {
-                            var publicationCarousel = $(".publication-carousel .owl-carousel");
-                            publicationCarousel.owlCarousel({
-                                nav: true,
-                                loop: true,
-                                items: 1,
-                                navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-                                onInitialized: function() {
-                                    publicationCarousel.addClass('loaded');
-                                },
-                            });
-                        })
-                    {% chr 60 %}/script{% chr 62 %}
-                    {% endaddtoblock %}
+                    {% load i18n page_builder %}
 
                     <div class="col-md-8 col-sm-12 theme-default">
                         {{ text|safe }}
@@ -76,7 +60,7 @@
                                 <!-- carousel: start -->
                                 <div class="publication-carousel">
                                     <div class="owl-carousel-wrap">
-                                        <div class="owl-carousel owl-theme">
+                                        <div class="owl-carousel owl-theme carousel-sync1">
 
                                             {% for i in images %}
                                                 {% thumbnail i.image.file 650x486 crop=False upscale as im %}
