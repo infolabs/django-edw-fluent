@@ -20,7 +20,7 @@ from rest_framework import serializers
 from fluent_contents.models import PlaceholderField, ContentItemRelation
 from chakert import Typograph
 
-from edw.models.entity import EntityModel
+from edw.models.entity import EntityModel, BaseEntityManager, BaseEntityQuerySet
 from edw.models.term import TermModel
 from edw.utils.dateutils import datetime_to_local
 
@@ -37,6 +37,25 @@ _publication_root_terms_system_flags_restriction = (
     | TermModel.system_flags.change_parent_restriction
     | TermModel.system_flags.change_slug_restriction
 )
+
+
+# =========================================================================================================
+# PublicationBase queryset
+# =========================================================================================================
+class PublicationBaseQuerySet(BaseEntityQuerySet):
+
+    def published(self):
+        raise NotImplementedError(
+            '{cls}.published() must be implemented.'.format(
+                cls=self.__class__.__name__
+            )
+        )
+
+
+# =========================================================================================================
+# PublicationBase manager
+# =========================================================================================================
+PublicationBaseManager = BaseEntityManager.from_queryset(PublicationBaseQuerySet)
 
 # =========================================================================================================
 # PublicationBase model
@@ -124,6 +143,8 @@ class PublicationBase(EntityModel.materialized, ImagesFilesFluentMixin, Comments
         null=True,
         verbose_name=_('Unpublish at'),
     )
+
+    objects = PublicationBaseManager()
 
     class Meta:
         """
