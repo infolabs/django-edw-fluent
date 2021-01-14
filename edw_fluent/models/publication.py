@@ -116,7 +116,8 @@ class PublicationBase(EntityModel.materialized, ImagesFilesFluentMixin, Comments
         verbose_name=_('tags'),
         help_text=_('Use semicolon as tag divider'),
         max_length=255,
-        blank=True
+        blank=True,
+        db_index=True
     )
 
     statistic = models.IntegerField(
