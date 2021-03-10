@@ -48,6 +48,7 @@
                                                 <!--{% compactjson as data_entry_points %}
                                                 {
                                                     "{{ data_mart.id }}": {
+                                                        "order": {{ forloop.counter }},
                                                         "name": "{{ data_mart.name }}",
                                                         "template_name": "related",
                                                         "request_params": [{% if data_mart.is_subjective %}"subj={{ publication.id }}",{% endif %}"id__in!={{ publication.id }}","limit=4"]

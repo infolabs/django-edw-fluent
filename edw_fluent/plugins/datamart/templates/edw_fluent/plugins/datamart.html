@@ -5,6 +5,7 @@
     {% for data_mart in data_marts %}
     {% get_data_mart_url data_mart.id as href %}
     "{{ data_mart.id }}": {
+        "order": {{ forloop.counter }},
         "name": "{{ data_mart.name }}",
         "url": "{% if href %}{{ href }}{% endif %}",
         "template_name": "data_mart",
