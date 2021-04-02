@@ -22,6 +22,7 @@ from edw_fluent.models.related import PublicationComment
 from edw_fluent.plugins.block.models import BlockItem
 from edw_fluent.admin.forms.image import PublicationImageInlineForm
 from edw_fluent.admin.forms.file import PublicationFileInlineForm
+from edw_fluent.admin.forms.data_mart import PublicationDataMartInlineForm
 from edw_fluent.admin.forms.comment import PublicationCommentInlineForm
 from edw_fluent.utils import remove_emoji
 
@@ -58,6 +59,17 @@ class PublicationFileInline(EntityFileInline):
         """
         self.form.entity = obj
         return super(PublicationFileInline, self).get_formset(request, obj, **kwargs)
+
+
+#===========================================================================================
+# PublicationDataMartInline
+#===========================================================================================
+class PublicationDataMartInline(EntityRelatedDataMartInline):
+    form = PublicationDataMartInlineForm
+
+    def get_formset(self, request, obj=None, **kwargs):
+        self.form.entity = obj
+        return super(PublicationDataMartInline, self).get_formset(request, obj, **kwargs)
 
 
 #===========================================================================================
@@ -123,9 +135,9 @@ class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
     inlines = [
         EntityCharacteristicOrMarkInline,
         EntityRelationInline,
-        EntityRelatedDataMartInline,
         PublicationImageInline,
         PublicationFileInline,
+        PublicationDataMartInline,
         PublicationCommentInline
     ]
 

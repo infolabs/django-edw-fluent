@@ -35,6 +35,17 @@
                 </div>
             </div>
             {% endwith %}
+        {% elif fieldset_pattern.0 == 'file' %}
+            {% with prefix=id|slice:"3:"|slice:":-5" %}
+            <div class="addition-field">
+                <div class="form-row field-file-description">
+                    <div>
+                        <label for="{{ prefix }}-file_description">{% trans 'Description' %}:</label>
+                        <input class="vTextField" id="id_{{ prefix }}-file_description" name="{{ prefix }}-file_description" value="{% if object.description %}{{ object.description }}{% endif %}">
+                    </div>
+                </div>
+            </div>
+            {% endwith %}
         {% endif %}
 
         <span class="filerFile js-file-selector">
@@ -78,6 +89,9 @@
                         $(this).detach();
                     });
                     $.each($('.field-image_caption'), function () {
+                        $(this).detach();
+                    });
+                    $.each($('.field-file_description'), function () {
                         $(this).detach();
                     });
                     if (plus.length){

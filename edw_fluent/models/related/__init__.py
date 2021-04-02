@@ -33,12 +33,6 @@ class EntityImage(BaseEntityImage):
         """
         abstract = False
 
-    def __str__(self):
-        """
-        RUS: Строковое представление данных.
-        """
-        return "{}".format(self.image)
-
 
 # =========================================================================================================
 # Entity image model
@@ -58,11 +52,6 @@ class EntityFile(BaseEntityFile):
         """
         abstract = False
 
-    def __str__(self):
-        """
-        RUS: Строковое представление данных.
-        """
-        return "{}".format(self.file)
 
 # =========================================================================================================
 # BaseEntityComment

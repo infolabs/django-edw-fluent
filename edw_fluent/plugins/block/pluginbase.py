@@ -15,6 +15,7 @@ from edw.rest.serializers.entity import EntityDetailSerializer
 from edw.views.entity import EntityViewSet
 
 from edw_fluent.models.related import EntityImage, EntityFile, PublicationComment
+from edw_fluent.models.related.entity_related_data_mart import EntityRelatedDataMart
 from edw_fluent.plugins.block.models import BlockItem
 from edw_fluent.plugins.block.forms import BlockPluginForm
 
@@ -77,6 +78,7 @@ class BaseBlockPlugin(ContentPlugin):
             'subjects': instance.subjects.all(),
             'images': EntityImage.objects.filter(key=str(instance.id)),
             'files': EntityFile.objects.filter(key=str(instance.id)),
+            'related_data_marts': [x.data_mart for x in EntityRelatedDataMart.objects.filter(key=str(instance.id))],
             'comments': PublicationComment.objects.filter(key=str(instance.id)),
             'config': config,
             sekizai_varname: getattr(request, sekizai_varname),

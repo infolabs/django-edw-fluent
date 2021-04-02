@@ -1,31 +1,24 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
+#-*- coding: utf-8 -*-
 
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import ugettext_lazy as _
 
+from edw.admin.entity.forms import EntityRelatedDataMartInlineForm
+
 from edw_fluent.plugins.block.models import BlockItem
 
 
-class PublicationFileInlineForm(forms.ModelForm):
-    """
-    Определяет форму и поля загрузчика файлов в публикациях
-    """
+class PublicationDataMartInlineForm(EntityRelatedDataMartInlineForm):
+
     AVAILABLE_CHOICES = (
         (None, _("Default")),
     )
 
     key = forms.ChoiceField(label=_("Info block"), required=False, choices=AVAILABLE_CHOICES)
 
-    file_description = forms.CharField(label=_("Description"), required=False, max_length=255)
-
     def __init__(self, *args, **kwargs):
-        """
-        Конструктор класса
-        """
-        super(PublicationFileInlineForm, self).__init__(*args, **kwargs)
+        super(PublicationDataMartInlineForm, self).__init__(*args, **kwargs)
         entity = getattr(self, 'entity', None)
         available_choices = list(self.AVAILABLE_CHOICES)
         if entity and hasattr(entity, 'content'):
@@ -37,10 +30,7 @@ class PublicationFileInlineForm(forms.ModelForm):
         self.fields['key'].choices = available_choices
 
     def clean(self):
-        """
-        Словарь проверенных и нормализованных данных формы загрузки файлов в публикациях
-        """
-        cleaned_data = super(PublicationFileInlineForm, self).clean()
+        cleaned_data = super(PublicationDataMartInlineForm, self).clean()
         key = cleaned_data['key']
         if key == '':
             cleaned_data['key'] = None

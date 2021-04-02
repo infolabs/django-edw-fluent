@@ -30,6 +30,7 @@ from edw_fluent.models.page_layout import (
     get_or_create_view_layouts_root
 )
 from edw_fluent.models.mixins import ImagesFilesFluentMixin, CommentsFluentMixin
+from edw_fluent.models.related.entity_related_data_mart import EntityRelatedDataMart
 from edw_fluent.plugins.block.models import BlockItem
 
 _publication_root_terms_system_flags_restriction = (
@@ -175,6 +176,10 @@ class PublicationBase(EntityModel.materialized, ImagesFilesFluentMixin, Comments
             'default_data_mart': ('edw.rest.serializers.entity.RelatedDataMartSerializer', {
                 'source': 'data_mart',
                 'read_only': True
+            }),
+            'defaults_data_marts': ('edw.rest.serializers.entity.RelatedDataMartSerializer', {
+                'read_only': True,
+                'many': True
             }),
             'blocks_count': ('rest_framework.serializers.IntegerField', {
                 'read_only': True
@@ -447,6 +452,9 @@ class PublicationBase(EntityModel.materialized, ImagesFilesFluentMixin, Comments
                 self.__related_publications_cache = self.__class__.objects.none()
 
         return self.__related_publications_cache
+
+    def defaults_data_marts(self):
+        return [x.data_mart for x in EntityRelatedDataMart.objects.filter(key=None, entity=self)]
 
     @classmethod
     def get_view_components(cls, **kwargs):
