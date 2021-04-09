@@ -18,8 +18,7 @@ class PublicationFileInlineForm(forms.ModelForm):
     )
 
     key = forms.ChoiceField(label=_("Info block"), required=False, choices=AVAILABLE_CHOICES)
-
-    file_description = forms.CharField(label=_("Description"), required=False, max_length=255)
+    file_description = forms.CharField(label=_("Description"), required=False)
 
     def __init__(self, *args, **kwargs):
         """
@@ -41,6 +40,7 @@ class PublicationFileInlineForm(forms.ModelForm):
         Словарь проверенных и нормализованных данных формы загрузки файлов в публикациях
         """
         cleaned_data = super(PublicationFileInlineForm, self).clean()
+
         key = cleaned_data['key']
         if key == '':
             cleaned_data['key'] = None
