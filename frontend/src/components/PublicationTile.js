@@ -7,7 +7,7 @@ import TileItemMixin from 'components/BaseEntities/TileItemMixin';
 export default class PublicationTile extends Component {
 
   render() {
-    const {items, actions, loading, descriptions, meta} = this.props;
+    const {items, actions, loading, descriptions, meta, component_attrs} = this.props;
     let entities_class = "entities ex-tiles";
     entities_class = loading ? entities_class + " ex-state-loading" : entities_class;
 
@@ -16,7 +16,7 @@ export default class PublicationTile extends Component {
         {items.map(
           (child, i) =>
             <PublicationTileItem key={i} data={child} actions={actions} descriptions={descriptions} position={i}
-                                 meta={meta}/>
+                                 meta={meta} component_attrs={component_attrs}/>
         )}
       </ul>
     );
@@ -40,10 +40,14 @@ class PublicationTileItem extends TileItemMixin(Component) {
   }
 
   getDescriptionText() {
-    const {data, descriptions} = this.props,
-      descr = descriptions[data.id];
+    const {data, descriptions, component_attrs} = this.props,
+      descr = descriptions[data.id],
+      replaceSubtitleWithLead = component_attrs.replaceSubtitleWithLead || null;
 
-    return descr && descriptions.opened[data.id] ? descr.subtitle || descr.lead : data.extra.short_subtitle;
+    if (descr && descriptions.opened[data.id])
+      return replaceSubtitleWithLead ? descr.lead : descr.subtitle || descr.lead;
+
+    return data.extra.short_subtitle
   }
 
   static isEqualStr(s1, s2) {
