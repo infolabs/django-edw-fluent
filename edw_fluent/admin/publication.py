@@ -155,11 +155,9 @@ class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
         """
         Добавляет в форму модель администратора
         """
-        form = super(BasePublicationAdmin, self).get_form(request, obj, **kwargs)
         if obj:
-            form.publication_id_for_formfield = obj.id
-        form.request = request
-        return form
+            self.publication_id_for_formfield = obj.id
+        return super(BasePublicationAdmin, self).get_form(request, obj, **kwargs)
     
     def save_model(self, request, obj, form, change):
         user = request.user
