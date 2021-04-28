@@ -57,6 +57,10 @@ msgstr "Не указано представление"
 msgid "Content blocks"
 msgstr "Основное содержимое"
 
+#: edw_fluent/admin/publication.py:170 edw_fluent/admin/publication.py:197
+msgid "You miss following permissions: %s"
+msgstr "У вас не хватает следующих прав: %s"
+
 #: edw_fluent/apps.py:13
 msgid "EDW fluent"
 msgstr "Управление страницами"
