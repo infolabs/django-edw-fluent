@@ -25,6 +25,7 @@ class ContentBlockTemplate(BaseTemplate):
         verbose_name=_('Template'),
         max_length=255,
         null=True,
+        db_index=True,
         elements=get_page_builder_elements_by_model('ContentBlockTemplate'),
         help_text=_("Some help text about content block template... `index`, `top`, `bottom`...")
     )

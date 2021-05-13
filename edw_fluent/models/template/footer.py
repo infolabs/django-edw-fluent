@@ -21,6 +21,7 @@ class FooterTemplate(BaseTemplate):
         verbose_name=_('Template'),
         max_length=255,
         null=True,
+        db_index=True,
         elements=get_page_builder_elements_by_model('FooterTemplate'),
         help_text=_("Some help text about footer template... `index`, `top`, `bottom`")
     )

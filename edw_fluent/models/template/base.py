@@ -33,6 +33,7 @@ class BaseTemplate(EntityModel.materialized):
         verbose_name=_("On indexation"),
         blank=False,
         null=False,
+        db_index=True,
         default=''
     )
 

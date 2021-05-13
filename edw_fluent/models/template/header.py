@@ -21,6 +21,7 @@ class HeaderTemplate(BaseTemplate):
         verbose_name=_('Template'),
         max_length=255,
         null=True,
+        db_index=True,
         elements=get_page_builder_elements_by_model('HeaderTemplate'),
         help_text=_("Some help text about header template... `index`, `top`, `bottom`")
     )
