@@ -28,11 +28,7 @@ try:
 except NameError:
     chr_type = chr
 
-
-def remove_unprintable(text):
-    """
-    RUS: Удаляет непечатаемый текст.
-    """
+def get_allowed_chars():
     symbol_ranges = DEFAULT_SYMBOL_RANGES
     config_ranges = getattr(config, 'PRINTABLE_SYMBOL_RANGES', None)
     if config_ranges is not None:
@@ -47,8 +43,23 @@ def remove_unprintable(text):
     for r in symbol_ranges:
         ranges += range(*r)
 
-    allowed_chars = ''.join(map(chr_type, ranges))
+    return ''.join(map(chr_type, ranges))
+
+
+def remove_unprintable(text):
+    """
+    RUS: Удаляет непечатаемый текст.
+    """
+    allowed_chars = get_allowed_chars()
     return ''.join(filter(lambda x: x in allowed_chars, text))
+
+
+def clean_unprintable(text, filler=r' '):
+    """
+    RUS: Заменяет непечатаемый текст на заполнитель.
+    """
+    allowed_chars = get_allowed_chars()
+    return ''.join([c if c in allowed_chars else filler for c in text])
 
 
 emoji_pattern = re.compile(
@@ -75,8 +86,8 @@ emoji_pattern = re.compile(
     flags=re.UNICODE)
 
 
-def remove_emoji(text):
-    return emoji_pattern.sub(r'', text)
+def remove_emoji(text, filler=r''):
+    return emoji_pattern.sub(filler, text)
 
 
 def get_data_mart_page(datamart_id):
