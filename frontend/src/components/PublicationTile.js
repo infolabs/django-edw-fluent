@@ -34,7 +34,7 @@ class PublicationTileItem extends TileItemMixin(Component) {
     if (this.getIsHover(e.clientX, e.clientY)) {
       actions.showDescription(id);
       if (!descriptions[id])
-        actions.getEntityItem(data);
+        actions.getEntityInfo(data);
     } else
       actions.hideDescription(id);
   }
