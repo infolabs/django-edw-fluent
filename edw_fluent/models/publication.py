@@ -228,6 +228,10 @@ class PublicationBase(EntityModel.materialized, ImagesFilesFluentMixin, Comments
             # Tags: см. пример в описании фильтра
             'tags': ("edw_fluent.rest.filters.publication.TagFilter", {
                 'name': 'publication__tags'
+            }),
+            'q': ("rest_framework_filters.CharFilter", {
+                'name': 'publication__title',
+                'lookup_expr': 'icontains',
             })
         }
 
