@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import marked from 'marked';
 import {withYMaps, YMaps} from 'react-yandex-maps';
 import {YMapInner} from 'components/BaseEntities/YMap';
 
