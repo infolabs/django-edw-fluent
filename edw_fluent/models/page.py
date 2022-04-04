@@ -11,8 +11,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.decorators import decorator_from_middleware_with_args
 from django.utils.cache import (
     get_max_age, has_vary_header, learn_cache_key as origin_learn_cache_key,
-    patch_response_headers,
+    patch_response_headers, get_cache_key
 )
+
 
 from edw.utils.circular_buffer_in_cache import RingBuffer
 
@@ -25,6 +26,13 @@ db_table_name_pattern = '{}_{}'.format(settings.EDW_APP_LABEL, '{}')
 SIMPLE_PAGE_BUFFER_CACHE_KEY = 'spg_bf'
 SIMPLE_PAGE_BUFFER_CACHE_SIZE = getattr(settings, 'SIMPLE_PAGE_BUFFER_CACHE_SIZE', 100)
 
+SECONDARY_SIMPLE_PAGE_BUFFER_PREFIX = 'sec'
+SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_KEY = '{}_{}'.format(SECONDARY_SIMPLE_PAGE_BUFFER_PREFIX,
+                                                        SIMPLE_PAGE_BUFFER_CACHE_KEY)
+SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_KEY_PATTERN = 'sspb:{key}'
+SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_TIMEOUT = getattr(
+    settings, 'SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_TIMEOUT', 86400)  # 60*60*24, 1 day
+
 
 def get_simple_page_buffer():
     """
@@ -33,15 +41,31 @@ def get_simple_page_buffer():
     return RingBuffer.factory(SIMPLE_PAGE_BUFFER_CACHE_KEY,
                               max_size=SIMPLE_PAGE_BUFFER_CACHE_SIZE)
 
+def get_secondary_simple_page_buffer():
+    """
+    RUS: Дополнительный кольцевой буфер.
+    """
+    return RingBuffer.factory(SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_KEY,
+                              max_size=SIMPLE_PAGE_BUFFER_CACHE_SIZE)
 
 def clear_simple_page_buffer():
     """
-    RUS: Очищает буфер, удаляя по указанным ключам.
+    RUS: Очищает буфер, удаляя по указанным ключам. Данные переносятся во вторичный буфер
     """
     buf = get_simple_page_buffer()
     keys = buf.get_all()
     buf.clear()
-    cache.delete_many(keys)
+
+    buf = get_secondary_simple_page_buffer()
+    for key in keys:
+        r = cache.get(key)
+        if r is not None:
+            sec_cache_key = SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_KEY_PATTERN.format(key=key)
+            cache.set(sec_cache_key, r, SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_TIMEOUT)
+            cache.delete(key)
+            old_key = buf.record(sec_cache_key)
+            if old_key != buf.empty:
+                cache.delete(old_key)
 
 
 # Monkey path: save cache_key for invalidation
@@ -51,13 +75,11 @@ def learn_cache_key(request, response, timeout, key_prefix, cache):
     если он не является акутуальным.
     """
     cache_key = origin_learn_cache_key(request, response, timeout, key_prefix, cache)
-
     # reduce cache
     buf = get_simple_page_buffer()
     old_key = buf.record(cache_key)
     if old_key != buf.empty:
         cache.delete(old_key)
-
     return cache_key
 
 
@@ -79,7 +101,7 @@ class SimplePageCacheMiddleware(CacheMiddleware):
             return response
         # RUS: Возвращает ответ сервера, если не было обновления кэша.
 
-        if response.streaming or response.status_code != 200:
+        if response.streaming or response.status_code not in (200, 304):
             return response
         # RUS: Возвращает ответ сервера, если, у атрибута HttpResponse.streaming статус False
         # или код ответа не равен 200.
@@ -125,7 +147,14 @@ class SimplePageCacheMiddleware(CacheMiddleware):
         if request.user.is_authenticated():
             return None
         else:
-            return super(SimplePageCacheMiddleware, self).process_request(request)
+            response = super(SimplePageCacheMiddleware, self).process_request(request)
+            if response is None:
+                cache_key = get_cache_key(request, self.key_prefix, 'GET', cache=self.cache)
+                sec_cache_key = SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_KEY_PATTERN.format(key=cache_key)
+                r = self.cache.get(sec_cache_key)
+                if r is not None:
+                    self.cache.set(cache_key, r, self.cache_timeout)
+            return response
 
 
 def cache_simple_page(*args, **kwargs):
@@ -153,7 +182,6 @@ def cache_simple_page(*args, **kwargs):
     key_prefix = kwargs.pop('key_prefix', None)
     if kwargs:
         raise TypeError("cache_page has two optional keyword arguments: cache and key_prefix")
-
     return decorator_from_middleware_with_args(SimplePageCacheMiddleware)(
         cache_timeout=cache_timeout, cache_alias=cache_alias, key_prefix=key_prefix
     )
