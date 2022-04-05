@@ -55,17 +55,7 @@ def clear_simple_page_buffer():
     buf = get_simple_page_buffer()
     keys = buf.get_all()
     buf.clear()
-
-    buf = get_secondary_simple_page_buffer()
-    for key in keys:
-        r = cache.get(key)
-        if r is not None:
-            sec_cache_key = SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_KEY_PATTERN.format(key=key)
-            cache.set(sec_cache_key, r, SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_TIMEOUT)
-            cache.delete(key)
-            old_key = buf.record(sec_cache_key)
-            if old_key != buf.empty:
-                cache.delete(old_key)
+    cache.delete_many(keys)
 
 
 # Monkey path: save cache_key for invalidation
@@ -131,8 +121,21 @@ class SimplePageCacheMiddleware(CacheMiddleware):
         if timeout:
             cache_key = learn_cache_key(request, response, timeout, self.key_prefix, cache=self.cache)
             if hasattr(response, 'render') and callable(response.render):
+
+                def post_render_callback(r):
+                    # обновляем первичный кеш
+                    self.cache.set(cache_key, r, timeout)
+
+                    # обновляем вторичный кеш
+                    buf = get_secondary_simple_page_buffer()
+                    sec_cache_key = SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_KEY_PATTERN.format(key=cache_key)
+                    old_key = buf.record(sec_cache_key)
+                    if old_key != buf.empty:
+                        self.cache.delete(old_key)
+                    self.cache.set(sec_cache_key, r, SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_TIMEOUT)
+
                 response.add_post_render_callback(
-                    lambda r: self.cache.set(cache_key, r, timeout)
+                    post_render_callback
                 )
             else:
                 self.cache.set(cache_key, response, timeout)
