@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import six
 
 from fluent_pages.pagetypes.fluentpage.admin import FluentPageAdmin
 from fluent_pages.integration.fluent_contents.page_type_plugins import FluentContentsPagePlugin
@@ -6,7 +7,6 @@ from fluent_pages.extensions import page_type_pool
 
 from django.conf import settings
 from django.contrib import admin
-from django.utils import six
 from django.utils.decorators import method_decorator
 
 from edw_fluent.models.page import SimplePage, cache_simple_page

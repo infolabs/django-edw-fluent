@@ -2,14 +2,14 @@
 from __future__ import unicode_literals
 
 import re
-from future.utils import python_2_unicode_compatible
+import six
+from six import python_2_unicode_compatible
 
 from chakert import Typograph
 from fluent_contents.extensions import PluginHtmlField
 from fluent_contents.models import ContentItem
 from fluent_contents.utils.filters import apply_filters
 
-from django.utils import six
 from django.db import models
 from django.conf import settings
 from django.utils.html import strip_tags

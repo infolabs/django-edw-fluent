@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.utils.translation import ugettext_lazy as _
 
-from future.utils import python_2_unicode_compatible
+from six import python_2_unicode_compatible
 
 from edw_fluent.plugins.hottag.utils import turncat
 
