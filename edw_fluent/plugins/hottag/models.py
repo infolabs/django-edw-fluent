@@ -21,7 +21,7 @@ class HotTag(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, verbose_name=_('Content type'))
     object_id = models.PositiveIntegerField(verbose_name=_('ID'))
     content_object = GenericForeignKey('content_type', 'object_id')
-    target_publication = models.ForeignKey('Entity', blank=True, null=True, on_delete=models.SET_NULL,
+    target_publication = models.ForeignKey('Entity', on_delete=models.SET_NULL, blank=True, null=True,
                                            verbose_name=_('Publication'))
     created_at = models.DateTimeField(auto_now=True, verbose_name=_('Created at'))
 

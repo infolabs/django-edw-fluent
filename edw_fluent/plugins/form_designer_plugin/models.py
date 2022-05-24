@@ -17,7 +17,7 @@ class FormDesignerItem(ContentItem):
     """
     RUS: Класс экземпляра Дизайнера форм FormDesignerItem
     """
-    form_definition = models.ForeignKey(FormDefinition, verbose_name=_('Form'))
+    form_definition = models.ForeignKey(FormDefinition, on_delete=models.CASCADE, verbose_name=_('Form'))
 
     def __str__(self):
         """

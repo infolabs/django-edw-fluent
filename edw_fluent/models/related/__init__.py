@@ -60,7 +60,7 @@ class BaseEntityComment(with_metaclass(deferred.ForeignKeyBuilder, models.Model)
     """
     Comment model
     """
-    entity = deferred.ForeignKey('BaseEntity', verbose_name=_('Entity'))
+    entity = deferred.ForeignKey('BaseEntity', on_delete=models.CASCADE, verbose_name=_('Entity'))
 
     origin_name = models.CharField(
         verbose_name=_('Origin name'),
@@ -85,6 +85,7 @@ class BaseEntityComment(with_metaclass(deferred.ForeignKeyBuilder, models.Model)
         max_length=255
     )
     logo = FilerImageField(
+        on_delete=models.CASCADE,
         verbose_name=_('Origin logo'),
         help_text=_('Comment owner logo'),
         blank=True,

@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 
 import os
+from six import python_2_unicode_compatible
 from future.builtins import str
-from future.utils import python_2_unicode_compatible
 
 from django.db import models
 from django.conf import settings
