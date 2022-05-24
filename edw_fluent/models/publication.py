@@ -11,7 +11,10 @@ from django.conf import settings
 from django.db import models
 from django.db.models import ExpressionWrapper, F, Q, Case, When
 from django.core.exceptions import ValidationError
-from django.core.urlresolvers import reverse
+try:
+    from django.core.urlresolvers import reverse
+except ImportError:
+    from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.text import Truncator
 from django.utils.translation import ugettext_lazy as _

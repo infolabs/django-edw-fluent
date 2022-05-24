@@ -16,16 +16,19 @@ from edw_fluent.models.publication import PublicationBase
 from edw_fluent.plugins.block.models import BlockItem
 
 
+try:
+    subjects_rel = BlockItem._meta.get_field("subjects").rel
+except AttributeError:
+    subjects_rel = BlockItem._meta.get_field("subjects").remote_field
+
+
 class BlockPluginForm(ContentItemForm):
     """
     RUS: Класс плагин для формы контент-блока.
     """
     subjects = forms.ModelMultipleChoiceField(
         queryset=EntityModel.objects.instance_of(PublicationBase).active(),
-        widget=SalmonellaMultiIdWidget(
-            BlockItem._meta.get_field("subjects").rel,
-            admin.site,
-        ),
+        widget=SalmonellaMultiIdWidget(subjects_rel, admin.site),
         required=False,
         help_text=_('Related entity for this block')
     )

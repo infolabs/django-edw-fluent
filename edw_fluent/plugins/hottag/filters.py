@@ -46,7 +46,10 @@ def hottag_filter(textitem, html):
             target_model_id = tag.attrs.get('data-edw-model-id', None)
             if target_model_id:
                 try:
-                    PublicationModel = HotTag._meta.get_field('target_publication').rel.to
+                    try:
+                        PublicationModel = HotTag._meta.get_field('target_publication').rel.to
+                    except AttributeError:
+                        PublicationModel = HotTag._meta.get_field('target_publication').related_model
                     target_publication = PublicationModel.objects.get(pk=target_model_id)
                 except:
                     target_publication = None

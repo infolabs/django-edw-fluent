@@ -16,6 +16,16 @@ from edw.models.data_mart import DataMartModel
 
 from edw_fluent.plugins.datamart.models import DataMartItem
 
+try:
+    datamarts_rel = DataMartItem._meta.get_field("datamarts").rel
+except AttributeError:
+    datamarts_rel = DataMartItem._meta.get_field("datamarts").remote_field
+
+try:
+    subjects_rel = DataMartItem._meta.get_field("subjects").rel
+except AttributeError:
+    subjects_rel = DataMartItem._meta.get_field("subjects").remote_field
+
 
 class DataMartPluginForm(ContentItemForm):
     """
@@ -24,19 +34,13 @@ class DataMartPluginForm(ContentItemForm):
     datamarts = forms.ModelMultipleChoiceField(
         label=_('Data marts'),
         queryset=DataMartModel.objects.all(),
-        widget = SalmonellaMultiIdWidget(
-            DataMartItem._meta.get_field("datamarts").rel,
-            admin.site,
-        )
+        widget = SalmonellaMultiIdWidget(datamarts_rel, admin.site)
     )
 
     subjects = forms.ModelMultipleChoiceField(
         label = _('Subjects'),
         queryset=EntityModel.objects.active(),
-        widget = SalmonellaMultiIdWidget(
-            DataMartItem._meta.get_field("subjects").rel,
-            admin.site,
-        ),
+        widget = SalmonellaMultiIdWidget(subjects_rel, admin.site),
         required=False
     )
 
