@@ -83,7 +83,9 @@ class SimplePageCacheMiddleware(CacheMiddleware):
         """
         RUS: Возвращает ответ сервера, если пользователь идентифицирован.
         """
-        if request.user.is_authenticated():
+        is_authenticated = (request.user.is_authenticated() if callable(request.user.is_authenticated)
+                   else request.user.is_authenticated)
+        if is_authenticated:
             return response
 
         """Sets the cache, if needed."""
@@ -147,7 +149,9 @@ class SimplePageCacheMiddleware(CacheMiddleware):
     def process_request(self, request):
         # Don't cache responses that set a user-specific
         # RUS: Не кэширует ответ сервера от пользователей, прошедших идентификацию.
-        if request.user.is_authenticated():
+        is_authenticated = (request.user.is_authenticated() if callable(request.user.is_authenticated)
+                   else request.user.is_authenticated)
+        if is_authenticated:
             return None
         else:
             response = super(SimplePageCacheMiddleware, self).process_request(request)

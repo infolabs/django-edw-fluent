@@ -8,7 +8,10 @@ from django.utils.translation import ugettext_lazy as _
 
 from fluent_contents.extensions import ContentItemForm
 
-from salmonella.widgets import SalmonellaIdWidget
+try:
+    from salmonella.widgets import SalmonellaIdWidget
+except ImportError:
+    from dynamic_raw_id.widgets import DynamicRawIDWidget as SalmonellaIdWidget
 
 from form_designer.models import FormDefinition
 

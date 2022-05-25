@@ -7,7 +7,10 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
 from fluent_contents.extensions import ContentItemForm
-from salmonella.widgets import SalmonellaMultiIdWidget
+try:
+    from salmonella.widgets import SalmonellaMultiIdWidget
+except ImportError:
+    from dynamic_raw_id.widgets import DynamicRawIDMultiIdWidget as SalmonellaMultiIdWidget
 
 from edw.admin.term.widgets import TermTreeWidget
 from edw.models.term import TermModel
