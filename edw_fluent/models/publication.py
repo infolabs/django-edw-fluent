@@ -83,10 +83,12 @@ class PublicationBase(EntityModel.materialized, ImagesFilesFluentMixin, Comments
 
     VIEW_COMPONENT_TILE = 'publication_tile'
     VIEW_COMPONENT_LIST = 'publication_list'
+    VIEW_COMPONENT_TABLE = 'publication_table'
 
     VIEW_COMPONENTS = (
         (VIEW_COMPONENT_TILE, _('Publication tile')),
         (VIEW_COMPONENT_LIST, _('Publication list')),
+        (VIEW_COMPONENT_TABLE, _('Publication table')),
     )
 
     LAYOUT_TERM_SLUG = get_layout_slug_by_model_name('publication')

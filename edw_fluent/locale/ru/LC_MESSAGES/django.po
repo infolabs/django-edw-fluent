@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-16 10:58+0000\n"
-"PO-Revision-Date: 2020-12-16 13:59+0300\n"
+"POT-Creation-Date: 2022-05-30 00:52+0000\n"
+"PO-Revision-Date: 2022-05-30 03:53+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -18,34 +18,36 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 3.0.1\n"
 
-#: edw_fluent/admin/forms/comment.py:17 edw_fluent/admin/forms/file.py:17
-#: edw_fluent/admin/forms/image.py:18
+#: edw_fluent/admin/forms/comment.py:17 edw_fluent/admin/forms/data_mart.py:15
+#: edw_fluent/admin/forms/file.py:17 edw_fluent/admin/forms/image.py:18
 msgid "Default"
 msgstr "По умолчанию"
 
-#: edw_fluent/admin/forms/comment.py:20 edw_fluent/admin/forms/file.py:20
-#: edw_fluent/admin/forms/image.py:22
+#: edw_fluent/admin/forms/comment.py:20 edw_fluent/admin/forms/data_mart.py:18
+#: edw_fluent/admin/forms/file.py:20 edw_fluent/admin/forms/image.py:22
 msgid "Info block"
 msgstr "Инфоблок"
+
+#: edw_fluent/admin/forms/file.py:21
+msgid "Description"
+msgstr ""
 
 #: edw_fluent/admin/forms/image.py:19
 msgid "Thumbnail"
 msgstr "Миниатюра"
 
 #: edw_fluent/admin/forms/image.py:24
-#: edw_fluent/templates/edw_fluent/admin/filer/widgets/admin_file.html:26
 msgid "Author"
 msgstr "Автор"
 
-#: edw_fluent/admin/forms/image.py:26 edw_fluent/models/publication.py:76
+#: edw_fluent/admin/forms/image.py:26 edw_fluent/models/publication.py:101
 #: edw_fluent/plugins/hottag/models.py:20
-#: edw_fluent/templates/edw_fluent/admin/filer/widgets/admin_file.html:32
 msgid "Title"
 msgstr "Заголовок"
 
-#: edw_fluent/admin/forms/page.py:16 edw_fluent/plugins/datamart/forms.py:44
+#: edw_fluent/admin/forms/page.py:16 edw_fluent/plugins/datamart/forms.py:51
 msgid "Terms"
 msgstr "Термины"
 
@@ -53,11 +55,12 @@ msgstr "Термины"
 msgid "The view layout of the publication isn't defined"
 msgstr "Не указано представление"
 
-#: edw_fluent/admin/publication.py:103
+#: edw_fluent/admin/publication.py:117
 msgid "Content blocks"
 msgstr "Основное содержимое"
 
-#: edw_fluent/admin/publication.py:170 edw_fluent/admin/publication.py:197
+#: edw_fluent/admin/publication.py:167 edw_fluent/admin/publication.py:194
+#, python-format
 msgid "You miss following permissions: %s"
 msgstr "У вас не хватает следующих прав: %s"
 
@@ -65,19 +68,19 @@ msgstr "У вас не хватает следующих прав: %s"
 msgid "EDW fluent"
 msgstr "Управление страницами"
 
-#: edw_fluent/models/page.py:175
+#: edw_fluent/models/page.py:210
 msgid "SEO title"
 msgstr "SEO-заголовок"
 
-#: edw_fluent/models/page.py:192
+#: edw_fluent/models/page.py:227
 msgid "Simple page"
 msgstr "Страница"
 
-#: edw_fluent/models/page.py:193
+#: edw_fluent/models/page.py:228
 msgid "Simple pages"
 msgstr "Страницы"
 
-#: edw_fluent/models/page.py:195
+#: edw_fluent/models/page.py:230
 msgid "Can change Page layout"
 msgstr "Может изменить макет страницы"
 
@@ -89,89 +92,95 @@ msgstr "Представление"
 msgid "Page layout"
 msgstr "Страница"
 
-#: edw_fluent/models/publication.py:55
+#: edw_fluent/models/publication.py:78
 msgid "By date"
 msgstr "По дате"
 
-#: edw_fluent/models/publication.py:56
+#: edw_fluent/models/publication.py:79
 msgid "By chronology"
 msgstr "По хронологии"
 
-#: edw_fluent/models/publication.py:57
+#: edw_fluent/models/publication.py:80
 msgid "By recommendation"
 msgstr "Рекомендации"
 
-#: edw_fluent/models/publication.py:58 edw_fluent/models/template/base.py:21
+#: edw_fluent/models/publication.py:81 edw_fluent/models/template/base.py:21
 msgid "Alphabetical"
 msgstr "По алфавиту"
 
-#: edw_fluent/models/publication.py:65
+#: edw_fluent/models/publication.py:89
 msgid "Publication tile"
 msgstr "Плитка"
 
-#: edw_fluent/models/publication.py:66
+#: edw_fluent/models/publication.py:90
 msgid "Publication list"
 msgstr "Список"
 
-#: edw_fluent/models/publication.py:83
+#: edw_fluent/models/publication.py:91
+msgid "Publication table"
+msgstr "Таблица"
+
+#: edw_fluent/models/publication.py:108
 msgid "Subtitle"
 msgstr "Подзаголовок"
 
-#: edw_fluent/models/publication.py:91
+#: edw_fluent/models/publication.py:116
 msgid "Lead"
 msgstr "ЛИД"
 
-#: edw_fluent/models/publication.py:97
+#: edw_fluent/models/publication.py:122
 msgid "tags"
 msgstr "теги"
 
-#: edw_fluent/models/publication.py:98
+#: edw_fluent/models/publication.py:123
 msgid "Use semicolon as tag divider"
 msgstr "Используйте точку с запятой для разделения тэгов"
 
-#: edw_fluent/models/publication.py:104
+#: edw_fluent/models/publication.py:130
 msgid "Statistic"
 msgstr "Просмотры"
 
-#: edw_fluent/models/publication.py:110
+#: edw_fluent/models/publication.py:136
 msgid "Is main publication"
 msgstr "Рекомендуем"
 
-#: edw_fluent/models/publication.py:116
+#: edw_fluent/models/publication.py:142
 msgid "Content"
 msgstr "Контент"
 
-#: edw_fluent/models/publication.py:125
+#: edw_fluent/models/publication.py:151
 msgid "Unpublish at"
 msgstr "Дата снятия с публикации"
 
-#: edw_fluent/models/publication.py:133 edw_fluent/models/publication.py:469
+#: edw_fluent/models/publication.py:161 edw_fluent/models/publication.py:508
 #: edw_fluent/plugins/hottag/models.py:25
 msgid "Publication"
 msgstr "Публикация"
 
-#: edw_fluent/models/publication.py:134
+#: edw_fluent/models/publication.py:162
 msgid "Publications"
 msgstr "Публикации"
 
-#: edw_fluent/models/publication.py:307
+#: edw_fluent/models/publication.py:343
 msgid "The maximum number of characters {}, you have {}"
 msgstr "Максимальное количество символов {}, у вас {}"
 
-#: edw_fluent/models/related.py:27 edw_fluent/models/related.py:52
-#: edw_fluent/models/related.py:127
+#: edw_fluent/models/related/__init__.py:26
+#: edw_fluent/models/related/__init__.py:47
+#: edw_fluent/models/related/__init__.py:120
+#: edw_fluent/models/related/entity_related_data_mart.py:11
 msgid "Key"
 msgstr "Ключ"
 
-#: edw_fluent/models/related.py:75
+#: edw_fluent/models/related/__init__.py:67
 msgid "Entity"
 msgstr "Объект"
 
-#: edw_fluent/models/related.py:78
+#: edw_fluent/models/related/__init__.py:70
 msgid "Origin name"
 msgstr "Автор цитаты"
 
-#: edw_fluent/models/related.py:79
+#: edw_fluent/models/related/__init__.py:71
 msgid ""
 "Comment owner name. You must indicate the source of comment (company name/"
 "full name and position of the company representative)"
@@ -179,21 +188,21 @@ msgstr ""
 "Автор цитаты (например, Роскомнадзор). Источник этой цитаты (название "
 "компании/ФИО и должность представителя компании)."
 
-#: edw_fluent/models/related.py:86
+#: edw_fluent/models/related/__init__.py:78
 msgid "Text"
 msgstr "Текст"
 
-#: edw_fluent/models/related.py:87
+#: edw_fluent/models/related/__init__.py:79
 msgid ""
 "Text of comment, contains a quote with a rebuttal (maximum 300 symbols)."
 msgstr ""
 "Текст комментария, содержит цитату с опровержением (Не более 300 символов)."
 
-#: edw_fluent/models/related.py:93
+#: edw_fluent/models/related/__init__.py:85
 msgid "Origin url"
 msgstr "Ссылка на источник"
 
-#: edw_fluent/models/related.py:94
+#: edw_fluent/models/related/__init__.py:86
 msgid ""
 "Comment owner link, refers to materials containing a denial on the media "
 "website."
@@ -201,19 +210,19 @@ msgstr ""
 "Ссылка на первоисточник цитаты. Ссылается на материал, который содержит "
 "опровержение."
 
-#: edw_fluent/models/related.py:100
+#: edw_fluent/models/related/__init__.py:93
 msgid "Origin logo"
 msgstr "Логотип"
 
-#: edw_fluent/models/related.py:101
+#: edw_fluent/models/related/__init__.py:94
 msgid "Comment owner logo"
 msgstr "Логотип компании источника цитаты с минимальными размерами 128x128px."
 
-#: edw_fluent/models/related.py:106
+#: edw_fluent/models/related/__init__.py:99
 msgid "Bind to"
 msgstr "Ссылки на статьи"
 
-#: edw_fluent/models/related.py:107
+#: edw_fluent/models/related/__init__.py:100
 msgid ""
 "Refers to a news item that has been commented on. If the news has been "
 "published by several media outlets, you can post links to each source. "
@@ -223,11 +232,11 @@ msgstr ""
 "опубликовало несколько СМИ, можно поставить ссылки на каждый источник. В том "
 "числе и на себя. По одной ссылке в строке."
 
-#: edw_fluent/models/related.py:115
+#: edw_fluent/models/related/__init__.py:108
 msgid "Publication comment"
 msgstr "Официальный комментарий"
 
-#: edw_fluent/models/related.py:116
+#: edw_fluent/models/related/__init__.py:109
 msgid "Publication comments"
 msgstr "Комментарии"
 
@@ -239,7 +248,7 @@ msgstr "Название"
 msgid "On indexation"
 msgstr "На индексации"
 
-#: edw_fluent/models/template/base.py:43
+#: edw_fluent/models/template/base.py:44
 #: edw_fluent/models/template/content_block.py:25
 #: edw_fluent/models/template/footer.py:21
 #: edw_fluent/models/template/header.py:21
@@ -249,49 +258,49 @@ msgstr "На индексации"
 msgid "Template"
 msgstr "Шаблон"
 
-#: edw_fluent/models/template/base.py:44
+#: edw_fluent/models/template/base.py:45
 #: edw_fluent/plugins/template/models.py:40
 msgid "Templates"
 msgstr "Шаблоны"
 
-#: edw_fluent/models/template/content_block.py:29
+#: edw_fluent/models/template/content_block.py:30
 msgid ""
 "Some help text about content block template... `index`, `top`, `bottom`..."
 msgstr ""
 
-#: edw_fluent/models/template/content_block.py:36
+#: edw_fluent/models/template/content_block.py:37
 msgid "Content Block Template"
 msgstr "Шаблон контент-блока"
 
-#: edw_fluent/models/template/content_block.py:37
+#: edw_fluent/models/template/content_block.py:38
 msgid "Content Block Templates"
 msgstr "Шаблоны контент-блоков"
 
-#: edw_fluent/models/template/footer.py:25
+#: edw_fluent/models/template/footer.py:26
 msgid "Some help text about footer template... `index`, `top`, `bottom`"
 msgstr ""
 
-#: edw_fluent/models/template/footer.py:32
+#: edw_fluent/models/template/footer.py:33
 msgid "Footer Template"
 msgstr "Шаблон подвала"
 
-#: edw_fluent/models/template/footer.py:33
+#: edw_fluent/models/template/footer.py:34
 msgid "Footer Templates"
 msgstr "Шаблоны подвала"
 
-#: edw_fluent/models/template/header.py:25
+#: edw_fluent/models/template/header.py:26
 msgid "Some help text about header template... `index`, `top`, `bottom`"
 msgstr ""
 
-#: edw_fluent/models/template/header.py:32
+#: edw_fluent/models/template/header.py:33
 msgid "Header Template"
 msgstr "Шаблон шапки"
 
-#: edw_fluent/models/template/header.py:33
+#: edw_fluent/models/template/header.py:34
 msgid "Header Templates"
 msgstr "Шаблоны шапки"
 
-#: edw_fluent/plugins/block/forms.py:30
+#: edw_fluent/plugins/block/forms.py:36
 msgid "Related entity for this block"
 msgstr "Связанные с этим блоком объекты"
 
@@ -300,8 +309,8 @@ msgid "text"
 msgstr "текст"
 
 #: edw_fluent/plugins/block/models.py:42
-#: edw_fluent/plugins/block/pluginbase.py:53
 #: edw_fluent/plugins/block/pluginbase.py:54
+#: edw_fluent/plugins/block/pluginbase.py:55
 #: edw_fluent/plugins/template/content_plugins.py:34
 #: edw_fluent/plugins/template/content_plugins.py:35
 msgid "Block"
@@ -316,11 +325,11 @@ msgid "Data mart"
 msgstr "Витрина данных"
 
 #: edw_fluent/plugins/datamart/content_plugins.py:34
-#: edw_fluent/plugins/datamart/forms.py:25
+#: edw_fluent/plugins/datamart/forms.py:38
 msgid "Data marts"
 msgstr "Витрины данных"
 
-#: edw_fluent/plugins/datamart/forms.py:34
+#: edw_fluent/plugins/datamart/forms.py:44
 msgid "Subjects"
 msgstr "Субъекты"
 
@@ -396,7 +405,7 @@ msgstr "Файлы"
 msgid "File does not exist"
 msgstr "Файл не существует"
 
-#: edw_fluent/plugins/form_designer_plugin/forms.py:23
+#: edw_fluent/plugins/form_designer_plugin/forms.py:32
 #: edw_fluent/plugins/form_designer_plugin/models.py:20
 msgid "Form"
 msgstr "Форма"
@@ -409,7 +418,7 @@ msgstr "Форма"
 msgid "Form plugins"
 msgstr "Формы"
 
-#: edw_fluent/plugins/hottag/admin.py:26
+#: edw_fluent/plugins/hottag/admin.py:30
 msgid "Content block"
 msgstr "Блок контента"
 
@@ -468,47 +477,38 @@ msgstr ""
 "с плагином, но может приводить к неактуальным данным. Снимите этот флаг для "
 "шаблонов актуальное обновление данных которых на сайте критично."
 
-#: edw_fluent/rest/serializers/comment.py:18
+#: edw_fluent/rest/serializers/comment.py:20
 msgid "Comments logos"
 msgstr "Логотипы комментариев"
 
-#: edw_fluent/static/page_builder/elements/blocks/tpl/default-index-block.html:115
+#: edw_fluent/static/page_builder/elements/blocks/tpl/default-index-block.html:101
 msgid "Download file"
 msgstr "Скачать файл"
-
-#: edw_fluent/templates/edw_fluent/admin/filer/widgets/admin_file.html:9
-#: edw_fluent/templates/edw_fluent/admin/filer/widgets/admin_file.html:55
-msgid "Clear"
-msgstr "Очистить"
-
-#: edw_fluent/templates/edw_fluent/admin/filer/widgets/admin_file.html:18
-msgid "or drop your file here"
-msgstr "или \"скиньте\" ваш файл сюда"
-
-#: edw_fluent/templates/edw_fluent/admin/filer/widgets/admin_file.html:46
-#: edw_fluent/templates/edw_fluent/admin/filer/widgets/admin_file.html:47
-msgid "file missing"
-msgstr "файл не выбран"
-
-#: edw_fluent/templates/edw_fluent/admin/filer/widgets/admin_file.html:50
-msgid "no file selected"
-msgstr "файл не выбран"
-
-#: edw_fluent/templates/edw_fluent/admin/filer/widgets/admin_file.html:59
-msgid "Lookup"
-msgstr "Выбрать"
-
-#: edw_fluent/templates/edw_fluent/admin/filer/widgets/admin_file.html:60
-msgid "Choose File"
-msgstr "Выбрать файл"
-
-#: edw_fluent/templates/edw_fluent/admin/filer/widgets/admin_file.html:66
-msgid "Properties"
-msgstr "Свойства"
 
 #: edw_fluent/templatetags/edw_fluent_tags.py:342
 msgid "Today"
 msgstr "Сегодня"
+
+#~ msgid "Clear"
+#~ msgstr "Очистить"
+
+#~ msgid "or drop your file here"
+#~ msgstr "или \"скиньте\" ваш файл сюда"
+
+#~ msgid "file missing"
+#~ msgstr "файл не выбран"
+
+#~ msgid "no file selected"
+#~ msgstr "файл не выбран"
+
+#~ msgid "Lookup"
+#~ msgstr "Выбрать"
+
+#~ msgid "Choose File"
+#~ msgstr "Выбрать файл"
+
+#~ msgid "Properties"
+#~ msgstr "Свойства"
 
 #~ msgid "Read also"
 #~ msgstr "Читайте также"
