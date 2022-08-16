@@ -24,20 +24,18 @@ class SimplePageAdmin(FluentPageAdmin):
 
     @property
     def media(self):
-        # use local js
         media = super(SimplePageAdmin, self).media
-        if six.PY2:
-            return media
 
-        for i, m in enumerate(media._js):
-            if m == 'fluent_pages/fluentpage/fluent_layouts.js':
-                media._js[i] = 'edw_fluent/page/fluent_layouts.js'
+        # use local js
+        for i, m in enumerate(media._js_lists):
+            if len(m) == 1 and m[0] == 'fluent_pages/fluentpage/fluent_layouts.js':
+                media._js_lists[i] = ('edw_fluent/page/fluent_layouts.js',)
                 break
         return media
 
     change_form_template = [
         "edw_fluent/admin/change_form.html",
-    ] if six.PY3 else []
+    ]
 
 
 #===================================================================================================================
