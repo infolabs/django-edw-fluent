@@ -8,6 +8,7 @@ from fluent_pages.extensions import page_type_pool
 from django.conf import settings
 from django.contrib import admin
 from django.utils.decorators import method_decorator
+from django import VERSION as DJANGO_VERSION
 
 from edw_fluent.models.page import SimplePage, cache_simple_page
 from edw_fluent.admin.forms.page import SimplePageAdminForm
@@ -22,15 +23,24 @@ class SimplePageAdmin(FluentPageAdmin):
 
     base_form = SimplePageAdminForm
 
+    ORIGINAL_JS = 'fluent_pages/fluentpage/fluent_layouts.js'
+    LOCAL_JS = 'edw_fluent/page/fluent_layouts.js'
+
     @property
     def media(self):
         media = super(SimplePageAdmin, self).media
 
-        # use local js
-        for i, m in enumerate(media._js_lists):
-            if len(m) == 1 and m[0] == 'fluent_pages/fluentpage/fluent_layouts.js':
-                media._js_lists[i] = ('edw_fluent/page/fluent_layouts.js',)
-                break
+        if DJANGO_VERSION[0] >= 3:
+            for i, m in enumerate(media._js_lists):
+                if len(m) == 1 and m[0] == self.ORIGINAL_JS:
+                    media._js_lists[i] = (self.LOCAL_JS,)
+                    break
+        else:
+            for i, m in enumerate(media._js):
+                if m == self.ORIGINAL_JS:
+                    media._js[i] = self.LOCAL_JS
+                    break
+
         return media
 
     change_form_template = [
