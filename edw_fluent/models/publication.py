@@ -452,6 +452,7 @@ class PublicationBase(EntityModel.materialized, ImagesFilesFluentMixin, Comments
                 related_by_tags_count = getattr(settings, 'RELATED_BY_TAGS_COUNT', 5)
                 self.__related_publications_cache = EntityModel.objects \
                     .active() \
+                    .published() \
                     .exclude(pk__in=exclude_ids) \
                     .filter(reduce(
                         or_, [Q(publication__tags__icontains=tag) for tag in tags]
