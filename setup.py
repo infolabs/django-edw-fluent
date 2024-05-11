@@ -24,12 +24,12 @@ setup(
         'Framework :: Django',
     ],
     install_requires=[
-        'Django==1.9.13',
+        'Django>=1.9.13',
         'django-edw',
         'django-page-builder',
-        'django-fluent-pages==1.1.1',
-        'django-fluent-contents==1.2',
-        'django-constance==1.3.3'
+        'django-fluent-pages>=1.1.1',
+        'django-fluent-contents>=1.2',
+        'django-constance>=1.3.3'
     ],
     dependency_links=[
         'https://github.com/Harut/chakert/tarball/master#egg=chakert-0.2.1'
