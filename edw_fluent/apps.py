@@ -15,3 +15,4 @@ class EdwFluentConfig(AppConfig):
     def ready(self):
         # Импорт для инициализации сигнала. Не удалять!
         from .signals import handlers
+        from edw_fluent import tasks

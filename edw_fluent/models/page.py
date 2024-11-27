@@ -33,6 +33,9 @@ SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_KEY_PATTERN = 'sspb:{key}'
 SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_TIMEOUT = getattr(
     settings, 'SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_TIMEOUT', 86400)  # 60*60*24, 1 day
 
+SIMPLE_PAGE_URL_BUFFER_CACHE_KEY = 'spg_url_bf'
+SIMPLE_PAGE_URL_BUFFER_CACHE_SIZE = 100
+SIMPLE_PAGE_URL_CACHE_TIMEOUT = getattr(settings, 'SIMPLE_PAGE_CACHE_TIMEOUT', 3600)
 
 def get_simple_page_buffer():
     """
@@ -40,6 +43,14 @@ def get_simple_page_buffer():
     """
     return RingBuffer.factory(SIMPLE_PAGE_BUFFER_CACHE_KEY,
                               max_size=SIMPLE_PAGE_BUFFER_CACHE_SIZE)
+
+def get_simple_page_url_buffer():
+    """
+    RUS: Собирает отдельный кольцевой буфер для хранения urls SimplePage при кешировании
+    """
+    return RingBuffer.factory(SIMPLE_PAGE_URL_BUFFER_CACHE_KEY,
+                              max_size=SIMPLE_PAGE_URL_BUFFER_CACHE_SIZE,
+                              timeout=SIMPLE_PAGE_URL_CACHE_TIMEOUT)
 
 def get_secondary_simple_page_buffer():
     """
@@ -57,6 +68,15 @@ def clear_simple_page_buffer():
     buf.clear()
     cache.delete_many(keys)
 
+def clear_simple_page_url_buffer():
+    """
+    RUS: Очищает буфер который хранит urls, удаляя по указанным ключам
+    """
+    url_buf = get_simple_page_url_buffer()
+    keys = url_buf.get_all()
+    url_buf.clear()
+    cache.delete_many(keys)
+
 
 # Monkey path: save cache_key for invalidation
 def learn_cache_key(request, response, timeout, key_prefix, cache):
@@ -70,6 +90,14 @@ def learn_cache_key(request, response, timeout, key_prefix, cache):
     old_key = buf.record(cache_key)
     if old_key != buf.empty:
         cache.delete(old_key)
+
+    #storing urls of cached pages
+    url_cache_key = request.path
+    url_buf = get_simple_page_url_buffer()
+    url_old_key = url_buf.record(url_cache_key)
+    if url_old_key != url_buf.empty:
+        cache.delete(url_old_key)
+
     return cache_key
 
 
@@ -217,6 +245,12 @@ class SimplePage(AbstractFluentPage):
         'Term',
         related_name='page_terms',
         db_table=db_table_name_pattern.format('page_terms')
+    )
+
+    warm_up = models.BooleanField(
+        verbose_name=_('Do warm up'),
+        default=False,
+        help_text=_('If True, a request will be made to the page on a schedule to update the cache')
     )
 
     class Meta:

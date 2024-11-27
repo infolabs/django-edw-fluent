@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import time
 import re
 import json
 from constance import config
+
+from django.core.management import call_command
 
 
 # https://unicode-table.com
@@ -106,3 +109,19 @@ def get_data_mart_page(datamart_id):
         else:
             return data_mart.get_cached_detail_page()
     return None
+
+
+def get_warming_up_result(urn):
+    start_time = time.time()
+    result = {
+        'urn': urn,
+        'elapsed_time': 0,
+        'errors': None,
+    }
+    try:
+        call_command('warming_up', urn=urn)
+        result['elapsed_time'] = f'{(time.time() - start_time):.2f} sec'
+    except Exception as err:
+        result['errors'] = str(err)
+
+    return result

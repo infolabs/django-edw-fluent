@@ -7,7 +7,7 @@ from django.db.models.signals import (
 
 from edw.signals import make_dispatch_uid
 
-from edw_fluent.models.page import SimplePage, clear_simple_page_buffer
+from edw_fluent.models.page import SimplePage, clear_simple_page_buffer, clear_simple_page_url_buffer
 
 
 #==============================================================================
@@ -19,6 +19,7 @@ def invalidate_simple_page_after_save(sender, instance, **kwargs):
     RUS: Очищает буфер simple_page_buffer после сохранения страницы.
     """
     clear_simple_page_buffer()
+    clear_simple_page_url_buffer()
 
 
 def invalidate_simple_page_before_delete(sender, instance, **kwargs):
