@@ -5,6 +5,7 @@ from celery import shared_task
 
 from django.core.management import call_command
 
+from edw_fluent.contrib.exceptions import WarmingUpException
 
 @shared_task(name='async_warming_up_pages')
 def async_warming_up_pages(**kwargs):
@@ -15,4 +16,6 @@ def async_warming_up_pages(**kwargs):
     call_command('warming_up_pages', stdout=out)
     result = json.loads(out.getvalue())
 
+    if result.get('errors'):
+        raise WarmingUpException(urn=result.get('urn', None), error=result.get('errors'))
     return result
