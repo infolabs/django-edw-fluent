@@ -23,12 +23,11 @@ class Command(BaseCommand):
         qs = SimplePage.objects.filter(warm_up=True)
         return [{'pk': page.pk, 'urn': str(page.urlnode_ptr)} for page in qs]
 
-    @staticmethod
-    def get_url_list_from_urn_list(urn_list):
-        return [DOMAIN_WITH_PROTOCOL + urn for urn in urn_list]
-
     def cache_pages_list(self):
         cache.set(CACHE_KEY, self.get_pages(), CACHE_LIFETIME)
+
+    def get_url_list_from_urn_list(self, urn_list):
+        return [DOMAIN_WITH_PROTOCOL + page['urn'] for page in self.cached_pages if page['urn'] in urn_list]
 
     @property
     def cached_pages(self):

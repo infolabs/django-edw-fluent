@@ -10,7 +10,9 @@ from edw_fluent.contrib.exceptions import WarmingUpException
 @shared_task(name='async_warming_up_pages')
 def async_warming_up_pages(**kwargs):
     """
-    For optimal task performance, the periodic task should be every minute
+    ENG: For optimal task performance, the periodic task should be every minute.
+
+    RUS: Для оптимальной работы задачи, периодическая задача должна выполняться каждую минуту.
     """
     out = StringIO()
     call_command('warming_up_pages', stdout=out)
