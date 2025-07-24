@@ -18,6 +18,15 @@ CACHE_KEY = 'WARMING_UP_PAGES_LIST'
 
 
 class Command(BaseCommand):
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--main_page',
+            action='store_true',
+            dest='main_page',
+            default=False,
+            help='warm up main page only',
+        )
+
     @staticmethod
     def get_pages():
         qs = SimplePage.objects.filter(warm_up=True)
@@ -44,16 +53,22 @@ class Command(BaseCommand):
         buf_urn_list = buf.get_all()
         buf_url_list = self.get_url_list_from_urn_list(buf_urn_list)
 
-        qs = self.cached_pages
-        shuffled_qs = random.sample(qs, k=len(qs))
+        only_main_page = options.get('main_page')
 
-        start_time = time.time()
+        qs = self.cached_pages
+        if only_main_page:
+            shuffled_qs = [page for page in qs if page['urn'] == '/']
+        else:
+            shuffled_qs = random.sample(qs, k=len(qs))
+
         for page in shuffled_qs:
-            if page['urn'] not in buf_urn_list:
+            if page['urn'] not in buf_urn_list or only_main_page:
                 result = {'pk': page['pk']}
 
                 result.update(get_warming_up_result(page['urn']))
                 result.update({'cached_pages': buf_url_list})
+                if only_main_page:
+                    result.update({"detail": "warming up main page after publication post save"})
                 self.stdout.write(json.dumps(result))
                 return
 

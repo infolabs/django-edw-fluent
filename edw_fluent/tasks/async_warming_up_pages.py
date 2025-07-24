@@ -14,8 +14,9 @@ def async_warming_up_pages(**kwargs):
 
     RUS: Для оптимальной работы задачи, периодическая задача должна выполняться каждую минуту.
     """
+    only_main_page = kwargs.get('only_main_page', False)
     out = StringIO()
-    call_command('warming_up_pages', stdout=out)
+    call_command('warming_up_pages', stdout=out, main_page=only_main_page)
     result = json.loads(out.getvalue())
 
     if result.get('errors'):
