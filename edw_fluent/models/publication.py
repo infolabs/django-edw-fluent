@@ -114,6 +114,7 @@ class PublicationBase(EntityModel.materialized, ImagesFilesFluentMixin, Comments
 
     lead = models.TextField(
         verbose_name=_("Lead"),
+        help_text=_('Common description of publication'),
         blank=False,
         null=False
     )

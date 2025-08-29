@@ -3,23 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: management/commands/warming_up.py:17
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-26 12:54+0000\n"
-"PO-Revision-Date: 2024-11-26 15:56+0300\n"
+"POT-Creation-Date: 2025-08-29 13:51+0000\n"
+"PO-Revision-Date: 2025-08-29 16:52+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
-"(n%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Poedit 3.5\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: admin/forms/comment.py:17 admin/forms/data_mart.py:15 admin/forms/file.py:17
 #: admin/forms/image.py:18
@@ -34,7 +33,7 @@ msgstr "Инфоблок"
 #: admin/forms/file.py:21
 #: templates/edw_fluent/admin/filer/widgets/admin_file.html:44
 msgid "Description"
-msgstr ""
+msgstr "Описание"
 
 #: admin/forms/image.py:19
 msgid "Thumbnail"
@@ -72,28 +71,28 @@ msgstr "У вас не хватает следующих прав: %s"
 msgid "EDW fluent"
 msgstr "Управление страницами"
 
-#: models/page.py:240
+#: models/page.py:238
 msgid "SEO title"
 msgstr "SEO-заголовок"
 
-#: models/page.py:253
+#: models/page.py:251
 msgid "Do warm up"
 msgstr "Делать прогрев"
 
-#: models/page.py:255
+#: models/page.py:253
 msgid ""
 "If True, a request will be made to the page on a schedule to update the cache"
 msgstr "Если включено, будет делаться запрос по расписанию для обновления кеша"
 
-#: models/page.py:263
+#: models/page.py:261
 msgid "Simple page"
 msgstr "Страница"
 
-#: models/page.py:264
+#: models/page.py:262
 msgid "Simple pages"
 msgstr "Страницы"
 
-#: models/page.py:266
+#: models/page.py:264
 msgid "Can change Page layout"
 msgstr "Может изменить макет страницы"
 
@@ -141,40 +140,44 @@ msgstr "Подзаголовок"
 msgid "Lead"
 msgstr "ЛИД"
 
-#: models/publication.py:122
+#: models/publication.py:117
+msgid "Common description of publication"
+msgstr "Краткое описание публикации"
+
+#: models/publication.py:123
 msgid "tags"
 msgstr "теги"
 
-#: models/publication.py:123
+#: models/publication.py:124
 msgid "Use semicolon as tag divider"
 msgstr "Используйте точку с запятой для разделения тэгов"
 
-#: models/publication.py:130
+#: models/publication.py:131
 msgid "Statistic"
 msgstr "Просмотры"
 
-#: models/publication.py:136
+#: models/publication.py:137
 msgid "Is main publication"
 msgstr "Рекомендуем"
 
-#: models/publication.py:142
+#: models/publication.py:143
 msgid "Content"
 msgstr "Контент"
 
-#: models/publication.py:151
+#: models/publication.py:152
 msgid "Unpublish at"
 msgstr "Дата снятия с публикации"
 
-#: models/publication.py:161 models/publication.py:509
+#: models/publication.py:162 models/publication.py:510
 #: plugins/hottag/models.py:25
 msgid "Publication"
 msgstr "Публикация"
 
-#: models/publication.py:162
+#: models/publication.py:163
 msgid "Publications"
 msgstr "Публикации"
 
-#: models/publication.py:343
+#: models/publication.py:344
 msgid "The maximum number of characters {}, you have {}"
 msgstr "Максимальное количество символов {}, у вас {}"
 

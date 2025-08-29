@@ -121,9 +121,9 @@ class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
     )
 
     class Media:
-        """
-        Подключаемые стили CSS
-        """
+        js = [
+            '/static/edw_fluent/publication.js',
+        ]
         css = {
             'all': [
                 '/static/css/admin/entity.css',
