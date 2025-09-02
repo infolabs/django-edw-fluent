@@ -122,7 +122,7 @@ class BasePublicationAdmin(PlaceholderFieldAdmin, EntityChildModelAdmin):
 
     class Media:
         js = [
-            '/static/edw_fluent/publication.js',
+            '/static/edw_fluent/admin/publication.js',
         ]
         css = {
             'all': [
