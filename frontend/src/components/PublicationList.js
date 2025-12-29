@@ -138,10 +138,10 @@ class PublicationListItem extends ListItemMixin(Component) {
   getItemBlock(url, data, title, descrText, descriptions){
     const characteristics = data.short_characteristics;
     const createdAt = new Date(data.extra.created_at).toLocaleDateString();
-
+    const isRedirect = characteristics.find(char=>char.path === 'entity/publication_wrapper/redirect-url')
     return (
       <div className="col-md-9">
-        <a href={url}>
+        <a href={url} target={isRedirect ? '_blank': '_self'}>
           <h4>{title}</h4>
           {
             !PublicationListItem.isEqualStr(descrText, data.entity_name) &&
