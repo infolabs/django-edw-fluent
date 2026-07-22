@@ -157,10 +157,10 @@ class SimplePageCacheMiddleware(CacheMiddleware):
                     self.cache.set(cache_key, r, timeout)
 
                     # обновляем вторичный кеш
-                    buf = get_secondary_simple_page_buffer()
+                    sec_buf = get_secondary_simple_page_buffer()
                     sec_cache_key = SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_KEY_PATTERN.format(key=cache_key)
-                    old_key = buf.record(sec_cache_key)
-                    if old_key != buf.empty:
+                    old_key = sec_buf.record(sec_cache_key)
+                    if old_key != sec_buf.empty:
                         self.cache.delete(old_key)
                     self.cache.set(sec_cache_key, r, SECONDARY_SIMPLE_PAGE_BUFFER_CACHE_TIMEOUT)
 
