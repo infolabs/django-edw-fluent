@@ -141,16 +141,18 @@ flowchart TD
 | Обработчик | Сигнал / sender | Действие |
 |---|---|---|
 | `invalidate_simple_page_after_save` / `..._before_delete` | `post_save` / `pre_delete` `SimplePage` (`[../../signals/handlers/simple_page.py](../../signals/handlers/simple_page.py)`) | `clear_simple_page_buffer()` + `clear_simple_page_url_buffer()` |
-| `invalidate_entity_after_save` / `..._before_delete` | `post_save` / `pre_delete` Entity и всех подклассов, включая `Publication` (`[../../signals/handlers/entity.py](../../signals/handlers/entity.py)`) | `clear_simple_page_buffer()` |
+| `invalidate_entity_after_save` / `..._before_delete` | `post_save` / `pre_delete` Entity и всех подклассов, включая `Publication` (`[../../signals/handlers/entity.py](../../signals/handlers/entity.py)`) | `clear_simple_page_buffer()` + `clear_simple_page_url_buffer()` |
 | `invalidate_data_mart_after_save` / `..._before_delete` | `post_save` / `pre_delete` DataMart (`[../../signals/handlers/data_mart.py](../../signals/handlers/data_mart.py)`) | `clear_simple_page_buffer()` |
 | `invalidate_term_after_save` / `..._before_delete` / `..._after_move` | `post_save` / `pre_delete` / `move_to_done` Term (`[../../signals/handlers/term.py](../../signals/handlers/term.py)`) | `clear_simple_page_buffer()` |
 
 То есть любая правка страницы, сущности (в т.ч. публикации в **любом**
 статусе), витрины или термина сбрасывает первичный page-кеш всех `SimplePage`.
 Вторичный слой (`sspb:*`) при этом **не** очищается — из него возможна
-ре-гидрация до следующего рендера. Обратите внимание: сохранение Entity
-чистит только первичный буфер (`clear_simple_page_buffer`), но **не** буфер URL
-(`spg_url_bf`) — его чистит лишь сигнал `SimplePage`.
+ре-гидрация до следующего рендера. Сохранение/удаление `SimplePage` и Entity
+(включая `Publication`) чистит и первичный буфер (`spg_bf`), и буфер URL
+(`spg_url_bf`) — это держит их в синхроне, чтобы плановый прогрев
+(`warming_up_pages`) не считал уже сброшенные страницы закешированными. В
+обработчиках `DataMart` и `Term` пока чистится только `spg_bf`.
 
 ## Прогрев
 

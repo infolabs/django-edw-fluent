@@ -9,7 +9,7 @@ from django.db.models.signals import (
 
 from edw.models.entity import EntityModel
 from edw.signals import make_dispatch_uid
-from edw_fluent.models.page import clear_simple_page_buffer
+from edw_fluent.models.page import clear_simple_page_buffer, clear_simple_page_url_buffer
 
 
 #==============================================================================
@@ -17,10 +17,14 @@ from edw_fluent.models.page import clear_simple_page_buffer
 #==============================================================================
 def invalidate_entity_after_save(sender, instance, **kwargs):
     """
-    Clear simple page buffer
-    RUS: Очищает буфер simple_page_buffer после сохранения сущности.
+    Clear simple page buffers (primary + url)
+    RUS: Очищает буферы simple_page (первичный ``spg_bf`` и URL ``spg_url_bf``)
+    после сохранения сущности. Очистка буфера URL синхронно с первичным нужна,
+    чтобы плановый прогрев опорных страниц (``warming_up_pages``) не считал уже
+    сброшенные страницы закешированными и не «залипал».
     """
     clear_simple_page_buffer()
+    clear_simple_page_url_buffer()
 
 
 def invalidate_entity_before_delete(sender, instance, **kwargs):
