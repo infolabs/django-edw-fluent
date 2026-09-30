@@ -1,0 +1,8 @@
+!graft/
+graft/.cache/
+graft/.graph/
+# Медиа и вендор шаблонов: ogv 5.5 МБ, mp4 2.1 МБ, jpg по 2.3 МБ
+edw_fluent/static/
+*.po
+*.mo
+*/migrations/**
