@@ -6,3 +6,6 @@ edw_fluent/static/
 *.po
 *.mo
 */migrations/**
+
+# Черновики docs/other не ищем. Канонические документы в docs/ — ищем.
+docs/other/
